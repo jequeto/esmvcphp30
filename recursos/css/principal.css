@@ -1,0 +1,39 @@
+/* 
+    Document   : principal
+    Created on : 28-jun-2013, 10:04:51
+    Author     : jesus
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#div_menu {
+	padding: 5px;
+	background-color: orange;
+	height: 50px;
+}
+ul.menu {
+	margin:0;
+	padding:0;
+	list-style-type: none;
+	
+	
+}
+
+li.menu_item {
+	padding: 5px;
+	border: 1px solid black;
+	margin: 0px 5px;
+	float: left;
+}
+
+li.menu_item:hover {
+	background-color: yellow;
+}
+
+li.menu_item a {
+	text-decoration: none;
+}
