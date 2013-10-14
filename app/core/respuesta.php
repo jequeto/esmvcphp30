@@ -117,7 +117,13 @@ class Respuesta extends \core\Clase_Base {
 		echo self::$http_body_content;
 		
 	}
+
 	
+	public static function set_http_header_status($http_header_status) {
+		
+		self::$http_header_status = $http_header_status;
+		
+	}
 		
 	
 }

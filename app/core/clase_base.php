@@ -54,12 +54,16 @@ class Clase_Base {
 			}
 			else {
 				$datos['mensaje'] = "El método <b>$metodo</b> no está definido en <b>$controlador_clase</b>.";
-				\core\Respuesta::enviar($datos, "plantilla_404");
+				$contenido = \core\Vista_Plantilla::generar("plantilla_404");
+				\core\Respuesta::set_http_header_status("404");
+				\core\Respuesta::enviar($contenido);
 			}
 		}
 		else {
 			$datos['mensaje'] = "La clase <b>$controlador_clase</b> no existe.";
-			\core\Respuesta::enviar($datos, "plantilla_404");
+			$contenido = \core\Vista_Plantilla::generar("plantilla_404");
+			\core\Respuesta::set_http_header_status("404");
+			\core\Respuesta::enviar($contenido);
 		}
 	}
 	
