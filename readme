@@ -11,7 +11,8 @@ programación se escribe en inglés.
 
 En esta carpeta encontramos:
 
-./index.php Fichero con el arranque de la aplicación escrita en POO.
+./index.php Fichero con el arranque de la aplicación PHP escrita en POO y que
+	seguirá una arquitectura MVC.
 
 ./app/ Carpeta que contiene el código de la aplicación escrito en php-POO.
 

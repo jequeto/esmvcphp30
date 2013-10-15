@@ -11,7 +11,7 @@ namespace core;
  * Se encarga de enviar la respuesta que se genera en la aplicación.
  * La respuesta será por defecto del tipo MIME 'text/html';
  */
-class Respuesta extends \core\Clase_Base {
+class HTTP_Respuesta extends \core\Clase_Base {
 	
 	private static $http_header_protocol = "HTTP 1.1";
 	private static $http_header_status = "200";

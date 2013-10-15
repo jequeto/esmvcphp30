@@ -7,7 +7,6 @@ require_once PATH_APP."core/respuesta.php";
 /**
  * Aplicación principal
  *
- *
  * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
  * @since 20130130
  */
@@ -34,11 +33,7 @@ class Aplicacion extends \core\Clase_Base {
 		//\core\sgbd\bd::disconnect();
 		
 		$content="<A>Contenido</A>";
-		\core\Respuesta::enviar($content);
-		//echo "<pre>";
-		//print_r(headers_list());
-		//echo "<br /> ";
-		//echo "</pre>";
+		\core\HTTP_Respuesta::enviar($content);
 		
 	}
 	
