@@ -54,7 +54,7 @@
 
 		<div id="view_content">
 			<p>Bienvenido a la aplicación desarrollada en PHP-poo con un patrón MVC</p>
-			<img src='recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC" />
+			<a href="docs/Modelo_Vista_Controlador_v03.pdf" target="_blank"><img src='recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC, por el profesor Jesús María de Quevedo Tomé" /></a>
 			<a href="http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/" target="_blank"  title="Imagen de patrón MVC de http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/"><img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png"  height="450px" /></a>
 		</div>
 
@@ -63,7 +63,7 @@
 			<hr />
 			Pie del documento.<br />
 			Documento creado por Jesús María de Quevedo Tomé. <a href="mailto:jequeto@gmail.com">Contactar</a><br />
-			Fecha última actualización: 30 de septiembre de 2013.
+			Fecha última actualización: 15 de octubre de 2013.
 		</div>
 		
 	</body>
