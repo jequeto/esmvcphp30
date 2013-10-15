@@ -14,12 +14,12 @@ define('TITULO', 'my first MVC');
 
 // Preparar el autocargador de clases.
 // Este y el contenido en \core\Autoloader() serán los únicos require/include de toda la aplicación
-//require PATH_APP.'core/autoloader.php'; 
 
-//$autoloader = new \core\Autoloader();
+require PATH_APP.'core/autoloader.php'; 
+$autoloader = new \core\Autoloader();
 //spl_autoload_register(array('\core\Autoloader', 'autoload'));
 
-require_once PATH_APP."core/aplicacion.php";
+//require_once PATH_APP."core/aplicacion.php";
 // Cargamos la aplicación
 $aplicacion = new \core\Aplicacion();
 

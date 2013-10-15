@@ -22,12 +22,14 @@ En esta carpeta encontramos:
 
 ./recursos/ Carpeta que debería contener todos los recursos que el navegador del
 	cliente pudiera solicitar mediante comandos HTTP-GET: (css, fotos, videos,
-	javascript). El documento html será generado por la aplicación escrita en php.
+	javascript).
+	No abrá ningun documento ni script en html, pues todo el documento html será
+	generado por la aplicación escrita en php desde index.php.
 
 ./docs/ Carpeta con documentación relativa al análisis del proyecto.
 
 
-Hay muchos frameworks libres escritos en php-poo siguiendo el patrón MVC. Cada
+Hay muchos frameworks libres escritos en PHP-POO siguiendo el patrón MVC. Cada
 uno de ellos implementa el modelo MVC de una manera distinta y también organiza
 las carpetas en disco de una manera particular.
 
@@ -37,5 +39,5 @@ poder ver como se implementan en cada framework.
 Profesor Jesús María de Quevedo Tomé (jequeto@gmail.com)
 IES PALOMERAS VALLECAS
 MADRID (ESPAÑA).
-
+@last_update octubre 2013
 

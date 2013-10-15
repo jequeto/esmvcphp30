@@ -5,7 +5,7 @@ namespace core;
  * Esta clase define un autocargador que cargará correctamente clases que se instancien así new \nombre_namespace\nombre_clase(), donde nombre_namespace será el nombre del namespace del fichero que contiene la clase, y también será el nombre de la carpeta contenida en ...\app y que contiene el fichero php con la clase (...\app\nombre_namespace\nombre_clase.php)
  * 
  * Exige que el nombre de todas las carpetas y de todos los ficheros estén escritos en minúsculas.
- *
+ *  
  * @author Jesús María de Quevedo Tomé <jequeto@gmail.com>
  * @since 20130130
  */
@@ -54,19 +54,18 @@ class Autoloader {
 			$fichero_clase = PATH_APP.$class_name.".php";
 		}
 		
-		if ( ! file_exists($fichero_clase) )
-		{
+		if ( ! file_exists($fichero_clase) ) {
 			// Buscamos en las clases de la librería de dompdf
 			$fichero_clase = strtolower(PATH_APP."lib/php/dompdf/include/$class_name.cls.php");
 		}
 		
-		if ( file_exists($fichero_clase) )
-		{
+		if ( file_exists($fichero_clase) ) {
+			
 			if (self::$depuracion) {echo __METHOD__.": EXISTE y CARGANDO ... \$fichero_clase= $fichero_clase"."<br />";}
 			require_once $fichero_clase;
 		}
-		else 
-		{
+		else {
+			
 			throw new \Exception(__METHOD__.": NO EXISTE \$fichero_clase= $fichero_clase");
 		}
 		

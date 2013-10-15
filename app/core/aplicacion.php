@@ -1,7 +1,7 @@
 <?php
 namespace core;
-require_once PATH_APP."core/clase_base.php";
-require_once PATH_APP."core/respuesta.php";
+//require_once PATH_APP."core/clase_base.php";
+//require_once PATH_APP."core/respuesta.php";
 
 
 /**
@@ -28,12 +28,12 @@ class Aplicacion extends \core\Clase_Base {
 		// \core\Permisos::iniciar();
 		
 		// Distribuidor
-		//$this->distribuidor();
+		$this->distribuidor();
 
 		//\core\sgbd\bd::disconnect();
 		
-		$content="<A>Contenido</A>";
-		\core\HTTP_Respuesta::enviar($content);
+		//$content="<A>Contenido</A>";
+		//\core\HTTP_Respuesta::enviar($content);
 		
 	}
 	

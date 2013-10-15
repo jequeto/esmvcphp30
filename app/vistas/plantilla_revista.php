@@ -40,22 +40,29 @@
 		<div id="encabezado">
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/ipv_ies_palomeras.png" alt="logo" title="Logo" onclick="window.location.assign('http://www.iespalomeras.net/');"/>
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/departamento_informatica.png" alt="logo" title="Logo departamento"  onclick="window.location.assign('http://www.iespalomeras.net/index.php?option=com_wrapper&view=wrapper&Itemid=86');" />
-			<h1 id="titulo">Aplicación con patrón MVC</h1>
+			<h1 id="titulo">Página Web PHP</h1>
+			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png" title="Imagen de patrón MVC"  onclick="window.location.assign('?menu=inicio');" height="100px" />
 		</div>
 		
 		<div id="div_menu" >
 			<fieldset>
 				<legend>Menú - Índice - Barra de navegación:</legend>
 					<ul id="menu" class="menu">
-						<li class="item"><a href="?menu=revista" title="Revista">Revista</a></li>
+						<li class="item"><a href="?menu=revista&seccion=seccion1" title="Sección 1 bla bla ...">sección 1</a></li>
+						<li class="item"><a href="?menu=revista&seccion=seccion2" title="Sección 2 bla bla ...">sección 2</a></li>
+						<li class="item"><a href="?menu=revista&seccion=seccion3" title="Sección 3 bla bla ...">sección 3</a></li>
+						<li class="item"><a href="?menu=revista&seccion=seccion4" title="Sección 4 bla bla ...">sección 4</a></li>
+						<li class="item"><a href="?menu=revista&seccion=seccion5" title="Sección 5 bla bla ...">sección 5</a></li>
 					</ul>
 			</fieldset>
 		</div>
 
 		<div id="view_content">
-			<p>Bienvenido a la aplicación desarrollada en PHP-poo con un patrón MVC</p>
-			<img src='recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC" />
-			<a href="http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/" target="_blank"  title="Imagen de patrón MVC de http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/"><img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png"  height="450px" /></a>
+
+			<?php
+				echo $datos['view_content'];
+			?>
+			
 		</div>
 
 	

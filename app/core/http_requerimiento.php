@@ -41,7 +41,7 @@ class HTTP_Requerimiento {
                             }
             }
             else { // Si el programador llama a la función con un parámetro distinto de tipo string, se le genera un Fatal error.
-                    throw new Exception("Error: request(\$indice=$indice) \$indice debe ser string.\n");
+                    throw new \Exception("Error: request(\$indice=$indice) \$indice debe ser string.\n");
             }
             return ($resultado);
     }
@@ -72,7 +72,7 @@ class HTTP_Requerimiento {
                     }
             }
             else { // Si el programador llama a la función con un parámetro distinto de tipo string, se le genera un Fatal error.
-                    throw new Exception("Error: get(\$indice=$indice) \$indice debe ser string.\n");
+                    throw new \Exception("Error: get(\$indice=$indice) \$indice debe ser string.\n");
             }
             return ($resultado);
     }
@@ -104,7 +104,7 @@ class HTTP_Requerimiento {
                     }
             }
             else { // Si el programador llama a la función con un parámetro distinto de tipo string, se le genera un Fatal error.
-                    throw new Exception("Error: post(\$indice=$indice) \$indice debe ser string.\n");
+                    throw new \Exception("Error: post(\$indice=$indice) \$indice debe ser string.\n");
             }
             return ($resultado);
 			
@@ -137,7 +137,7 @@ class HTTP_Requerimiento {
                     }
             }
             else { // Si el programador llama a la función con un parámetro distinto de tipo string, se le genera un Fatal error.
-                    throw new Exception("Error: cookie(\$indice=$indice) \$indice debe ser string.");
+                    throw new \Exception("Error: cookie(\$indice=$indice) \$indice debe ser string.");
             }
             return ($resultado);
 			
