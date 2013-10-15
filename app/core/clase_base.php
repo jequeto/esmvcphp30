@@ -18,10 +18,10 @@ class Clase_Base {
 	 */
 	public static function distribuidor() {
 		
-		$controlador = \core\Requerimiento_HTTP::get('menu');
-		$metodo = \core\Requerimiento_HTTP::get('submenu');
+		$controlador = \core\HTTP_Requerimiento::get('menu');
+		$metodo = \core\HTTP_Requerimiento::get('submenu');
 		
-		if ( ! $controlador )
+		if ( $controlador  == null )
 			$controlador = strtolower(\core\Configuracion::$controlador_por_defecto);
 		if ( ! $metodo )
 			$metodo = strtolower(\core\Configuracion::$metodo_por_defecto);
