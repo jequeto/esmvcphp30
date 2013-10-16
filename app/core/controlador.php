@@ -40,7 +40,7 @@ class Controlador extends \core\Clase_Base {
 		
 		if ( ! preg_match('/\.js$/i', $nombre_fichero))
 			$nombre_fichero .= '.js';
-		$url_js_fichero = \core\URL::http('')."app/vistas/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre_fichero";
+		$url_js_fichero = \core\URL::http('')."recursos/js/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre_fichero";
 		$js_script_tag = "<script type='text/javascript' src='$url_js_fichero'></script>\n";
 		if (is_array($datos)) 
 			$datos['js'][$js_script_tag] = true;
@@ -53,7 +53,7 @@ class Controlador extends \core\Clase_Base {
 		
 		if ( ! preg_match('/\.js$/i', $nombre_fichero))
 			$nombre_fichero .= '.js';
-		$url_js_fichero = \core\URL::http('')."app/lib/js/$nombre_fichero";
+		$url_js_fichero = \core\URL::http('')."recursos/js/$nombre_fichero";
 		$js_script_tag = "<script type='text/javascript' src='$url_js_fichero'></script>\n";
 		if (is_array($datos)) 
 			$datos['js'][$js_script_tag] = true;
@@ -90,7 +90,7 @@ class Controlador extends \core\Clase_Base {
 		
 		if ( ! preg_match('/\.css$/i', $nombre_fichero))
 			$nombre_fichero .= '.css';
-		$url_css_fichero = \core\URL::http('')."app/vistas/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre_fichero";
+		$url_css_fichero = \core\URL::http('')."recursos/js/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre_fichero";
 		$css_link_tag = "<link rel='stylesheet' type='text/css' href='$url_css_fichero' />\n";
 		if (is_array($datos)) 
 			$datos['css'][$css_link_tag] = true;
@@ -104,7 +104,7 @@ class Controlador extends \core\Clase_Base {
 	
 	/**
 	 * Genera la vista y la devuelve como una cadena de caracteres.
-	 * @param string $nombre Nombre del fichero que contiene la vista en app\vista\nombre_clase\nombre_vista.php
+	 * @param string $nombre Nombre del fichero que contiene la vista en app\vistas\nombre_clase\nombre_vista.php
 	 * @param array $datos
 	 * @param boolean $buffer
 	 * @return string
@@ -118,9 +118,27 @@ class Controlador extends \core\Clase_Base {
 	}
 	
 	
+	/**
+	 * Genera la vista de la plantilla y la devuelve como una cadena de caracteres.
+	 * @param string $nombre Nombre del fichero que contiene la plantilla en app\vistas\nombre_plantilla.php
+	 * @param array $datos
+	 * @param boolean $buffer
+	 * @return string
+	 */
+	public function vista_plantilla_generar($nombre , array $datos = array(), $buffer = true) {
+	
+		// Añadimos los datos del objeto controlador que contienen el nombre de la clase y el nombre del método que se está ejecutando
+		$datos = array_merge($datos, $this->datos);
+		return \core\Vista_Plantilla::generar($nombre, $datos, $buffer);
+	
+	}
+	
 	public function respuesta_enviar(array $datos = array(), $plantilla = null) {
 		
-		\core\Respuesta::enviar($datos, $plantilla);
+		if ( ! $plantilla ) {
+			$plantilla = \core\Configuracion::$plantilla_por_defecto;
+		}
+		\core\HTTP_Respuesta::enviar(\core\Vista_Plantilla::generar($plantilla, $datos));
 		
 	}
 	

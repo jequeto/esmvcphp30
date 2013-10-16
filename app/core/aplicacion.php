@@ -12,6 +12,12 @@ namespace core;
  */
 class Aplicacion extends \core\Clase_Base {
 	
+	/**
+	 * Almacenará el objeto resultado de instanciar la clase Controlador que se encargará
+	 * de atender la petición HTTP recibida.
+	 * 
+	 * @var \core\Controlador 
+	 */
 	public static $controlador;
 
 	
@@ -24,11 +30,11 @@ class Aplicacion extends \core\Clase_Base {
 		// Reconocer el usuario que ha iniciado la sesión de trabajo o que continúa dentro de una sesión de trabajo.
 		//\core\Usuario::iniciar();
 				
-		// Los usamos si trabajamos con la ACL (Acces Control List) para definir los permisos de los usuarios
+		// Los permisos los usamos si trabajamos con la ACL (Access Control List) para definir los permisos de los usuarios
 		// \core\Permisos::iniciar();
 		
 		// Distribuidor
-		$this->distribuidor();
+		\core\Distribuidor::estudiar_query_string();
 
 		//\core\sgbd\bd::disconnect();
 		
