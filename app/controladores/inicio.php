@@ -7,6 +7,7 @@ class inicio extends \core\Controlador {
 		
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal');
 		\core\HTTP_Respuesta::enviar($http_body);
+		
 	}
 	
 	
