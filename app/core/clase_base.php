@@ -21,12 +21,14 @@ class Clase_Base extends \core\Distribuidor {
 	 * @param array $array
 	 * @return mixed
 	 */
-	public function contenido($indice, array $array)
-	{
+	public function contenido($indice, array $array) {
+		
 		if ( ! is_string($indice) && ! is_integer($indice))
 			throw new \Exception(__METHOD__." Error: parámetro \$indice=$indice debe ser entero o string");
 		
 		return (array_key_exists($indice, $array) ? $array[$indice] : null);
+		
 	}
+	
 } // Fin de la clase
 
