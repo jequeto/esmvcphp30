@@ -1,0 +1,13 @@
+<?php
+namespace controladores;
+
+class menu extends \core\Controlador {
+	
+	public function generar_ul(array $datos = array()) {
+		
+		return \core\Vista::generar(__FUNCTION__);
+		
+	}
+	
+	
+} // Fin de la clase

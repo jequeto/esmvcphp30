@@ -10,6 +10,7 @@ namespace core;
  * @since 20130130
  */
 class Autoloader {
+	
 	static $depuracion = false;
 	
 	function __construct() {
@@ -43,9 +44,10 @@ class Autoloader {
 		
 		$fichero_clase = strtolower(PATH_APP.$class_name.".php");
 		
-		if ( ! file_exists($fichero_clase)) 
-		{
-			if (self::$depuracion) {echo __METHOD__.": NO EXISTE \$fichero_clase= $fichero_clase"."<br />";}
+		if ( ! file_exists($fichero_clase)) {
+			if (self::$depuracion) {
+				echo __METHOD__.": NO EXISTE \$fichero_clase= $fichero_clase"."<br />";
+			}
 			$class_name = str_replace(
 				array("controlador"), 
 				array("controladores"),

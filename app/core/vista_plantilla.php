@@ -12,19 +12,18 @@ class Vista_Plantilla extends \core\Clase_Base
 	 * @return string Código <html>
 	 * @throws \Exception
 	 */
-	public static function generar($nombre , array $datos = array(), $buffer = true)
-	{
+	public static function generar($nombre , array $datos = array(), $buffer = true) {
 		$fichero_vista = strtolower(PATH_APP."vistas/$nombre.php");
 		if ( ! file_exists($fichero_vista))
 			throw new \Exception(__METHOD__." Error: no existe el fichero $fichero_vista .");
-		if ($buffer)
+		if ($buffer) { 
 			ob_start ();
-		include $fichero_vista;
-		if ($buffer)
-		{
-			$buffer_contenido = ob_get_contents();
-			ob_end_clean();
-			return $buffer_contenido;
+		}
+		
+		include $fichero_vista; // Script cuya salida se va a bufferear
+		
+		if ($buffer) {
+			return(ob_get_clean());
 		}
 	}
 	

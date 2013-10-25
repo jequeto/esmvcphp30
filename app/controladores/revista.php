@@ -1,6 +1,7 @@
 <?php
 namespace controladores;
 
+
 class revista extends \core\Controlador {
 	
 	public function index(array $datos = array()) {
@@ -17,11 +18,10 @@ class revista extends \core\Controlador {
 			$seccion = "error";
 		}
 			
-		$datos['view_content'] = \core\Vista::generar($seccion);
-		$http_body = \core\Vista_Plantilla::generar('plantilla_revista', $datos);
+		$datos['view_content'] = \core\Vista::generar($seccion, $datos, true);
+		$http_body = \core\Vista_Plantilla::generar('plantilla_revista', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
-	
 	
 } // Fin de la clase
