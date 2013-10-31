@@ -11,6 +11,8 @@ namespace modelos;
 
 class Libros_En_Fichero {
 	
+	private static $fichero_nombre = "libros.txt";
+	
 	/**
 	 * Almacena cada línea del fichero de texto como un array contenido dentro
 	 * de este array
@@ -30,7 +32,7 @@ class Libros_En_Fichero {
 	
 	private static function get_nombre_fichero() {
 		
-		return PATH_APP."modelos/libros.txt";
+		return PATH_APP."modelos/".self::$fichero_nombre;
 		
 	}
 	
@@ -43,12 +45,12 @@ class Libros_En_Fichero {
 		$file_path = self::get_nombre_fichero();
 		
 		$lineas = file($file_path); // Lee las líneas y genera un array de índice entero con una cadena de caracteres en cada entrada del array.
-		//print_r($lineas);
+		//print "<pre>"; print_r($lineas);print "</pre>";
 		foreach ($lineas as $numero => $linea) {
 			// Dividimos la línea por los ";"
 			// Ponemos cada trozo de línea en un elemento del array $item
 			$libro = explode(";", $linea); 
-			//print_r($libro);
+			//print "<pre>"; print_r($libro);print "</pre>";
 			
 			// Llenamos el array $items, excluimos la línea 0 que tiene el nombre de las columnas
 			// $numero lo vamos a considerar el id del libro
@@ -58,6 +60,7 @@ class Libros_En_Fichero {
 				self::$libros[$numero]["comentario"] = $libro[2];
 			}
 		}
+		//print "<pre>"; print_r(self::$libros);print "</pre>";
 	}
 	
 	
@@ -76,7 +79,7 @@ class Libros_En_Fichero {
 		
 // Escribimos las siguientes líneas
 		foreach ($libros as $libro) {
-			$linea = implode(";", $libro)."\n\l";
+			$linea = implode(";", $libro)."\n";
 			fwrite($file, $linea);
 		}
 		fclose($file);
@@ -106,9 +109,9 @@ class Libros_En_Fichero {
 		$file_path = self::get_nombre_fichero();
 		$file = fopen($file_path, "a+");
 		
-		$linea = implode(";", $libro)."\n\l";
+		$linea = implode(";", $libro)."\n";
 		fwrite($file, $linea);
-		
+		fflush($file);
 		fclose($file);
 		
 	}
@@ -141,11 +144,14 @@ class Libros_En_Fichero {
 	}
 		
 	
-	public static function get_libros() {
+	public static function get_libros($id = null) {
 		
 		self::leer_de_fichero();
 		
-		return self::$libros;
+		if ($id)
+			return self::$libros[$id];
+		else
+			return self::$libros;
 
 	}	
 
