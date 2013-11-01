@@ -44,12 +44,15 @@ class Libros_En_Fichero {
 		
 		$file_path = self::get_nombre_fichero();
 		
+		self::$libros = array(); // Vaciamos el array por si tuviera datos de una lectura anterior.
+		
 		$lineas = file($file_path); // Lee las líneas y genera un array de índice entero con una cadena de caracteres en cada entrada del array.
 		//print "<pre>"; print_r($lineas);print "</pre>";
 		foreach ($lineas as $numero => $linea) {
 			// Dividimos la línea por los ";"
 			// Ponemos cada trozo de línea en un elemento del array $item
-			$libro = explode(";", $linea); 
+			// Atención, con substr eliminamos el carácter de fin de linea que hay al final de cada línea leída
+			$libro = explode(";", substr($linea, 0, strlen($linea)-1)); 
 			//print "<pre>"; print_r($libro);print "</pre>";
 			
 			// Llenamos el array $items, excluimos la línea 0 que tiene el nombre de las columnas
@@ -75,13 +78,14 @@ class Libros_En_Fichero {
 		$file = fopen($file_path, "w");
 		
 		// Escribimos la primera línea
-		fwrite($file, "título;autor;comentario\n\l");
+		fwrite($file, "título;autor;comentario\n");
 		
-// Escribimos las siguientes líneas
-		foreach ($libros as $libro) {
+		//print_r(self::$libros);
+		foreach (self::$libros as $libro) {
 			$linea = implode(";", $libro)."\n";
 			fwrite($file, $linea);
 		}
+		fflush($file);
 		fclose($file);
 		
 	}
@@ -121,7 +125,9 @@ class Libros_En_Fichero {
 		
 		self::leer_de_fichero();
 		
-		usset(self::$libros[$id]);
+		unset(self::$libros[$id]);
+		
+		// print "$id<pre>"; print_r(self::$libros); print "</pre>"; exit(0);
 		
 		self::escribir_en_fichero();
 		
@@ -132,13 +138,13 @@ class Libros_En_Fichero {
 	 * @param array $libro array(id => integer, "titulo" => string, "autor" => string, "comentario" => string)
 	 */
 	public static function modificar_libro(array $libro) {
-		
+		//print_r($libro);
 		self::leer_de_fichero();
 		
 		self::$libros[$libro["id"]]["titulo"] = $libro['titulo'];
 		self::$libros[$libro["id"]]["autor"] = $libro['autor'];
 		self::$libros[$libro["id"]]["comentario"] = $libro['comentario'];
-		
+		//print "<pre>"; print_r(self::$libros); print "</pre>"; exit(0);
 		self::escribir_en_fichero();
 		
 	}

@@ -1,5 +1,6 @@
 <div id='libros'>
 	<h1>Mis últimos libros leidos</h1>
+	<p>Esta aplicación lee líneas de texto de un fichero. Cada línea contiene datos de un libro, excepto la primera que contiene el título de las columnas. Atención, la funcion file() recupera en cada línea del fichero el caracter fin de línea que hay que quitar después con la función substr.</p>
 	<table border='1px'>
 		<thead>
 			<tr>

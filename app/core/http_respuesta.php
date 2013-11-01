@@ -92,7 +92,7 @@ class HTTP_Respuesta extends \core\Clase_Base {
 			if ( ! isset(self::$http_header_lines['Content-Type']) ) {
 				self::$http_header_lines['Content-Type'] = \core\Configuracion::$tipo_mime_por_defecto;
 			}
-			http_response_code(self::$http_header_status); // Enviamos el código de la respuesta
+			//http_response_code(self::$http_header_status); // Enviamos el código de la respuesta
 			foreach (self::$http_header_lines as $key => $value) {
 				// Enviamos las líneas del header
 				header("$key: $value");
