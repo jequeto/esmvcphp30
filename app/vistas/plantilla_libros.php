@@ -17,7 +17,7 @@
 		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<link href="favicon.ico" rel="icon" type="image/x-icon" /> 
 		
-		<link rel="stylesheet" type="text/css" href="recursos/css/revista/principal.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/revista/principal.css" />
 		<style type="text/css" >
 			/* Definiciones hoja de estilos interna */
 		</style>
@@ -64,7 +64,7 @@
 			<hr />
 			Pie del documento.<br />
 			Documento creado por Jesús María de Quevedo Tomé. <a href="mailto:jequeto@gmail.com">Contactar</a><br />
-			Fecha última actualización: 30 de septiembre de 2013.
+			Fecha última actualización: 04 de noviembre de 2013.
 		</div>
 		
 	</body>

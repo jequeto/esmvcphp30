@@ -20,7 +20,8 @@ class Libros_En_Fichero {
 	 * @var array 
 	 */
 	private static $libros = array(
-		/* Este array es el equivalente a una línea del fichero de texto
+		/* Este contiene un array por cada línea del fichero de texto. El array
+		 * de cada línea tiene la siguiente estructura:
 		array(
 			"titulo" => "cadena",
 			"autor" => "cadena",
@@ -29,7 +30,12 @@ class Libros_En_Fichero {
 		*/
 	);
 
-	
+	/**
+	 * Devuelve el path absoluto al fichero en el disco del servidor que
+	 * contiene los libros.
+	 * 
+	 * @return string
+	 */
 	private static function get_nombre_fichero() {
 		
 		return PATH_APP."modelos/".self::$fichero_nombre;
@@ -50,13 +56,13 @@ class Libros_En_Fichero {
 		//print "<pre>"; print_r($lineas);print "</pre>";
 		foreach ($lineas as $numero => $linea) {
 			// Dividimos la línea por los ";"
-			// Ponemos cada trozo de línea en un elemento del array $item
 			
+			// Ponemos cada trozo de línea en un elemento del array $item
 			$libro = explode(";", $linea); 
 			//print "<pre>"; print_r($libro);print "</pre>";
 			
-			// Llenamos el array $items, excluimos la línea 0 que tiene el nombre de las columnas
-			// $numero lo vamos a considerar el id del libro
+			// Llenamos el array self::$libros, excluimos la línea 0 que tiene el nombre de las columnas
+			// $numero va a ser el id del libro
 			if ($numero != 0) {
 				self::$libros[$numero]["titulo"] = $libro[0]; 
 				self::$libros[$numero]["autor"] = $libro[1];
@@ -69,12 +75,13 @@ class Libros_En_Fichero {
 	
 	/**
 	 * Escribe en el fichero el contenido del array self::$libros.
-	 * Cada entrada del array genera una línea en el fichero
+	 * Cada entrada del array genera una línea en el fichero de texto.
 	 */
 	private static function escribir_en_fichero() {
 		
 		$file_path = self::get_nombre_fichero();
 		
+		// Abrimos el fichero para escritura. Se borra su contenido anterior.
 		$file = fopen($file_path, "w");
 		
 		// Escribimos la primera línea
@@ -85,21 +92,25 @@ class Libros_En_Fichero {
 			$linea = implode(";", $libro)."\n";
 			fwrite($file, $linea);
 		}
+		// Vaciamos el buffer del sistema de ficheros del SO
 		fflush($file);
+		
 		fclose($file);
 		
 	}
 	
 	/**
 	 * Inserta un libro al final de fichero de libros
+	 * 
 	 * @param array $libro array("titulo" => string, "autor" => string, "comentario" => string)
 	 */
 	public static function anexar_libro(array $libro) {
 		
 		/*
+		 * Otra solución utilizando el array self::$libros
+		 * 
 		self::leer_de_fichero();
-		
-		
+				
 		array_push(self::$libros, array(
 									"titulo" => $libro["titulo"],
 									"autor" => $libro["autor"],
@@ -121,6 +132,10 @@ class Libros_En_Fichero {
 	}
 	
 	/**
+	 * Borra un libro.
+	 * Primero lee los libros sobre el array self::$llibros.
+	 * Segundo elimina la entrada del array correspondiente al libro a borrar cuyo id se pasa como parámetro.
+	 * Tercero escribe el array en el fichero.
 	 * 
 	 * @param int $id
 	 */
@@ -137,7 +152,10 @@ class Libros_En_Fichero {
 	}
 	
 	/**
-	 * 
+	 * Modifica un libro.
+	 * Primero lee los libros sobre el array self::$llibros.
+	 * Segundo modifica la entrada del array correspondiente al libro a modificar cuyos datos e pasan como parámetro.
+	 * Tercero escribe el array en el fichero.
 	 * @param array $libro array(id => integer, "titulo" => string, "autor" => string, "comentario" => string)
 	 */
 	public static function modificar_libro(array $libro) {
@@ -152,7 +170,13 @@ class Libros_En_Fichero {
 		
 	}
 		
-	
+	/**
+	 * get_libros() Devuelve el array self::$libros con todos los libros del fichero si el parámetro id no se aporta.
+	 * get_libros(int) Devuelve un array contiendo los datos del libro cuyo id se aporta.
+	 * 
+	 * @param int $id
+	 * @return array
+	 */
 	public static function get_libros($id = null) {
 		
 		self::leer_de_fichero();
@@ -164,4 +188,4 @@ class Libros_En_Fichero {
 
 	}	
 
-}
+} // Fin de la clase

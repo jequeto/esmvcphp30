@@ -26,7 +26,7 @@
 				echo "<tr>
 						<td>{$libro['titulo']}</td>
 						<td>{$libro['autor']}</td>
-						<td>{$libro['comentario']}".strlen($libro['comentario'])."</td>
+						<td>{$libro['comentario']}</td>
 						<td>
 							<a href='?menu=libros&submenu=form_modificar&id=$id' >Modificar</a>
 							<a href='?menu=libros&submenu=form_borrar&id=$id' >Borrar</a>
