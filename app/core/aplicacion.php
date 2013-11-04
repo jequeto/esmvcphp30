@@ -41,7 +41,7 @@ class Aplicacion extends \core\Clase_Base {
 		//$content="<A>Contenido</A>";
 		//\core\HTTP_Respuesta::enviar($content);
 		
-		//print "<pre>"; print_r($GLOBALS);print "</pre>";
+		print "<pre>"; print_r($GLOBALS);print "</pre>";
 		
 		
 	}

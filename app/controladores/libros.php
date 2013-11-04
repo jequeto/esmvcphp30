@@ -87,7 +87,7 @@ class libros extends \core\Controlador {
 	
 	public function form_borrar_validar(array $datos = array()) {
 		
-		$libro = \core\HTTP_Requerimiento::post('id');
+		$libro = \core\HTTP_Requerimiento::post();
 		
 		// print_r($_POST); print_r($libro); exit(0);
 		

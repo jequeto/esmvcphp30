@@ -1,6 +1,6 @@
 <div id='libros'>
 	<h1>Mis últimos libros leidos</h1>
-	<p>Esta aplicación lee líneas de texto de un fichero. Cada línea contiene datos de un libro, excepto la primera que contiene el título de las columnas. Atención, la funcion file() recupera en cada línea del fichero el caracter fin de línea que hay que quitar después con la función substr.</p>
+	<p>Esta aplicación lee líneas de texto de un fichero. Cada línea contiene datos de un libro, excepto la primera que contiene el título de las columnas. Atención, las líneas tienen al final los caracteres de [fin de línea] y [nueva línea]. La función file($file_path,FILE_IGNORE_NEW_LINES) devuelve un array con las líneas del fichero sin los caracteres de final de línea.</p>
 	<table border='1px'>
 		<thead>
 			<tr>
@@ -26,7 +26,7 @@
 				echo "<tr>
 						<td>{$libro['titulo']}</td>
 						<td>{$libro['autor']}</td>
-						<td>{$libro['comentario']}</td>
+						<td>{$libro['comentario']}".strlen($libro['comentario'])."</td>
 						<td>
 							<a href='?menu=libros&submenu=form_modificar&id=$id' >Modificar</a>
 							<a href='?menu=libros&submenu=form_borrar&id=$id' >Borrar</a>
