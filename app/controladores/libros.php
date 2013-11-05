@@ -40,7 +40,9 @@ class libros extends \core\Controlador {
 		
 		\modelos\Libros_En_Fichero::anexar_libro($libro);
 		
-		\core\Distribuidor::cargar_controlador("libros", "index");
+//		\core\Distribuidor::cargar_controlador("libros", "index");
+		\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
+		\core\HTTP_Respuesta::enviar();
 		
 	}
 	
@@ -74,7 +76,9 @@ class libros extends \core\Controlador {
 		
 		\modelos\Libros_En_Fichero::modificar_libro($libro);
 		
-		\core\Distribuidor::cargar_controlador("libros", "index");
+//		\core\Distribuidor::cargar_controlador("libros", "index");
+		\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
+		\core\HTTP_Respuesta::enviar();
 		
 	}
 	
@@ -110,7 +114,9 @@ class libros extends \core\Controlador {
 		
 		\modelos\Libros_En_Fichero::borrar_libro($libro['id']);
 		
-		\core\Distribuidor::cargar_controlador("libros", "index");
+//		\core\Distribuidor::cargar_controlador("libros", "index");
+		\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
+		\core\HTTP_Respuesta::enviar();
 		
 	}
 	
