@@ -27,6 +27,8 @@ class libros extends \core\Controlador {
 	 */
 	public function form_anexar(array $datos = array()) {
 		
+		
+		
 		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_libros', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
@@ -36,13 +38,26 @@ class libros extends \core\Controlador {
 	
 	public function form_anexar_validar(array $datos = array()) {
 		
-		$libro = \core\HTTP_Requerimiento::post();
+//		$libro = \core\HTTP_Requerimiento::post();
 		
-		\modelos\Libros_En_Fichero::anexar_libro($libro);
+		$validaciones = array(
+			"titulo" => "errores_requerido && errores_texto",
+			"autor" => "errores_requerido && errores_texto",
+			"comentario" => "errores_texto",
+		);
 		
-//		\core\Distribuidor::cargar_controlador("libros", "index");
-		\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
-		\core\HTTP_Respuesta::enviar();
+		$validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		if (! $validacion) {
+			\core\Distribuidor::cargar_controlador("libros", "form_anexar", $datos);
+		}
+		else {
+			$libro = $datos['values']; //Valores de los input que han sido validados
+			\modelos\Libros_En_Fichero::anexar_libro($libro);
+//			\modelos\Libros_En_Fichero::anexar_libro($datos['libros']);
+			\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
+			\core\HTTP_Respuesta::enviar();
+		}
+		
 		
 	}
 	
