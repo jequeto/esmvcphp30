@@ -56,12 +56,10 @@ class HTTP_Respuesta extends \core\Clase_Base {
 	
 	
 	/**
-	 * Envia la respuesta HTTP, compuesta de HEADER y BODY
-	 * Si el HEADER ya se ha enviado lanza un warning.
+	 * Envía el header y el cuerpo de la respuesta HTTP al cliente web.
+	 * Si el el parámetro $http_body_conten se deja vacío solo se enviará el encabezado.
 	 * 
-	 * @param array $datos
-	 * @param type $plantilla
-	 * @throws \Exception
+	 * @param string|binary $http_body_content Contenido del cuerpo de la respuesta HTTP
 	 */
 	public static function enviar($http_body_content = null) {
 		
@@ -92,7 +90,9 @@ class HTTP_Respuesta extends \core\Clase_Base {
 			if ( ! isset(self::$http_header_lines['Content-Type']) ) {
 				self::$http_header_lines['Content-Type'] = \core\Configuracion::$tipo_mime_por_defecto;
 			}
-			//http_response_code(self::$http_header_status); // Enviamos el código de la respuesta
+//			http_response_code(self::$http_header_status); // Enviamos el código de la respuesta. Atención solo válidopara php >=5.4.1
+			header(" ", true, (integer) self::$http_header_status); // Equivalente a la línea anterior y es válido desd php >=5.3
+			
 			foreach (self::$http_header_lines as $key => $value) {
 				// Enviamos las líneas del header
 				header("$key: $value");
