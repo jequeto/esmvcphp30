@@ -26,9 +26,7 @@ class libros extends \core\Controlador {
 	 * @param array $datos
 	 */
 	public function form_anexar(array $datos = array()) {
-		
-		
-		
+			
 		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_libros', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
@@ -59,7 +57,6 @@ class libros extends \core\Controlador {
 			\core\HTTP_Respuesta::enviar();
 		}
 		
-		
 	}
 	
 	
@@ -72,6 +69,7 @@ class libros extends \core\Controlador {
 	public function form_modificar(array $datos = array()) {
 		
 		if ( ! isset($datos['errores'])) {
+			// Recuperamos datos del libro del fichero de texto solo si no vienen datos del libro junto con los errores de validación.
 			$id = \core\HTTP_Requerimiento::get('id');
 
 			$datos['values'] = \modelos\Libros_En_Fichero::get_libros($id);
@@ -91,7 +89,6 @@ class libros extends \core\Controlador {
 		
 		//print_r($_POST); print_r($libro); exit(0);
 		
-
 		$validaciones = array(
 			"id" => "errores_requerido && errores_numero_entero_positivo",
 			"titulo" => "errores_requerido && errores_texto",
@@ -128,6 +125,7 @@ class libros extends \core\Controlador {
 	public function form_borrar(array $datos = array()) {
 		
 		if ( ! isset($datos['errores'])) {
+			// Recuperamos datos del libro del fichero de texto solo si no vienen datos del libro junto con los errores de validación.
 
 			$id = \core\HTTP_Requerimiento::get('id');
 
