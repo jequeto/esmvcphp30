@@ -36,7 +36,7 @@ class libros extends \core\Controlador {
 	
 	public function form_anexar_validar(array $datos = array()) {
 		
-//		$libro = \core\HTTP_Requerimiento::post();
+//		$libro = \core\HTTP_Requerimiento::post(); // Ahora los datos recibidos del formulario los recoge el metodo \core\Validaciones::errores_validacion_request($validaciones, $datos) y los deja almacenados en un array en $datos[values], pues $datos se pasa por referencia.
 		
 		$validaciones = array(
 			"titulo" => "errores_requerido && errores_texto",
@@ -44,7 +44,7 @@ class libros extends \core\Controlador {
 			"comentario" => "errores_texto",
 		);
 		
-		$validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos);
+		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
 		if (! $validacion) {
 			print "-- Depuración: \$datos= "; print_r($datos);
 			\core\Distribuidor::cargar_controlador("libros", "form_anexar", $datos);
@@ -85,7 +85,8 @@ class libros extends \core\Controlador {
 	
 	public function form_modificar_validar(array $datos = array()) {
 		
-//		$libro = \core\HTTP_Requerimiento::post();
+///		$libro = \core\HTTP_Requerimiento::post(); // Ahora los datos recibidos del formulario los recoge el metodo \core\Validaciones::errores_validacion_request($validaciones, $datos) y los deja almacenados en un array en $datos[values], pues $datos se pasa por referencia.
+
 		
 		//print_r($_POST); print_r($libro); exit(0);
 		
@@ -144,7 +145,8 @@ class libros extends \core\Controlador {
 	
 	public function form_borrar_validar(array $datos = array()) {
 		
-//		$libro = \core\HTTP_Requerimiento::post();
+//		$libro = \core\HTTP_Requerimiento::post(); // Ahora los datos recibidos del formulario los recoge el metodo \core\Validaciones::errores_validacion_request($validaciones, $datos) y los deja almacenados en un array en $datos[values], pues $datos se pasa por referencia.
+
 		
 		// print_r($_POST); print_r($libro); exit(0);
 		
