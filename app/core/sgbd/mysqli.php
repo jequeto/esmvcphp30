@@ -416,8 +416,9 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	public static function escape_string($cadena) {
 		
-		return mysqli_real_escape_string(self::$connection, $cadena);
-		
+		//TODO Descomentar la siguiente línea y borrar la última cuando funcione mysqli
+//		return mysqli_real_escape_string(self::$connection, $cadena);
+		return $cadena;
 	}
 	
 	

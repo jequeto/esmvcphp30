@@ -53,7 +53,7 @@ class Libros_En_Fichero {
 		self::$libros = array(); // Vaciamos el array por si tuviera datos de una lectura anterior.
 		
 		$lineas = file($file_path,FILE_IGNORE_NEW_LINES); // Lee las líneas y genera un array de índice entero con una cadena de caracteres en cada entrada del array. FILE_IGNORE_NEW_LINES es una constante entera de valor 2 que hace que no se incluya en la líneas los caracteres de fin de línea y nueva línea.
-		print "<pre>\$lineas = "; print_r($lineas);print "</pre>";
+		//print "<pre>\$lineas = "; print_r($lineas);print "</pre>";
 		foreach ($lineas as $numero => $linea) {
 			// Dividimos la línea por los ";"
 			

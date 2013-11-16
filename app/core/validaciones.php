@@ -185,6 +185,10 @@ class Validaciones  {
 			print_r($resultados_validacion);
 			echo "<!-- ";
 		}
+		if (count($resultados_validacion["errores"])) {
+			$resultados_validacion["errores"]['validacion'] = 'Corrige los errores.';
+		}
+		
 		if (is_array($datos)) { // Si se aporta $datos y es array
 			$datos["values"] = $resultados_validacion["values"];
 			$datos["errores"] = $resultados_validacion["errores"];
