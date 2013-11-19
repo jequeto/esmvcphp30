@@ -20,9 +20,9 @@ class Distribuidor {
 		$controlador = \core\HTTP_Requerimiento::get('menu');
 		$metodo = \core\HTTP_Requerimiento::get('submenu');
 		
-		if ( $controlador  == null )
+		if ( $controlador  == null || (boolean)\core\Validaciones::errores_identificador($controlador) )
 			$controlador = strtolower(\core\Configuracion::$controlador_por_defecto);
-		if ( ! $metodo )
+		if ( ! $metodo || \core\Validaciones::errores_identificador($metodo) )
 			$metodo = strtolower(\core\Configuracion::$metodo_por_defecto);
 		
 		self::cargar_controlador($controlador, $metodo);

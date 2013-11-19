@@ -6,14 +6,22 @@ class Vista extends \core\Clase_Base
 	/**
 	 * Genera el código html y si buffer es true lo captura y lo devuelve por el return.
 	 * 
-	 * @param string $nombre Nombre del fichero que contiene la vista en la carpeta .../vistas/nombre_controlador/nombre_vista
+	 * @param string $nombre Nombre del fichero que contiene la vista en la carpeta .../app/vistas/nombre_controlador/<b>nombre_vista</b>. El parámetro nombre puede ser <ul><li><b>nombre_vista</b></li> o <li><b>nombre_controlador/nombre_vista</li></ul></b>
+	 * 
 	 * @param array $datos
 	 * @param boolean $buffer Opcional. Por defecto es true, que activa la captura del buffer
 	 * @return string Código <html>
 	 * @throws \Exception
 	 */
 	public static function generar($nombre , array $datos = array(), $buffer = true) {
-		$fichero_vista = strtolower(PATH_APP."vistas/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre.php");
+		$patron = "/^(\w{1,}(\\\|\/)){1,}\w{1,}$/i"; // carpeta1/subcarpeta/../fichero
+		if (preg_match($patron, $nombre)) {
+			$fichero_vista = strtolower(PATH_APP."vistas/").str_replace("\\", "/", $nombre).".php";
+		}
+		else {
+			$fichero_vista = strtolower(PATH_APP."vistas/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre.php");
+		}
+		
 		if ( ! file_exists($fichero_vista))
 			throw new \Exception(__METHOD__." Error: no existe el fichero $fichero_vista .");
 		if ($buffer) {

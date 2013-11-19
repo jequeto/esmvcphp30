@@ -39,9 +39,9 @@ class libros extends \core\Controlador {
 //		$libro = \core\HTTP_Requerimiento::post(); // Ahora los datos recibidos del formulario los recoge el metodo \core\Validaciones::errores_validacion_request($validaciones, $datos) y los deja almacenados en un array en $datos[values], pues $datos se pasa por referencia.
 		
 		$validaciones = array(
-			"titulo" => "errores_requerido && errores_texto",
-			"autor" => "errores_requerido && errores_texto",
-			"comentario" => "errores_texto",
+			"titulo" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			"autor" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			"comentario" => "errores_texto && errores_prohibido_punto_y_coma",
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
@@ -52,7 +52,7 @@ class libros extends \core\Controlador {
 		else {
 			$libro = $datos['values']; //Valores de los input que han sido validados
 			\modelos\Libros_En_Fichero::anexar_libro($libro);
-//			\modelos\Libros_En_Fichero::anexar_libro($datos['libros']);
+//			\modelos\Libros_En_Fichero::anexar_libro($datos['values']);
 			\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
 			\core\HTTP_Respuesta::enviar();
 		}
@@ -68,19 +68,39 @@ class libros extends \core\Controlador {
 	 */
 	public function form_modificar(array $datos = array()) {
 		
+		$validacion = true;
+
 		if ( ! isset($datos['errores'])) {
 			// Recuperamos datos del libro del fichero de texto solo si no vienen datos del libro junto con los errores de validación.
-			$id = \core\HTTP_Requerimiento::get('id');
-
-			$datos['values'] = \modelos\Libros_En_Fichero::get_libros($id);
-			$datos['values']['id'] = $id;
+			$validaciones = array(
+				"id" => "errores_requerido && errores_numero_entero_positivo",
+			);
+		
+			$validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos);
+			if ( $validacion) {
+				$id = $datos['values']['id'];
+				$datos['values'] = \modelos\Libros_En_Fichero::get_libros($id); // Esta línea crea de nuevo el contenido del la entrada ['values'] y se pierde los que estuviera almacenado antes. Por eso hay que volver a generar la entrada [values][id]
+				$datos['values']['id'] = $id;
+			}
 		}
-		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+		if ($validacion) {
+			$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+			
+		}
+		else {
+			$datos = array(
+				"mensaje" => "No se ha podido identificar el id del libro a modificar.",
+				"url_continuar" =>"?menu=libros&sumbenu=index",
+			);
+			$datos['view_content'] = \core\Vista::generar("errores/mensaje", $datos, true);
+		}
+		
 		$http_body = \core\Vista_Plantilla::generar('plantilla_libros', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
 		
+		
 	}
-	
+		
 	
 	
 	public function form_modificar_validar(array $datos = array()) {
@@ -92,9 +112,10 @@ class libros extends \core\Controlador {
 		
 		$validaciones = array(
 			"id" => "errores_requerido && errores_numero_entero_positivo",
-			"titulo" => "errores_requerido && errores_texto",
-			"autor" => "errores_requerido && errores_texto",
-			"comentario" => "errores_texto",
+			"titulo" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			"autor" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			"comentario" => "errores_texto && errores_prohibido_punto_y_coma",
+		
 		);
 		
 		$validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos);
@@ -108,10 +129,12 @@ class libros extends \core\Controlador {
 		else {
 			$libro = $datos['values']; //Valores de los input que han sido validados
 			\modelos\Libros_En_Fichero::modificar_libro($libro);
-		
-	//		\core\Distribuidor::cargar_controlador("libros", "index");
+//			\modelos\Libros_En_Fichero::modificar_libro($datos['values']);
+//			\core\Distribuidor::cargar_controlador("libros", "index");
+
 			\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
 			\core\HTTP_Respuesta::enviar();
+			
 		}
 		
 	}
@@ -125,19 +148,35 @@ class libros extends \core\Controlador {
 	 */
 	public function form_borrar(array $datos = array()) {
 		
+		$validacion = true;
+
 		if ( ! isset($datos['errores'])) {
 			// Recuperamos datos del libro del fichero de texto solo si no vienen datos del libro junto con los errores de validación.
-
-			$id = \core\HTTP_Requerimiento::get('id');
-
-			$datos['values'] = \modelos\Libros_En_Fichero::get_libros($id);
-			$datos['values']['id'] = $id;
+			$validaciones = array(
+				"id" => "errores_requerido && errores_numero_entero_positivo",
+			);
+		
+			$validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos);
+			if ( $validacion) {
+				$id = $datos['values']['id'];
+				$datos['values'] = \modelos\Libros_En_Fichero::get_libros($id); // Esta línea crea de nuevo el contenido del la entrada ['values'] y se pierde los que estuviera almacenado antes. Por eso hay que volver a generar la entrada [values][id]
+				$datos['values']['id'] = $id;
+			}
+		}
+		if ($validacion) {
+			$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+			
+		}
+		else {
+			$datos = array(
+				"mensaje" => "No se ha podido identificar el id del libro a borrar.",
+				"url_continuar" =>"?menu=libros&sumbenu=index",
+			);
+			$datos['view_content'] = \core\Vista::generar("errores/mensaje", $datos, true);
 		}
 		
-		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_libros', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
-		
 		
 	}
 	
@@ -153,9 +192,11 @@ class libros extends \core\Controlador {
 		$validaciones = array(
 			"id" => "errores_requerido && errores_numero_entero_positivo",
 			// La siguientes reglas no son necesarias porque el formulario form_borrar es de solo lectura y los datos no se modificarán
-			"titulo" => "errores_requerido && errores_texto",
-			"autor" => "errores_requerido && errores_texto",
-			"comentario" => "errores_texto",
+			
+			//"titulo" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			//"autor" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			//"comentario" => "errores_texto && errores_prohibido_punto_y_coma",
+		
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
@@ -168,7 +209,7 @@ class libros extends \core\Controlador {
 			$libro = $datos["values"]; // Los datos del libro están recogidos por la validación en $datos[values]
 			print "-- Depuración: \$datos= "; print_r($datos);
 			\modelos\Libros_En_Fichero::borrar_libro($libro['id']);
-			\modelos\Libros_En_Fichero::borrar_libro($datos["values"]['id']);
+//			\modelos\Libros_En_Fichero::borrar_libro($datos["values"]['id']);
 
 			//		\core\Distribuidor::cargar_controlador("libros", "index");
 			\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");

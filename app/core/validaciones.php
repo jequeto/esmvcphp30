@@ -263,7 +263,21 @@ class Validaciones  {
 	}
 	
 	
-		
+	
+	public static function errores_prohibido_punto_y_coma($cadena=null) {
+		$mensaje = null;
+		if ($cadena != null && strlen($cadena)) {
+				$patron = "/\;/";
+				if (preg_match($patron, $cadena)) {
+					$mensaje = "No se puede utilizar el ; .";
+				}
+		}
+		return $mensaje;
+	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -306,6 +320,23 @@ class Validaciones  {
 	}
 
 	
+
+	/**
+	 * Identificador de variables o de claves internas. Solo letras, números y _. NO puede empezar por número
+	 * 
+	 * @param string $cadena
+	 */
+	public static function errores_identificador($cadena=null) {
+		$mensaje = null;
+		if ($cadena != null && strlen($cadena) ){
+			$patron = "/^(_{0,2}[a-z]{1}\w{0,})$/i";
+			if ( ! preg_match($patron, $cadena) ) {
+				$mensaje = "Contiene caracteres no válidos. Sólo se admiten letras, números y _ , y no puede comenzar por número. ";
+			}
+		}
+		
+		return $mensaje;
+	}
 
 	
 	

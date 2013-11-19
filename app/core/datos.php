@@ -16,7 +16,7 @@ class Datos {
 	 * @param array $datos
 	 * @return mixed
 	 */
-	public static function values($indice , $datos ) {
+	public static function values($indice , array $datos ) {
 		
 		return ( (array_key_exists('values', $datos) and array_key_exists($indice, $datos['values'])) ? $datos['values'][$indice] : null);		
 		
@@ -24,7 +24,7 @@ class Datos {
 	
 	
 	
-	public static function errores($indice , $datos ) {
+	public static function errores($indice , array $datos ) {
 		
 		return ( (array_key_exists('errores', $datos) and array_key_exists($indice, $datos['errores'])) ? $datos['errores'][$indice] : null);		
 		
