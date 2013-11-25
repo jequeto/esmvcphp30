@@ -17,15 +17,59 @@ class Distribuidor {
 	 */
 	public static function estudiar_query_string() {
 		
-		$controlador = \core\HTTP_Requerimiento::get('menu');
-		$metodo = \core\HTTP_Requerimiento::get('submenu');
+		self::interpretar_url_amigable();
+		
+		
+		$controlador = isset($_GET['menu']) ? \core\HTTP_Requerimiento::get('menu') : \core\HTTP_Requerimiento::get('p1');
+		$metodo = isset($_GET['submenu']) ?\core\HTTP_Requerimiento::get('submenu'): \core\HTTP_Requerimiento::get('p2');
 		
 		if ( $controlador  == null || (boolean)\core\Validaciones::errores_identificador($controlador) )
 			$controlador = strtolower(\core\Configuracion::$controlador_por_defecto);
-		if ( ! $metodo || \core\Validaciones::errores_identificador($metodo) )
+		if ( ! $metodo || (boolean)\core\Validaciones::errores_identificador($metodo) )
 			$metodo = strtolower(\core\Configuracion::$metodo_por_defecto);
 		
 		self::cargar_controlador($controlador, $metodo);
+		
+	}
+	
+	
+	
+	
+	private static function interpretar_url_amigable() {
+		
+		if ( \core\Configuracion::$url_amigable ) {
+			$aplicacion = str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
+			// Será una cadena de la forma "dato1/dato2/dato3/"
+//			$parametros = explode("/", $query_string);
+			$query_string = str_replace($aplicacion, "", $_SERVER["REQUEST_URI"]); 
+			
+			$parametros = array(); // Recogerá los parámetros pasados en forma amigable
+			// Buscamos cada uno de los parámetros dato1/  dato2/  ...
+			preg_match_all("/\w+\//i", $query_string, $parametros);
+			foreach ($parametros[0] as $key => $value) {
+				
+				// Si el parámetro se ha recibido no lo añado
+				// Si lo añado, quito la / del final.
+				if ( ! isset($_GET["p".($key+1)]) ) $_GET["p".($key+1)] = str_replace("/", "",$value);
+			}
+			
+		}
+		// Transformación los parámentros p1, p2, p3, p4, ...
+		// a otros nombres más significativos menu, submenu, id, ...
+		if ( ! isset($_REQUEST['menu']) and isset($_GET['p1'])) {
+				$_GET['menu'] = $_GET['p1'];
+				$_REQUEST['menu'] = $_GET['p1'];
+		}
+		if ( ! isset($_REQUEST['submenu']) and isset($_GET['p2'])) {
+				$_GET['submenu'] = $_GET['p2'];
+				$_REQUEST['submenu'] = $_GET['p2'];
+		}
+		if ( ! isset($_REQUEST['id']) and isset($_GET['p3'])) {
+				$_POST['id'] = $_GET['p3'];
+				$_REQUEST['id'] = $_GET['p3'];
+		}
+		
+		//echo "<pre>"; print_r($parametros); print_r($GLOBALS);exit(0);
 		
 	}
 	

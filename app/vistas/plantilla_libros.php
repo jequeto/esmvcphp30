@@ -39,7 +39,7 @@
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/ipv_ies_palomeras.png" alt="logo" title="Logo" onclick="window.location.assign('http://www.iespalomeras.net/');"/>
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/departamento_informatica.png" alt="logo" title="Logo departamento"  onclick="window.location.assign('http://www.iespalomeras.net/index.php?option=com_wrapper&view=wrapper&Itemid=86');" />
 			<h1 id="titulo">Libros leídos</h1>
-			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png" title="Imagen de patrón MVC"  onclick="window.location.assign('?menu=inicio');" height="100px" />
+			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png" title="Imagen de patrón MVC"  onclick="window.location.assign('<?php echo \core\URL::generar("inicio"); ?>');" height="100px" />
 		</div>
 		
 		<div id="div_menu" >

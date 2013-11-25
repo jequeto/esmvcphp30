@@ -17,7 +17,7 @@
 		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<link href="favicon.ico" rel="icon" type="image/x-icon" /> 
 		
-		<link rel="stylesheet" type="text/css" href="recursos/css/inicio/principal.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/inicio/principal.css" />
 		<style type="text/css" >
 			/* Definiciones hoja de estilos interna */
 		</style>
@@ -47,15 +47,15 @@
 			<fieldset>
 				<legend>Menú - Índice - Barra de navegación:</legend>
 					<ul id="menu" class="menu">
-						<li class="item"><a href="?menu=revista" title="Revista">Revista</a></li>
-						<li class="item"><a href="?menu=libros" title="Libros leídos">Libros</a></li>
+						<li class="item"><a href="<?php echo \core\URL::generar("revista"); ?>" title="Revista">Revista</a></li>
+						<li class="item"><a href="<?php echo \core\URL::generar("libros"); ?>" title="Libros leídos">Libros</a></li>
 					</ul>
 			</fieldset>
 		</div>
 
 		<div id="view_content">
 			<p>Bienvenido a la aplicación desarrollada en PHP-poo con un patrón MVC</p>
-			<a href="docs/Modelo_Vista_Controlador_v04.pdf" target="_blank"><img src='recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC, por el profesor Jesús María de Quevedo Tomé"  height="400px" /></a>
+			<a href="docs/Modelo_Vista_Controlador_v04.pdf" target="_blank"><img src='<?php echo URL_ROOT; ?>recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC, por el profesor Jesús María de Quevedo Tomé"  height="400px" /></a>
 			<a href="http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/" target="_blank"  title="Imagen de patrón MVC de http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/"><img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png"  height="400px" /></a>
 		</div>
 

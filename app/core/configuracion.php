@@ -13,7 +13,7 @@ class Configuracion {
 	
 	public static $sesion_minutos_maxima_duracion = 120;
 	
-	
+	public static $url_amigable = true;
 	/**
 	 *
 	 * @var string Tipo MIME utilizado por defecto.

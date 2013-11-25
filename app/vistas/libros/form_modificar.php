@@ -1,5 +1,5 @@
 <h2>Modifica los datos del libro</h2>
-<form id='form_modificar' method='post' action='?menu=libros&submenu=form_modificar_validar'>
+<form id='form_modificar' method='post' action='<?php echo URL_ROOT; ?>?menu=libros&submenu=form_modificar_validar'>
 	
 	<input type='hidden' id='id' name='id' value='<?php echo \core\Datos::values('id', $datos); ?>'/>
 
@@ -10,5 +10,5 @@
 	<?php echo \core\HTML_Tag::span_error('validacion', $datos);?><br />
 
 	<input type='submit' value='enviar' />
-	<input type='button' value='cancelar' onclick='window.location.assign("?menu=libros");'/>
+	<input type='button' value='cancelar' onclick='window.location.assign("<?php echo \core\URL::generar("libros"); ?>");'/>
 </form>

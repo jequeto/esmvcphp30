@@ -33,5 +33,67 @@ class URL {
 		
 	}
 	
+	/**
+	 * Devuelve una URL en formato amigable o con parámetros en función del valor
+	 * de la propiedad boolean \core\Configuracion::$url_amigable.
+	 * 
+	 * @param string|array $query_string "dato1/dato2[/...]" array("dato1", "dato2", ...)
+	 * 
+	 * @return string URL amigable o con parámetros
+	 * 
+	 * @throws Exception Si el strin no cumple el formato
+	 */
+	static function generar($query_string = array()) {
+			
+			if ( is_string($query_string)) { // Solo actua si hay datos para hacer la query string.
+				$patron = "/^(\w+(\/\w+)*)$/i";
+				if ( ! preg_match($patron, $query_string))
+					throw new \Exception ("El parámetro \$query_strin debe tener el formato 'texto[/texto]...'");
+				// Convertimos el la cadena en array
+				$query_string = explode("/", $query_string);
+			
+			}
+			
+			return (\core\Configuracion::$url_amigable) ? self::amigable($query_string) : self::query_string($query_string);
+
+		}
+		
+		/**
+		 * Genera URI con parámetros
+		 * 
+		 * @param array $query_string array("dato1", "dato2", ...)
+		 * @return string URL con formato absoluto http://www.aplicacion.com/?p1=dato1&p2=dato2[&...]
+		 */
+		private static function query_string(array $query_string = null) {
 	
+			$url = "?";
+			foreach ($query_string as $key => $value) {
+				$url .= "p".($key+1)."=$value";
+				if ($key < count($query_string)-1 )  {
+					$url .= "&";
+				}
+			}	
+			
+			return URL_ROOT.$url;
+			
+		}
+		
+		
+		/**
+		 * Genera URI amigable con formato de carpetas
+		 * 
+		 * @param array $query_string array("dato1", "dato2", ...)
+		 * @return string URL con formato absoluto http://www.aplicacion.com/dato1/dato2/...
+		 */
+		private static function amigable(array $query_string = null) {
+		
+			$url = "";
+			foreach ($query_string as $key => $value) {
+				$url .= "$value/";
+			}	
+			
+			return URL_ROOT.$url;
+			
+		}
+			
 }

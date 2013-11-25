@@ -1,5 +1,5 @@
 <h2>Confirma el borrado del libro</h2>
-<form id='form_borrar' method='post' action='?menu=libros&submenu=form_borrar_validar'>
+<form id='form_borrar' method='post' action='<?php echo URL_ROOT; ?>?menu=libros&submenu=form_borrar_validar'>
 	
 	<input type='hidden' id='id' name='id' value='<?php echo \core\Datos::values('id', $datos); ?>'/>
 	
@@ -10,5 +10,5 @@ Título: <input type='text' id='titulo' name='titulo' maxsize='50' value='<?php 
 	<?php echo \core\HTML_Tag::span_error('validacion', $datos);?><br />
 
 	<input type='submit' value='confirmar borrado' />
-	<input type='button' value='cancelar' onclick='window.location.assign("?menu=libros");'/>
+	<input type='button' value='cancelar' onclick='window.location.assign("<?php echo URL_ROOT; ?>?menu=libros");'/>
 </form>

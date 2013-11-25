@@ -28,8 +28,8 @@
 						<td>{$libro['autor']}</td>
 						<td>{$libro['comentario']}</td>
 						<td>
-							<a href='?menu=libros&submenu=form_modificar&id=$id' >Modificar</a>
-							<a href='?menu=libros&submenu=form_borrar&id=$id' >Borrar</a>
+							<a href='".\core\URL::generar(array("libros","form_modificar",$id))."' >Modificar</a>
+							<a href='".\core\URL::generar("libros/form_borrar/$id")."' >Borrar</a>
 						</td>
 					</tr>";
 			}
@@ -37,7 +37,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan='4'><button onclick='window.location.assign("?menu=libros&submenu=form_anexar");'>anexar un libro</button></td>
+				<td colspan='4'><button onclick='window.location.assign("<?php echo \core\URL::generar("libros/form_anexar"); ?>");'>anexar un libro</button></td>
 			</tr>
 		</tfoot>
 		
