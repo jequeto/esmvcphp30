@@ -67,6 +67,12 @@
 			Fecha última actualización: 15 de octubre de 2013.
 		</div>
 		
+		<div id='globals'>
+			<?php
+				print "<pre>"; print_r($GLOBALS);print "</pre>";
+			?>
+		</div>
+		
 	</body>
 
 </html>

@@ -123,22 +123,23 @@ class HTTP_Requerimiento {
      */
     public static function cookie($indice=null) {
 		
-            $resultado=null; // Variable auxiliar para preparar y almacenar el resultado que retornará la función
-            if ($indice===null) {
+            $resultado = null; // Variable auxiliar para preparar y almacenar el resultado que retornará la función
+            if ($indice === null) {
                     // $indice === null es decir se ha invocado sin parámetros: cookie()
                     // Usanmos === para descartar otros valores equivalentes a null como 0 "" o "0" o false
-                    $resultado=$_COOKIE; // Retorna el array $_COOKIE con todos sus elementos
+                    $resultado = $_COOKIE; // Retorna el array $_COOKIE con todos sus elementos
             }	
             elseif (is_string($indice)) { // Solo aceptamos índices alfanuméricos para el array $_COOKIE
                     if ( isset($_COOKIE[$indice]) ) { // Existe el indice $indice en el array 
                             if (strlen($_COOKIE[$indice])) // El contenido de ese elemento de $_COOKIE es una cadena de longitud 1 o mayor
-                                    $resultado=$_COOKIE[$indice]; // string
+                                    $resultado = $_COOKIE[$indice]; // string
 
                     }
             }
             else { // Si el programador llama a la función con un parámetro distinto de tipo string, se le genera un Fatal error.
                     throw new \Exception("Error: cookie(\$indice=$indice) \$indice debe ser string.");
             }
+			
             return ($resultado);
 			
     }

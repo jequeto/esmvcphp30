@@ -55,6 +55,7 @@ class libros extends \core\Controlador {
 //			\modelos\Libros_En_Fichero::anexar_libro($datos['values']);
 			\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
 			\core\HTTP_Respuesta::enviar();
+//			\core\Distribuidor::cargar_controlador("libros", "index");
 		}
 		
 	}
@@ -113,7 +114,7 @@ class libros extends \core\Controlador {
 		$validaciones = array(
 			"id" => "errores_requerido && errores_numero_entero_positivo",
 			"titulo" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
-			"autor" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma",
+			"autor" => "errores_requerido && errores_texto && errores_prohibido_punto_y_coma ",
 			"comentario" => "errores_texto && errores_prohibido_punto_y_coma",
 		
 		);

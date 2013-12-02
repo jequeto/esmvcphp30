@@ -24,6 +24,10 @@ class HTTP_Respuesta extends \core\Clase_Base {
 	private static $http_body_content = "";
 	
 	
+	// Array que almacenará las cookies que se enviarán al cliente
+	private static $cookies = array(); 
+	
+	
 	
 	public static function set_header_line($key, $value) {
 		
@@ -75,6 +79,9 @@ class HTTP_Respuesta extends \core\Clase_Base {
 		// Enviar HEADER
 		self::send_header();
 		
+		// Enviar COOKIES
+		self::cookies_send();
+		
 		// Enviar BODY
 		self::send_body();
 		
@@ -124,6 +131,34 @@ class HTTP_Respuesta extends \core\Clase_Base {
 		self::$http_header_status = $http_header_status;
 		
 	}
+	
+	
+	public static function cookie_set($name, $value = null, $expire = 0 , $path = "/" , $domain = null , $secure = false , $httponly = false ) {
 		
+		$cookie = array(
+			"name" => $name,
+			"value" => $value,
+			"expire" => $expire,
+			"path" => $path,
+			"domain" => $domain,
+			"secure" => $secure,
+			"httponly" => $httponly
+		);
+		
+		// Añado la cookie al array de cookies
+		array_push(self::$cookies, $cookie);
+		
+	}
+	
+	
+	private static function cookies_send() {
+		
+		foreach (self::$cookies as $cookie) {
+			setcookie ( $cookie["name"] , $cookie["value"] , $cookie["expire"] , $cookie["path"], $cookie["damain"], $cookie["secure"], $cookie["httponly"] );
+		}
+		
+	}
+	
+	
 	
 }

@@ -34,20 +34,40 @@ class Distribuidor {
 	
 	
 	
-	
+	/**
+	 * Si la propiedad \core\Configuracion::$url_amibable es true, y además
+	 * exites fichero .htacces en la carpeta root de la aplicación, y en él 
+	 * RewriteEngine = on
+	 * 
+	 * Este método transfoma la URI /dato1/dato2/dato3/....
+	 * En entradas nuevas en $_GET y $_REQUEST, llamadas [p1],[p2],[p3], ... a las
+	 * que se asigna los valores dato1, dato2, dato3, ... respectivamente
+	 * Si no se hubiesen recibido como parámetros de URI ?menu=...&submenu=...&id=....
+	 * también creará las entradas [menu], [submenu] e [id] asignándolas los 
+	 * valores datos1, dato2 y dato3 respectivamente.
+	 *
+	 * @author jequeto@gmail.com
+	 * @since 125/11/2013
+	 */
 	private static function interpretar_url_amigable() {
 		
 		if ( \core\Configuracion::$url_amigable ) {
+			// Sea la URL http://www.servidor.com/dato1/dato2/dato3/[...]
+			// o sea la URL http://www.servidor.com/aplicacion/dato1/dato2/dato3/[...]
+			// $_SERVER["SCRIPT_NAME"] almacenará la cadena /index.php o /aplicacion/index.php respectivamente.
+			// $aplicacion almacena si existe "/" o "/aplicacion/" respectivamente.
 			$aplicacion = str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
-			// Será una cadena de la forma "dato1/dato2/dato3/"
-//			$parametros = explode("/", $query_string);
+
+			// $_SERVER["REQUEST_URI"] almacenará la cadena /dato1/dato2/dato3/[...]
+			//  o /aplicacio/dato1/dato2/dato3/[...] respectivamente
 			$query_string = str_replace($aplicacion, "", $_SERVER["REQUEST_URI"]); 
+			// $query_string será ahora una cadena de la forma "dato1/dato2/dato3/"
 			
-			$parametros = array(); // Recogerá los parámetros pasados en forma amigable
+			$valores = array(); // Recogerá los parámetros pasados en forma amigable
 			// Buscamos cada uno de los parámetros dato1/  dato2/  ...
-			preg_match_all("/\w+\//i", $query_string, $parametros);
-			foreach ($parametros[0] as $key => $value) {
-				
+			// $valores = explode("/", $query_string);
+			preg_match_all("/\w+\//i", $query_string, $valores);
+			foreach ($valores[0] as $key => $value) {
 				// Si el parámetro se ha recibido no lo añado
 				// Si lo añado, quito la / del final.
 				if ( ! isset($_GET["p".($key+1)]) ) $_GET["p".($key+1)] = str_replace("/", "",$value);
@@ -69,7 +89,7 @@ class Distribuidor {
 				$_REQUEST['id'] = $_GET['p3'];
 		}
 		
-		//echo "<pre>"; print_r($parametros); print_r($GLOBALS);exit(0);
+		//echo "<pre>"; print_r($valores); print_r($GLOBALS);exit(0);
 		
 	}
 	
