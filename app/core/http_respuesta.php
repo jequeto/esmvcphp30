@@ -132,8 +132,19 @@ class HTTP_Respuesta extends \core\Clase_Base {
 		
 	}
 	
-	
-	public static function cookie_set($name, $value = null, $expire = 0 , $path = "/" , $domain = null , $secure = false , $httponly = false ) {
+	/**
+	 * Recoge datos para preparar la cookie que se enviará con el método 
+	 * \core\HTTP_Respuesta::enviar()
+	 * 
+	 * @param string $name
+	 * @param string $value
+	 * @param int $expire
+	 * @param string $path
+	 * @param string $domain
+	 * @param string $secure
+	 * @param string $httponly
+	 */
+	public static function setcookie($name, $value = null, $expire = 0 , $path = null , $domain = null , $secure = false , $httponly = false ) {
 		
 		$cookie = array(
 			"name" => $name,
