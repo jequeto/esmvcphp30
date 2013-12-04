@@ -59,9 +59,11 @@ class URL {
 	static function generar($query_string = array()) {
 			
 			if ( is_string($query_string)) { // Solo actua si hay datos para hacer la query string.
-				$patron = "/^(\w+(\/\w+)*)$/i";
+//				$patron = "/^(\w+((\/\w+)(\/.+)*)?)?$/i";
+				$patron = "/^(\w+((\/\w+)(\/.+)*)?)?$/i";
+
 				if ( ! preg_match($patron, $query_string))
-					throw new \Exception ("El parámetro \$query_strin debe tener el formato 'texto[/texto]...'");
+					throw new \Exception ("El parámetro \$query_string='$query_string' debe tener el formato 'texto[/texto]...'");
 				// Convertimos el la cadena en array
 				$query_string = explode("/", $query_string);
 			
@@ -101,6 +103,9 @@ class URL {
 	private static function amigable(array $query_string = null) {
 
 		$url = "";
+		if (\core\Configuracion::$idioma_seleccionado && \core\Configuracion::$idioma_seleccionado != \core\Configuracion::$idioma_por_defecto) {
+			$url .= \core\Configuracion::$idioma_seleccionado."/";
+		}
 		foreach ($query_string as $key => $value) {
 			$url .= "$value/";
 		}	

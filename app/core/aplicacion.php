@@ -33,6 +33,12 @@ class Aplicacion extends \core\Clase_Base {
 		// Los permisos los usamos si trabajamos con la ACL (Access Control List) para definir los permisos de los usuarios
 		// \core\Permisos::iniciar();
 		
+		// Interpretar url amigable
+		\core\Rutas::interpretar_url_amigable();
+		
+		// Estudio del idioma ***************************************
+		\core\Idioma::init();
+		
 		// Distribuidor
 		\core\Distribuidor::estudiar_query_string();
 

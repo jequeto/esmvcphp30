@@ -1,0 +1,11 @@
+key|text
+title|International Website
+leyenda_menu|Menu - Navigation bar
+saludo1|Welcome to the international website.
+saludo2|Welcome on the application following the MVC pattern.
+Saludo|Greeting
+Revista|Magazine
+Libros|Books
+h1#titulo|Application following the MVC pattern
+Autor|Author
+Fecha última actualización|Last Updated

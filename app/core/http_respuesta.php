@@ -165,7 +165,7 @@ class HTTP_Respuesta extends \core\Clase_Base {
 	private static function cookies_send() {
 		
 		foreach (self::$cookies as $cookie) {
-			setcookie ( $cookie["name"] , $cookie["value"] , $cookie["expire"] , $cookie["path"], $cookie["damain"], $cookie["secure"], $cookie["httponly"] );
+			setcookie ( $cookie["name"] , $cookie["value"] , $cookie["expire"] , $cookie["path"], $cookie["domain"], $cookie["secure"], $cookie["httponly"] );
 		}
 		
 	}

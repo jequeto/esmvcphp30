@@ -10,12 +10,4 @@ RewriteOptions Inherit
 # URL amigable tipo .../app_root/parametro1/parametro2/parametro3/parametro4/
 # Atención que \w = [a-z09_] Otros caracteres no serán detectados como válidos.
 RewriteCond %{REQUEST_URI} !(recursos/.*)
-RewriteRule (\w+)/(\w+)/(\w+)/(\w+)/?$ ?menu=$1&submenu=$2&id=$3&r4=$4&request_uri=%{REQUEST_URI} [QSA,L,NS]
-RewriteCond %{REQUEST_URI} !(recursos/.*)
-RewriteRule (\w+)/(\w+)/(\w+)/?$ ?menu=$1&submenu=$2&id=$3&request_uri=%{REQUEST_URI} [QSA,L,NS]
-RewriteCond %{REQUEST_URI} !(recursos/.*)
-RewriteRule (\w+)/(\w+)/?$ ?menu=$1&submenu=$2&request_uri=%{REQUEST_URI} [QSA,L,NS]
-RewriteCond %{REQUEST_URI} !(recursos/.*)
-RewriteRule (\w+)/?$ ?menu=$1&request_uri=%{REQUEST_URI} [QSA,L,NS]
-RewriteCond %{REQUEST_URI} !(recursos/.*)
-RewriteRule !(.+/) ?request_uri=%{REQUEST_URI} [QSA,L,NS]
+RewriteRule (.*) index.php [QSA,L,NS]
