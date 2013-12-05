@@ -1,4 +1,0 @@
-id|seccion|subseccion|texto
-1|plantilla|title|Idiomas
-2|usuarios|form|Usuario
-3|usuarios|form|Contraseña

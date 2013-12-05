@@ -8,7 +8,7 @@
 	 	<meta name="Origen" content="Quíen lo ha hecho" /> 
 		<meta name="Author" content="nombre del autor" /> 
 		<meta name="Locality" content="Madrid, Espa�a" /> 
-		<meta name="Lang" content="es" /> 
+		<meta name="Lang" content="<?php echo \core\Idioma::get(); ?>" /> 
 		<meta name="Viewport" content="maximum-scale=10.0" /> 
 		<meta name="revisit-after" content="1 days" /> 
 		<meta name="robots" content="INDEX,FOLLOW,NOODP" /> 

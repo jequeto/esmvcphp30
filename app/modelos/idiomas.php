@@ -38,11 +38,11 @@ class Idiomas {
 		
 		$file_path = PATH_APP."modelos/idiomas/$seccion"."_"."$lang.txt";
 		
-		if ( !is_file($file_path))
+		if ( ! is_file($file_path))
 			throw new \Exception(__METHOD__." :  No existe el fichero $file_path");
 		
-		$lineas = file($file_path,FILE_IGNORE_NEW_LINES); // Lee las líneas y genera un array de índice entero con una cadena de caracteres en cada entrada del array. FILE_IGNORE_NEW_LINES es una constante entera de valor 2 que hace que no se incluya en la líneas los caracteres de fin de línea y nueva línea.
-		//print "<pre>\$lineas = "; print_r($lineas);print "</pre>";
+		$lineas = file($file_path, FILE_IGNORE_NEW_LINES); // Lee las líneas y genera un array de índice entero con una cadena de caracteres en cada entrada del array. FILE_IGNORE_NEW_LINES es una constante entera de valor 2 que hace que no se incluya en la líneas los caracteres de fin de línea y nueva línea.
+//		print "<pre>\$lineas = "; print_r($lineas);print "</pre>";
 		foreach ($lineas as $numero => $linea) {
 			// Dividimos la línea por los ";"
 			
@@ -56,7 +56,7 @@ class Idiomas {
 				self::$textos[$lang][$seccion][$partes[0]] = $partes[1]; 
 			}
 		}
-		//print "<pre>"; print_r(self::$textos);print "</pre>";
+//		print "<pre>"; print_r(self::$textos);print "</pre>";
 	}
 	
 	
@@ -79,9 +79,10 @@ class Idiomas {
 		if ( ! isset(self::$textos[$lang][$seccion]))
 			self::leer_de_fichero($seccion, $lang);
 		
-		$texto = "Error: Texto indfinido";
+		$texto = "Error: Texto indefinido";
 		if (isset(self::$textos[$lang][$seccion][$key]))
 			$texto = self::$textos[$lang][$seccion][$key] ? self::$textos[$lang][$seccion][$key] : $key;
+		
 		return $texto;
 
 	}	
