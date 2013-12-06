@@ -9,3 +9,6 @@ Libros|
 h1#titulo|Aplicación con patrón MVC
 Autor|
 Fecha última actualización|
+Español|
+Inglés|
+Contactar|

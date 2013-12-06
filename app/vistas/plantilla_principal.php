@@ -49,6 +49,7 @@
 					<ul id="menu" class="menu">
 						<li class="item"><a href="<?php echo \core\URL::generar("revista"); ?>" title="Revista">Revista</a></li>
 						<li class="item"><a href="<?php echo \core\URL::generar("libros"); ?>" title="Libros leídos">Libros</a></li>
+						<li class="item"><a href="<?php echo \core\URL::generar("inicio/internacional"); ?>" title="Internacional">Internacional</a></li>
 					</ul>
 			</fieldset>
 		</div>

@@ -35,8 +35,8 @@ class Rutas {
 
 			// $_SERVER["REQUEST_URI"] almacenará la cadena /dato1/dato2/dato3/[...]
 			//  o /aplicacion/dato1/dato2/dato3/[...] respectivamente
-			$query_string = str_replace($carpeta, "", $_SERVER["REQUEST_URI"]); 
 			
+			$query_string = str_replace($carpeta, "", $_SERVER["REQUEST_URI"]); 
 			// Ahora $query_string será una cadena de la forma "/dato1/dato2/dato3/"
 			// Quitamos la primera y la última barra si existen
 			if (stripos($query_string, "/") == 0 )
@@ -59,10 +59,15 @@ class Rutas {
 				}
 			}
 			
+			$patron[0] = "/^[\w\-]+$/i"; // controlador
+			$patron[1] = "/^[\w\-]+$/i"; // método
+			$patron[2] = "/^\w+.*/i"; // id y otros
 			foreach ($parametros as $key => $value) {
 				// Si el parámetro se ha recibido no se añade
 				// Si lo añado, quito la / del inicio.
-				if ( ! isset($_GET["p".($key+1)]) ) $_GET["p".($key+1)] = $value;
+				$patron_parametro = $key < 2 ? $patron[$key] : $patron[2];
+				if (preg_match($patron_parametro, $value))
+					if ( ! isset($_GET["p".($key+1)]) ) $_GET["p".($key+1)] = $value;
 			}
 			
 		}

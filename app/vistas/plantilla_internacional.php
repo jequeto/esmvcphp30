@@ -23,10 +23,11 @@
 			/* Definiciones hoja de estilos interna */
 		</style>
 
-		<script type="text/javascript" src=""></script>
+		<script type="text/javascript" src="<?php echo \core\URL::generar_sin_idioma(); ?>recursos/js/f_cookies_v06.js"></script>
+		<script type="text/javascript" src="<?php echo \core\URL::generar_sin_idioma(); ?>recursos/js/idiomas.js"></script>
 		
 		<script type="text/javascript" >
-			/* l�neas del script */
+			
 			function saludo() {
 				alert('<?php echo \core\Idioma::text("saludo1", "plantilla_internacional"); ?>');
 			}
@@ -43,6 +44,10 @@
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/departamento_informatica.png" alt="logo" title="Logo departamento"  onclick="window.location.assign('http://www.iespalomeras.net/index.php?option=com_wrapper&view=wrapper&Itemid=86');" />
 			<h1 id="titulo"><?php echo \core\Idioma::text("h1#titulo", "plantilla_internacional"); ?></h1>
 		</div>
+		<div id='idiomas' style='position: fixed; top: 10px; right: 10px; width: 200px;'>
+			<span  onclick='set_lang("es", "<?php echo \core\URL::generar_sin_idioma("inicio/internacional"); ?>");' ><img src='<?php echo \core\URL::generar_sin_idioma("recursos/imagenes/generales"); ?>flag_es.png' height='25px' /><?php echo \core\Idioma::text("Español", "plantilla_internacional"); ?></span>
+			<a  onclick='set_lang("en", "<?php echo \core\URL::generar_sin_idioma("inicio/internacional"); ?>");'><img src='<?php echo \core\URL::generar_sin_idioma("recursos/imagenes/generales"); ?>flag_gb.png' height='25px' /><?php echo \core\Idioma::text("Inglés", "plantilla_internacional"); ?></a>
+		</div>
 		
 		<div id="div_menu" >
 			<fieldset>
@@ -57,7 +62,7 @@
 		<div id="view_content">
 			<p><?php echo \core\Idioma::text("saludo2", "plantilla_internacional"); ?>
 				<button onclick="saludo();"><?php echo \core\Idioma::text("Saludo", "plantilla_internacional"); ?></button></p>
-			<a href="docs/Modelo_Vista_Controlador_v04.pdf" target="_blank"><img src='<?php echo URL_ROOT; ?>recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC, por el profesor Jesús María de Quevedo Tomé"  height="400px" /></a>
+			<a href="<?php echo \core\URL::generar_sin_idioma(); ?>docs/Modelo_Vista_Controlador_v04.pdf" target="_blank"><img src='<?php echo URL_ROOT; ?>recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC, por el profesor Jesús María de Quevedo Tomé"  height="400px" /></a>
 			<a href="http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/" target="_blank"  title="Imagen de patrón MVC de http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/"><img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png"  height="400px" /></a>
 		</div>
 
@@ -65,7 +70,7 @@
 		<div id="pie">
 			<hr />
 		
-			<?php echo \core\Idioma::text("Autor", "plantilla_internacional"); ?>: Jesús María de Quevedo Tomé. <a href="mailto:jequeto@gmail.com">Contactar</a><br />
+			<?php echo \core\Idioma::text("Autor", "plantilla_internacional"); ?>: Jesús María de Quevedo Tomé. <b><span title='jequeto@gmail.com'><?php echo \core\Idioma::text("Contactar", "plantilla_internacional"); ?>: <img src='<?php echo \core\URL::generar_sin_idioma("recursos/imagenes/generales"); ?>email.png' height='25px' /></span></b><br />
 			<?php echo \core\Idioma::text("Fecha última actualización", "plantilla_internacional"); ?>: 5/12/2013.
 		</div>
 		
