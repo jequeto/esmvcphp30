@@ -15,14 +15,15 @@ class Idioma {
 	public static function init() {
 		
 		$patron = "/^(".\core\Configuracion::$idiomas_reconocidos.")$/";
+		$patron_HTTP_ACCEPT_LANGUAGE = "/^(".\core\Configuracion::$idiomas_reconocidos.").*/";
 		if (\core\HTTP_Requerimiento::get("lang") && preg_match($patron, \core\HTTP_Requerimiento::get("lang"))) {
 			self::set(\core\HTTP_Requerimiento::get("lang"));
 		}
 		elseif (\core\HTTP_Requerimiento::cookie("lang") && preg_match($patron, \core\HTTP_Requerimiento::cookie("lang"))) {
 			self::set(\core\HTTP_Requerimiento::cookie("lang"));
-		}	
-			
-		
+		}
+		elseif (preg_match($patron_HTTP_ACCEPT_LANGUAGE, $_SERVER["HTTP_ACCEPT_LANGUAGE"]))
+			self::set(substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2));
 	}
 	
 	
