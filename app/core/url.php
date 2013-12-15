@@ -62,7 +62,7 @@ class URL {
 			
 			if ( is_string($query_string)) { // Solo actua si hay datos para hacer la query string.
 //				// Patrón url amigable
-				$patron = "/^(\w+((\/\w+)(\/.+)*)?)?$/i";
+				$patron = "/^([\w\-]+(([\/\w\-]+)(\/.+)*)?)?$/i";
 
 				if ( ! preg_match($patron, $query_string))
 					throw new \Exception ("El parámetro \$query_string='$query_string' debe tener el formato 'texto[/texto]...'");

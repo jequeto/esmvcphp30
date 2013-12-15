@@ -85,7 +85,10 @@ class Rutas {
 				$_POST['id'] = $_GET['p3'];
 				$_REQUEST['id'] = $_GET['p3'];
 		}
-		
+		if ( ! isset($_REQUEST['key']) and isset($_GET['p4'])) {
+				$_POST['key'] = $_GET['p3'];
+				$_REQUEST['key'] = $_GET['p3'];
+		}
 		//echo "<pre>"; print_r($parametros); print_r($GLOBALS);exit(0);
 		
 	}

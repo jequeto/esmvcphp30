@@ -79,7 +79,7 @@ class Idiomas {
 		if ( ! isset(self::$textos[$lang][$seccion]))
 			self::leer_de_fichero($seccion, $lang);
 		
-		$texto = "Error: Texto indefinido";
+		$texto = "Error: $key not found in file $seccion\_$lang.txt";
 		if (isset(self::$textos[$lang][$seccion][$key]))
 			$texto = self::$textos[$lang][$seccion][$key] ? self::$textos[$lang][$seccion][$key] : $key;
 		

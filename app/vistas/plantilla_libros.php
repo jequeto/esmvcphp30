@@ -67,6 +67,23 @@
 			Fecha última actualización: 04 de noviembre de 2013.
 		</div>
 		
+		<div id='globals'>
+			<?php
+				print "<pre>"; print_r($GLOBALS);print "</pre>";
+			?>
+		</div>
+		
+		<?php
+			if (isset($_SESSION["alerta"])) {
+				echo "
+					<script type='text/javascript'>
+						alert('{$_SESSION["alerta"]}');
+					</script>
+				";
+				unset($_SESSION["alerta"]);
+			}
+		?>
+		
 	</body>
 
 </html>

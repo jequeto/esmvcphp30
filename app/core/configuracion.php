@@ -43,7 +43,7 @@ class Configuracion {
 		'user'     => 'daw2_user',
 		'password' => 'daw2_user',
 		'db_name'  => 'daw2',
-		'prefix_'  => 'foro_'
+		'prefix_'  => 'daw2_'
 	);
 	
 	/*

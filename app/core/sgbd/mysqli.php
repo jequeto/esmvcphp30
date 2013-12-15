@@ -104,9 +104,12 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function get_prefix_tabla($table_name, $db_name = null) {
+	public static function get_prefix_tabla($table_name = null, $db_name = null) {
 		
+		// Si no aportan nombre de tabla tomamos el definida en la clase
 		if ( ! $table_name) {
+			if ( ! self::$table_name)
+				throw new \Exception(__METHOD__." -> Debes especificar valor para \$table_name.");
 			$table_name = self::$table_name;
 		}
 		
@@ -116,6 +119,8 @@ class mysqli implements \core\sgbd\SQL_interface {
 			return self::get_prefix_tabla($partes[1], $partes[0]);
 		}
 		else {
+			if ( ! self::$db_name)
+				throw new \Exception(__METHOD__." -> Debes especificar valor para \$db_name.");
 			if ($db_name) {
 				return $db_name.".".self::$prefix_.$table_name;
 			}
@@ -189,10 +194,13 @@ class mysqli implements \core\sgbd\SQL_interface {
 
 
 	
-	public static function columnas_set(array $fila) {
+	private static function columnas_set(array $fila) {
 		
-		$columnas_set=" ";
-		$i=0;
+		if ( ! count($fila))
+			throw new \Exception(__METHOD__." -> El parámetro \$fila debe contener por lo menos una  entrada.");
+		
+		$columnas_set = " ";
+		$i = 0;
 		foreach ($fila as $key => $value) {
 			if ($value == '' || strlen($value) == 0 )
 				$columnas_set .= "$key = default ";
@@ -210,6 +218,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 			$i++;
 		}
 		return $columnas_set;
+		
 	}
 	
 	
@@ -417,8 +426,8 @@ class mysqli implements \core\sgbd\SQL_interface {
 	public static function escape_string($cadena) {
 		
 		//TODO Descomentar la siguiente línea y borrar la última cuando funcione mysqli
-//		return mysqli_real_escape_string(self::$connection, $cadena);
-		return $cadena;
+		return mysqli_real_escape_string(self::$connection, $cadena);
+//		return $cadena;
 	}
 	
 	

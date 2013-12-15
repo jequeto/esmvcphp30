@@ -1,23 +1,24 @@
 <!DOCTYPE HTML>
-<html>
+<html lang='<?php echo \core\Idioma::get(); ?>'>
 	<head>
-		<title><?php echo TITULO; ?></title>
-		<meta name="Description" content="Explicaci�n de la p�gina" /> 
+		<title><?php echo \core\Idioma::text("title", "plantilla_internacional"); ?></title>
+		<meta name="Description" content="Explicación de la página" /> 
 		<meta name="Keywords" content="palabras en castellano e ingles separadas por comas" /> 
-		<meta name="Generator" content="con qu� se ha hecho" /> 
-	 	<meta name="Origen" content="Qu�en lo ha hecho" /> 
-		<meta name="Author" content="nombre del autor" /> 
-		<meta name="Locality" content="Madrid, Espa�a" /> 
-		<meta name="Lang" content="es" /> 
+		<meta name="Generator" content="esmvcphp framewrok" /> 
+	 	<meta name="Origen" content="esmvcphp framework" /> 
+		<meta name="Author" content="Jesús María de Quevedo Tomé" /> 
+		<meta name="Locality" content="Madrid, España" /> 
+		<meta name="Lang" content="<?php echo \core\Idioma::get(); ?>" /> 
 		<meta name="Viewport" content="maximum-scale=10.0" /> 
 		<meta name="revisit-after" content="1 days" /> 
 		<meta name="robots" content="INDEX,FOLLOW,NOODP" /> 
-		<meta http-equiv="Content-Type" content="text/html;charset=utf8" /> 
-		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8" /> 
+		<meta http-equiv="Content-Language" content="<?php echo \core\Idioma::get(); ?>"/>
+	
 		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<link href="favicon.ico" rel="icon" type="image/x-icon" /> 
 		
-		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/inicio/principal.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/principal.css" />
 		<style type="text/css" >
 			/* Definiciones hoja de estilos interna */
 		</style>
@@ -43,6 +44,24 @@
 			<h1 id="titulo">Aplicación con patrón MVC</h1>
 		</div>
 		
+		<div id="div_derecha_logo">
+			Usuario: 
+			<?php 
+			echo "<b>".\core\Usuario::$login."</b>";
+			if (\core\Usuario::$login != 'anonimo') {
+				echo " <a href='".\core\URL::generar("usuarios/desconectar")."'>Desconectar</a>";
+			}
+			else {
+				if ((\core\Usuario::$login == "anonimo") && ! (\core\Distribuidor::get_controlador_instanciado() == "usuarios" && \core\Distribuidor::get_metodo_invocado() == "form_login")) {
+				echo " <a href='".\core\URL::generar("usuarios/form_login")."'>Conectar</a>";
+				}
+			}
+			echo "<br />Fecha local: <span id='fecha'></span>";
+			echo "<br />Tiempo desde conexión: <span id='tiempo_desde_conexion'>".gmdate('H:i:s',  \core\Usuario::$sesion_segundos_duracion)."</span>";
+			echo "<br />Tiempo inactivo: <span id='tiempo_inactivo'></span>";	
+			?>
+		</div>
+		
 		<div id="div_menu" >
 			<fieldset>
 				<legend>Menú - Índice - Barra de navegación:</legend>
@@ -55,9 +74,11 @@
 		</div>
 
 		<div id="view_content">
-			<p>Bienvenido a la aplicación desarrollada en PHP-poo con un patrón MVC</p>
-			<a href="docs/Modelo_Vista_Controlador_v05.pdf" target="_blank"><img src='<?php echo URL_ROOT; ?>recursos/imagenes/Arquitectura_MVC.png' alt='Arquitectura_MVC.png' title="Representación del patrón MVC, por el profesor Jesús María de Quevedo Tomé"  height="400px" /></a>
-			<a href="http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/" target="_blank"  title="Imagen de patrón MVC de http://dreamztech.com/blog/new-features-in-asp-net-mvc-4/"><img src="<?php echo URL_ROOT; ?>recursos/imagenes/MVC_imagen2.png" alt="MVC_imagen2.png"  height="400px" /></a>
+			
+			<?php
+				echo $datos['view_content'];
+			?>
+			
 		</div>
 
 	
@@ -73,6 +94,17 @@
 				print "<pre>"; print_r($GLOBALS);print "</pre>";
 			?>
 		</div>
+		
+		<?php
+			if (isset($_SESSION["alerta"])) {
+				echo "
+					<script type='text/javascript'>
+						alert('{$_SESSION["alerta"]}');
+					</script>
+				";
+				unset($_SESSION["alerta"]);
+			}
+		?>
 		
 	</body>
 

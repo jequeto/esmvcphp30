@@ -4,6 +4,7 @@ namespace core;
 class Usuario extends \core\Clase_Base {
 	
 	private static $depuracion = false;
+	
 	public static $id;
 	public static $login = 'anonimo';
 	public static $permisos = array();
@@ -11,16 +12,17 @@ class Usuario extends \core\Clase_Base {
 	public static $sesion_segundos_inactividad = 0;
 	
 	/**
-	 * Reconocer el usuario que ha iniciado la sesión de trabajo o que continúan dentro de una sesión de trabajo.
+	 * Reconocer el usuario que ha iniciado la sesión de trabajo o que continúa dentro de una sesión de trabajo.
 	 */
 	public static function iniciar() {
 		
+		// Recuperamos datos desde $_SESSION a las propiedades de la clase
 		if (isset($_SESSION['usuario']['login'])) {
 			self::$login = $_SESSION['usuario']['login'];
 			self::$id = $_SESSION['usuario']['id'];
 		}
 		else {
-			self::nuevo ('anonimo');
+			self::nuevo('anonimo');
 		}
 		
 		if (isset($_SESSION['usuario']['permisos'])) {
@@ -47,7 +49,7 @@ class Usuario extends \core\Clase_Base {
 	
 	/**
 	 * Si el parámetro $login no es una cadena, es una cadena vacía, o es una cadena que contiene caracteres que no sean letras, numeros y _ lanza una execpción con un mensaje.
-	 * Si no salta la excepcióne el valor del parámetro $login es asignado a la propiedad $login de la clase. Borra la entrada $_SESSION['usuario'] y la vuelve a crear asignándo a la entrada $_SESSION['usuario']['login'] el valor del parámetro $login. Después llama al método de esta misma clase recuperar_permisos($login).
+	 * Si no salta la excepción el valor del parámetro $login es asignado a la propiedad $login de la clase. Borra la entrada $_SESSION['usuario'] y la vuelve a crear asignándo a la entrada $_SESSION['usuario']['login'] el valor del parámetro $login. Después llama al método de esta misma clase recuperar_permisos($login).
 	 * 
 	 * @param string $login
 	 */
@@ -55,7 +57,7 @@ class Usuario extends \core\Clase_Base {
 		
 		self::$login = $login;
 		self::$id = $id;
-		\core\SESSION::regenerar_id();
+		\core\SESSION::regenerar_id(); // Seguridad
 		$_SESSION['usuario']['contador_paginas_visitadas'] = 1;
 		$_SESSION['usuario']['login'] = $login;
 		$_SESSION['usuario']['id'] = $id;
@@ -84,7 +86,7 @@ class Usuario extends \core\Clase_Base {
 	
 	private static function recuperar_permisos_bd($login) {
 		
-		self::$permisos = \datos\usuarios::permisos_usuario($login);
+		self::$permisos = \modelos\usuarios::permisos_usuario($login);
 		$_SESSION['usuario']['permisos'] = self::$permisos;
 		
 	}

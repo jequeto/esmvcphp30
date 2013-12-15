@@ -52,10 +52,9 @@ class libros extends \core\Controlador {
 		else {
 			$libro = $datos['values']; //Valores de los input que han sido validados
 			\modelos\Libros_En_Fichero::anexar_libro($libro);
-//			\modelos\Libros_En_Fichero::anexar_libro($datos['values']);
-			\core\HTTP_Respuesta::set_header_line("location", "?menu=libros&submenu=index");
+			$_SESSION["alerta"] = "Se han anexado correctamente los datos.";
+			\core\HTTP_Respuesta::set_header_line("location", \core\URL::generar("libros/index"));
 			\core\HTTP_Respuesta::enviar();
-//			\core\Distribuidor::cargar_controlador("libros", "index");
 		}
 		
 	}
@@ -130,6 +129,7 @@ class libros extends \core\Controlador {
 		else {
 			$libro = $datos['values']; //Valores de los input que han sido validados
 			\modelos\Libros_En_Fichero::modificar_libro($libro);
+			$_SESSION["alerta"] = "Se han modificado correctamente los datos.";
 //			\modelos\Libros_En_Fichero::modificar_libro($datos['values']);
 //			\core\Distribuidor::cargar_controlador("libros", "index");
 
@@ -210,6 +210,7 @@ class libros extends \core\Controlador {
 			$libro = $datos["values"]; // Los datos del libro están recogidos por la validación en $datos[values]
 			print "-- Depuración: \$datos= "; print_r($datos);
 			\modelos\Libros_En_Fichero::borrar_libro($libro['id']);
+			$_SESSION["alerta"] = "Se han borrado correctamente los datos.";
 //			\modelos\Libros_En_Fichero::borrar_libro($datos["values"]['id']);
 
 			//		\core\Distribuidor::cargar_controlador("libros", "index");

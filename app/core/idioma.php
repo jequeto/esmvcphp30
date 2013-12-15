@@ -61,6 +61,7 @@ class Idioma {
 	
 	/**
 	 * Devuelve un texto asociado a una clave, tomado del fichero seccion_lang.txt
+	 * 
 	 * @param string $key
 	 * @param string $section
 	 * @param string $lang

@@ -501,8 +501,55 @@ class Validaciones  {
 	);
 
 	
+	
+	
+	/**
+	 * Un login_valido
+	 * Entre 4 y 20 caracteres
+	 * letras y números, sin números al principio
+	 * @param string $cadena
+	 */
+	public static function errores_login($cadena=null) {
+		
+		$mensaje = null;
+		if ($cadena != null && strlen($cadena)>0 ) {
+			$patron = '/^[a-z]{1}[a-z0-9]{3,19}$/i';
+			if ( ! preg_match($patron, $cadena)) {
+				$mensaje.="Contiene carcateres no válidos. Sólo se admiten letras y números, y no puede comenzar por número, su longitud es menor de 4 o mayor de 20 caracteres. ";
+			}
+		}
+		return $mensaje;
+	}
+
+	/**
+	 * Una constraseña válida
+	 * Entre 6 y 20 letras y números
+	 * debe contener como mínimo 2 números.
+	 *
+	 * @param string $cadena
+	 * @return boolean|string
+	 */
+	public static function errores_password($cadena=null) {
+		
+		$mensaje = null;
+		if ($cadena != null && strlen($cadena)>0) {
+			$patron = '/^[a-z0-9@#&]{6,20}$/i';
+			$encuentros = array();
+			if ( ! preg_match($patron, $cadena)) {
+				$mensaje .= "Contiene carcteres no válidos. Solo se admiten letras, números y @#& o su longitud no está entre 6 y 20 caracteres . ";
+			}
+			else {
+				$patron = '/\d/i';
+				if (preg_match_all($patron, $cadena, $encuentros) < 2) 
+					$mensaje .= " Como mínimo debe haber dos números.";	
+				$patron = '/[a-z]/i';
+				if (preg_match_all($patron, $cadena, $encuentros) < 2 ) 
+					$mensaje .= " Como mínimo debe haber dos letras.";	
+			}
+		}
+		return $mensaje;
+		
+	}
+
 
 } // Fin de la clase
-
-
-?>
