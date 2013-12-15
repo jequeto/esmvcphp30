@@ -384,7 +384,7 @@ class Validaciones  {
 					$valores_aportados.=" , ";
 				}
 			}
-			$filas = \datos\Datos_SQL::select($parametros, $tabla);
+			$filas = \modelos\Datos_SQL::select($parametros, $tabla);
 			if ($filas && count($filas))
 				$mensaje.="El/Los valor/es aportado/s <b>[ $valores_aportados ]</b> ya existe/n en la base de datos. Escribe un valor no existente.";
 		}
@@ -428,7 +428,7 @@ class Validaciones  {
 				}
 			}
 			$parametros["where"].=")";
-			$filas = \datos\Datos_SQL::select($parametros, $tabla);
+			$filas = \modelos\Datos_SQL::select($parametros, $tabla);
 			if ($filas && count($filas))
 				$mensaje.="El/Los valor/es aportado/s <b>[ $valores_aportados ]</b> ya existe/n en la base de datos en otra fila. Escribe un/os valor/es no existente/s.";
 		}
@@ -470,7 +470,7 @@ class Validaciones  {
 				}
 			}
 
-			$filas = \datos\Datos_SQL::select($parametros, $tabla);
+			$filas = \modelos\Datos_SQL::select($parametros, $tabla);
 			if ( ! $filas || ! count($filas)) {
 				$mensaje.="El/Los valor/es aportado/s <b>[ $valores_aportados ]</b> no existe/n en la tabla de referencia [$tabla] en las columnas [{$parametros["where"]}] . Escribe un valor que sí exista.";
 			}
@@ -550,6 +550,27 @@ class Validaciones  {
 		return $mensaje;
 		
 	}
+
+	
+	public static function errores_email($cadena) {
+		$mensaje = null;
+		if($cadena!=null) {
+			$patron= '/^([a-z]{1}[a-z\d]{0,})(([\.|\_\-]{1}[a-z\d]{1,}){1,}){0,}@([a-z]{1}[a-z\d]{0,})(([\.|\_\-]{1}[a-z\d]{1,}){1,}){0,}(\.[a-z]{2,4})$/i';
+			$encontrados=array();
+			if(preg_match($patron, $cadena, $encontrados)) { // Hay encuentros
+				if (self::$depuracion) {print("encuentros: "); print_r($encontrados);}
+				if ($cadena!=$encontrados[0])
+					$mensaje.="El email es incorrecto. Formato cuenta@servidor.net ";
+			}
+			else {
+				if (self::$depuracion) {print("encuentros: "); print_r($encontrados);}
+				$mensaje.="El email es incorrecto. Formato cuenta@servidor.net ";
+			}
+		}
+		
+		return $mensaje;
+
+	} // Fin método
 
 
 } // Fin de la clase

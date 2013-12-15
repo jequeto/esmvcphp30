@@ -58,7 +58,7 @@ class Conversiones {
 			return;
 		
 		// Quitamos el signo si lo hubiera.
-		if (preg_match("/^\-",$decimal)) {
+		if (preg_match("/^\-/",$decimal)) {
 			$signo = "-";
 			$decimal = substr($decimal, 1);
 		}

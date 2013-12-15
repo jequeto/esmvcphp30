@@ -4,7 +4,32 @@ namespace modelos;
 class usuarios extends \core\sgbd\bd {
 
 
+	/* Rescritura de propiedades de validación */
+	private static $validaciones_insert = array(
+		                                                                                                                               'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
+		'email' => 'errores_requerido && errores_email && errores_unicidad_insertar:email/usuarios/email',
+		'password' => 'errores_requerido && errores_password',
+		"fecha_alta" => "errores_fecha_hora",
+		"fecha_confirmacion_alta" => "errores_fecha_hora",
+		"clave_confirmacion" => "errores_texto",
+	);
+	
+	
+	
+	private static $validaciones_update = array(
+		'login' => 'errores_requerido && errores_login && errores_unicidad_modificar:login/usuarios/login',
+		'email' => 'errores_requerido && errores_email && errores_unicidad_modificar:email/usuarios/email',
+	);
+	
+	
+	
+	private static $validaciones_delete = array(
+		"id" => "errores_requerido && errores_numero_entero_posetivo && errores_referencia:id/usuarios/id"
+	);
+	
 
+	
+	
 	/**
 	 * 
 	 * @param type $login

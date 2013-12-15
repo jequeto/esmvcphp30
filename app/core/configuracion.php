@@ -22,6 +22,9 @@ class Configuracion {
 	public static $idiomas_reconocidos = "es|en|fr";
 	
 	
+	public static $email_info = "info@servicor.com";
+	public static $email_noreply = "noreply@servicor.com";
+	
 	/**
 	 *
 	 * @var string Tipo MIME utilizado por defecto.

@@ -176,37 +176,93 @@ class usuarios extends \core\Controlador {
 	
 	public function form_insertar(array $datos = array()) {
 		
-		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+		$datos['view_content'] = \core\Vista::generar("form_insertar", $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
+		
+	}
+	
+	
+	public function form_insertar_validar(array $datos = array()) {
+		
+		if (self::form_insertar_validar_interno($datos)) {
+			
+			$_SERVER["alerta"] = "Se ha insertado correctamente el usuario.";
+			\core\HTTP_Respuesta::set_header_line("location", \core\URL::generar("usuarios/index"));
+			\core\HTTP_Respuesta::enviar();
+			
+		}
+		else {
+			\core\Distribuidor::cargar_controlador("usuarios", "form_insertar",$datos);
+		}
+		
 	}
 	
 	
 	
 	public function form_insertar_externo(array $datos = array()) {
 		
-		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+		$datos['view_content'] = \core\Vista::generar("form_insertar", $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
 		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
 	
 	
+	public function form_insertar_externo_validar(array $datos = array()) {
+		
+		if (self::form_insertar_validar_interno($datos)) {
+			
+			$url = \core\URL::generar("usuarios/confirmar_alta/{$datos['values']['id']}/{$datos['values']['clave_confirmacion']}");
+			
+			$to = $datos["values"]["email"];
+			$subject = "Confirmación de alta de usuario en ".TITULO;
+			$message = "Para confirmar tu registro en la aplicación ".TITULO." pulsa en el siguiente hipervínculo o sino cópialo en la ventana de direcciones de tu navegador. <a href='$url' target='_blank'>$url</a>";
+			$additional_headers = "From: ".  \core\Configuracion::$email_noreply;
+			
+			$envio_email = mail($to, $subject, $message, $additional_headers);
+			
+			$datos["mensaje"] = "Se ha grabado correctamente el usuario. Haz la confirmación por correo electronico. Pinchando en el enlace que se envía $url";
+			
+			$this->cargar_controlador('mensajes', 'mensaje', $datos);
+			
+		}
+		else {
+			\core\Distribuidor::cargar_controlador("usuarios", "form_insertar_externo",$datos);
+		}
+		
+	}
 	
 	
 	
-	public function validar_form_insertar_externo(array $datos = array()) {
+	
+	private function form_insertar_validar_interno(array &$datos = array()) {
 		
 		$validaciones = array(
 			'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
 			'email' => 'errores_requerido && errores_email ',
-			'password' => 'errores_requerido && errores_contrasena'
+			'email2' => 'errores_requerido && errores_email ',
+			'password' => 'errores_requerido && errores_password',
+			'password2' => 'errores_requerido && errores_password',
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
+		
+		if (( !isset($datos["errores"]["email"]) && !isset($datos["errores"]["email2"])) && ($datos["values"]["email"] != $datos["values"]["email2"]) ) {
+				$datos["errores"]["email2"] = "La repetición del email no coincide.";
+				$validacion = false;
+		}
+		if (( !isset($datos["errores"]["password"]) && !isset($datos["errores"]["password2"])) && ($datos["values"]["password"] != $datos["values"]["password2"]) ) {
+				$datos["errores"]["password2"] = "La repetición del password no coincide.";
+				$validacion = false;
+		}
+		
+		
 		if ($validacion)
 		{
-		
+			unset($datos["errores"]["email2"]);
+			unset($datos["errores"]["password2"]);
+			
 			$datos['values']['password'] = md5($datos['values']['password']);
 			$datos['values']['clave_confirmacion'] = \core\Random_String::generar(30);
 	
@@ -214,15 +270,10 @@ class usuarios extends \core\Controlador {
 			
 			$datos['values']['id'] = \modelos\usuarios::last_insert_id();
 			
-			$url = \core\URL::generar("usuarios/confirmar_alta/{$datos['values']['id']}/{$datos['values']['clave_confirmacion']}");
 			
-			$datos["mensaje"] = "Se ha grabado correctamente el usuario. Haz la confirmación por correo electronico. Pinchando en el enlace que se envía $url";
-			
-			$this->cargar_controlador('mensajes', 'mensaje', $datos);		
 		}
-		else {
-			\core\Distribuidor::cargar_controlador("usuarios", "form_insertar_externo",$datos);
-		}
+		
+		return $validacion;
 	}
 	
 	

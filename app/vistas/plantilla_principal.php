@@ -26,7 +26,7 @@
 		<script type="text/javascript" src=""></script>
 		
 		<script type="text/javascript" >
-			/* l�neas del script */
+			/* líneas del script */
 			function saludo() {
 				alert("Bienvenido al primer ejercicio de Desarrollo Web en Entorno Servidor");
 			}
@@ -69,6 +69,9 @@
 						<li class="item"><a href="<?php echo \core\URL::generar("revista"); ?>" title="Revista">Revista</a></li>
 						<li class="item"><a href="<?php echo \core\URL::generar("libros"); ?>" title="Libros leídos">Libros</a></li>
 						<li class="item"><a href="<?php echo \core\URL::generar("inicio/internacional"); ?>" title="Internacional">Internacional</a></li>
+						<li class="item"><a href="<?php echo \core\URL::generar("usuarios"); ?>" title="Usuarios">Usuarios</a></li>
+						<li class="item"><a href="<?php echo \core\URL::generar("categorias"); ?>" title="Categorías">Categorías</a></li>
+						<li class="item"><a href="<?php echo \core\URL::generar("articulos"); ?>" title="Artículos">Artículos</a></li>
 					</ul>
 			</fieldset>
 		</div>

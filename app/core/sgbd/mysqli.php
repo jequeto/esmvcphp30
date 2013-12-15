@@ -273,6 +273,11 @@ class mysqli implements \core\sgbd\SQL_interface {
 	}
 	
 	
+	public static function update(array &$fila , $table) {
+		
+		self::update_row($fila, $table);
+		
+	}
 
 	
 	
