@@ -52,7 +52,7 @@ drop table if exists daw2_usuarios;
 CREATE TABLE daw2_usuarios (
 id int(11) NOT NULL AUTO_INCREMENT,
 login varchar(30) NOT NULL,
-email varchar(100) unique NOT NULL,
+email varchar(100) NOT NULL,
 password char(32) NOT NULL,
 fecha_alta timestamp not null default current_timestamp(),
 fecha_confirmacion_alta datetime default null,

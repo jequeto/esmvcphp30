@@ -122,10 +122,6 @@ class usuarios extends \core\sgbd\bd {
 		
 		return $permisos;
 		
-	}
-	
-	
-	
-		
+	}	
 	
 }

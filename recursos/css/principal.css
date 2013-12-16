@@ -13,10 +13,7 @@ h1#titulo {
 	display: inline;
 }
 
-hr {
-	height: 5px;
-	background-color: lightgreen;
-}
+
 
 
 div#div_derecha_logo {
@@ -31,14 +28,17 @@ div#div_derecha_logo {
 }
 
 div#div_menu {
+	padding: 5px;
 	background-color: lightblue;
 }
 
 div#div_menu fieldset {
+	
 	padding: 0px 0px 5px 0px;
 }
 
 div#div_menu fieldset legend {
+	
 	color: blue;
 }
 
@@ -95,4 +95,13 @@ form {
 .requerido {
 	
 	color: orange;
+}
+
+
+div#pie {
+	outline: 5px solid lightblue;
+	margin: 10px 5px;
+	border: 3px solid lightgrey;
+	background-color: lightblue;
+	padding: 5px;
 }

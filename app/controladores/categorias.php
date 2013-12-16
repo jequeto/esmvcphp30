@@ -24,6 +24,7 @@ class categorias extends \core\Controlador {
 	
 	public function form_insertar(array $datos=array()) {
 		
+		$datos["form_name"] = __FUNCTION__;
 		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos);
 		\core\HTTP_Respuesta::enviar($http_body);
@@ -32,7 +33,9 @@ class categorias extends \core\Controlador {
 
 	public function validar_form_insertar(array $datos=array()) {
 		
-		$validaciones=array(
+		
+		
+		$validaciones = array(
 			 "nombre" =>"errores_requerido && errores_texto && errores_unicidad_insertar:nombre/categorias/nombre"
 			, "descripcion" => "errores_texto"
 
@@ -58,7 +61,7 @@ class categorias extends \core\Controlador {
 	
 	
 	public function form_modificar(array $datos=array()) {
-		
+		$datos["form_name"] = __FUNCTION__;
 		if ( ! count($datos)) { // Si no es un reenvío desde una validación fallida
 			$validaciones=array(
 				"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/categorias/id"
@@ -122,6 +125,7 @@ class categorias extends \core\Controlador {
 	
 	public function form_borrar(array $datos=array()) {
 		
+		$datos["form_name"] = __FUNCTION__;
 		$validaciones=array(
 			"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/categorias/id"
 		);

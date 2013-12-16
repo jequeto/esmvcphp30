@@ -43,25 +43,34 @@ class HTML_Tag extends \core\Clase_Base {
 	 * @param string $name = null
 	 * @return string
 	 */
-	public static function form_registrar($name = null) {
+	public static function form_registrar($name = null, $method = "post") {
 		
 		$form_id  = rand(1000,9999); 
 		$_SESSION["formularios"]["form_id"][$form_id ] = $name ;
 		$_SESSION["formularios"]["method"][$form_id ] = $method;
 		
-		return ("<input type='hidden' name='$name' value='$form_id ' />\n");
+		return ("<input type='hidden' name='form_id' value='$form_id ' />\n");
 		
 	}
 	
 	
 	
-	public static function form_validar() {
+	public static function form_autenticar($form_name = null, $method = null) {
 		
 		$resultado = false;
-		
 		if ( isset($_REQUEST["form_id"])) {
-			
+			$form_id = (integer)$_REQUEST["form_id"]; // Se convierte a integer porque por HTTP ha venido como string.
+			if (isset($_SESSION["formularios"]["form_id"][$form_id])) {
+				if (is_string($form_name) && strlen($form_name)) {
+					$resultado = ($_SESSION["formularios"]["form_id"][$form_id] == $form_name);
+					if (is_string($method) && strlen($method)) {
+						$resultado = ($resultado && ($_SESSION["formularios"]["method"][$form_id] == $method) && ($_SERVER["REQUEST_METHOD"] == strtoupper($method)));
+					}
+				}				
+			}
 		}
+		
+		return $resultado;
 		
 	}
 	

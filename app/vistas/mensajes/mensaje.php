@@ -1,10 +1,14 @@
 <div id='mensaje'>
 <?php
-	if ( ! isset($datos['mensaje'])) {
-			echo "<p>Mensaje indefinido</p>";
+	if (isset($datos['mensaje'])) {
+		echo "<p>{$datos['mensaje']}</p>";
+	}
+	elseif (isset($_SESSION["mensaje"])) {
+		echo "<p>{$_SESSION["mensaje"]}</p>";
+		unset($_SESSION["mensaje"]);
 	}
 	else {
-		echo "<p>{$datos['mensaje']}</p>";
+		echo "<p>Mensaje indefinido</p>";
 	}
 
 	if (isset($datos['url_continuar']))

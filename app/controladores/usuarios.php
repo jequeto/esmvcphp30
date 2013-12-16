@@ -22,7 +22,12 @@ class usuarios extends \core\Controlador {
 	
 	public function form_login(array $datos = array()) {
 		
-		if (\core\Usuario::$login == "anonimo") {
+		if ((isset($_SERVER["REQUEST_SCHEME"]) && $_SERVER["REQUEST_SCHEME"] == "http") 
+				|| (isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == 80)) {
+			\core\HTTP_Respuesta::set_header_line("location", \core\URL::https_generar("usuarios/form_login"));
+			\core\HTTP_Respuesta::enviar();
+		}
+		elseif (\core\Usuario::$login == "anonimo") {
 			$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
 			$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
 			\core\HTTP_Respuesta::enviar($http_body);
@@ -38,38 +43,70 @@ class usuarios extends \core\Controlador {
 	
 	public function form_login_validar(array $datos = array()) {
 		
-		$validaciones = array(
-			'login' => 'errores_requerido && errores_login',
-			'password' => 'errores_requerido && errores_password'
-		);
-		
-		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
-		
-		if ($validacion) {		
-			$respuesta =  \modelos\usuarios::validar_usuario($datos['values']['login'], $datos['values']['password']);
-		
-			if  ($respuesta == 'existe') {
-					$datos['errores']['validacion'] = 'Error en login o password';
-					\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);
-			}
-			elseif ($respuesta == 'existe_autenticado') {
-					$datos['mensaje'] = "Falta confimación del usuario {$datos['values']['login']}. Consulta tu correo electrónico" ;
-					$this->cargar_controlador('mensajes', 'mensaje', $datos);
-			}
-			elseif ($respuesta == 'existe_autenticado_confirmado') {
-					$datos['login'] = $datos['values']['login'];
-					
-					$clausulas['where'] = " login = '{$datos['values']['login']}' ";
-					$filas = \modelos\Modelo_SQL::tabla("usuarios")->select($clausulas);
-					
-					\core\Usuario::nuevo($datos['values']['login'], $filas[0]['id']);
-					$datos["mensaje"] = "Bienvenido {$datos['values']['login']}." ;
-					$this->cargar_controlador('mensajes', 'mensaje', $datos);
-			}
+		if (\core\Usuario::$login != "anonimo") {
+			$datos["mensaje"] = "Ya te encuentras conectado. Utiliza el menú para navegar.";
+			\core\Distribuidor::cargar_controlador("mensajes", "mensaje", $datos);
+		}
+		elseif ( ! \core\HTML_Tag::form_autenticar("form_login", "post")) {
+			// El formulario no se ha enviado con anterioridad desde el servidor
+			$datos["mensaje"] = "Error: formulario no identificado.";
+			\core\Distribuidor::cargar_controlador("errores", "mensaje", $datos);
 		}
 		else {
-			$datos['errores']['validacion'] = 'Error de usuario o contraseña';
-			\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);
+			/*
+			require_once(PATH_APP.'lib/php/recaptcha-php-1.11/recaptchalib.php');
+			$privatekey = "6Lem1-sSAAAAAPfnSmYe5wyruyuj1B7001AJ3CBh";
+			$resp = recaptcha_check_answer ($privatekey,
+										  $_SERVER["REMOTE_ADDR"],
+										  $_POST["recaptcha_challenge_field"],
+										  $_POST["recaptcha_response_field"]);
+
+			if (!$resp->is_valid) {
+			  		$datos['errores']['validacion'] = 'Error de intruducción del captcha.';
+					\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);
+			} else */
+			{
+			  // Your code here to handle a successful verification
+
+
+
+				// El formulario sí se ha enviado desde el servidor
+				$validaciones = array(
+					'login' => 'errores_requerido && errores_login',
+					'password' => 'errores_requerido && errores_password'
+				);
+
+				$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
+
+				if ($validacion) {		
+					$respuesta =  \modelos\usuarios::validar_usuario($datos['values']['login'], $datos['values']['password']);
+
+					if  ($respuesta == 'existe') {
+							$datos['errores']['validacion'] = 'Error en login o password';
+							\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);
+					}
+					elseif ($respuesta == 'existe_autenticado') {
+							$datos['mensaje'] = "Falta confimación del usuario {$datos['values']['login']}. Consulta tu correo electrónico" ;
+							$this->cargar_controlador('mensajes', 'mensaje', $datos);
+					}
+					elseif ($respuesta == 'existe_autenticado_confirmado') {
+							$datos['login'] = $datos['values']['login'];
+
+							$clausulas['where'] = " login = '{$datos['values']['login']}' ";
+							$filas = \modelos\Modelo_SQL::tabla("usuarios")->select($clausulas);
+
+							\core\Usuario::nuevo($datos['values']['login'], $filas[0]['id']);
+							$_SESSION["mensaje"] = "Bienvenido la aplicación: {$datos['values']['login']}." ;
+							\core\HTTP_Respuesta::set_header_line("location", \core\URL::http_generar("mensajes/mensaje"));
+							\core\HTTP_Respuesta::enviar();
+					}
+				}
+				else {
+					$datos['errores']['validacion'] = 'Error de usuario o contraseña';
+					\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);
+				}
+			}
+			
 		}
 		
 	}

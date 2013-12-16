@@ -79,6 +79,22 @@ class URL {
 	}
 		
 	
+	static function http_generar($query_string = array(), $withLang = true) {
+		
+		return self::generar($query_string, $withLang);
+		
+	}
+	
+	
+	
+	static function https_generar($query_string = array(), $withLang = true) {
+		
+		$url = self::generar($query_string, $withLang);
+		return str_replace("http:", "https:", $url);
+		
+	}
+	
+	
 	static function generar_con_idioma($query_string = array()) {
 		
 		return self::generar($query_string, true);

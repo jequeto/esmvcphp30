@@ -1,5 +1,5 @@
 key|text
-title|International Website
+title|MVC Application
 leyenda_menu|Menu - Navigation bar
 saludo1|Welcome to the international website.
 saludo2|Welcome on the application following the MVC pattern.

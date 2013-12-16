@@ -86,10 +86,10 @@
 
 	
 		<div id="pie">
-			<hr />
+			
 			Pie del documento.<br />
 			Documento creado por Jesús María de Quevedo Tomé. <a href="mailto:jequeto@gmail.com">Contactar</a><br />
-			Fecha última actualización: 15 de octubre de 2013.
+			Fecha última actualización: 15 de diciembre de 2013.
 		</div>
 		
 		<div id='globals'>

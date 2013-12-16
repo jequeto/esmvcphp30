@@ -10,7 +10,7 @@ define("PATH_APP", __DIR__.DS."app".DS ); // Finaliza en DS
 
 define("URL_ROOT", (isset($_SERVER['REQUEST_SCHEME'])?$_SERVER['REQUEST_SCHEME']:($_SERVER['SERVER_PORT']==80?"http":"https"))."://".$_SERVER['SERVER_NAME'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME'])); // Finaliza en DS
 
-define('TITULO', 'my first MVC');
+define('TITULO', 'Aplicación MVC');
 
 
 // Preparar el autocargador de clases.
