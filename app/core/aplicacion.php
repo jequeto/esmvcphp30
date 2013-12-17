@@ -23,6 +23,10 @@ class Aplicacion extends \core\Clase_Base {
 	
 	public function __construct() {
 		
+		// Interpretar url amigable, pasa parmametros /dato1/dato2/dato3/ 
+		// a parámetros $_GET[p1]=dato1 $_GET[p2]=dato2  $_GET[p3]=dato3 ....
+		\core\Rutas::interpretar_url_amigable();
+		
 		\core\sgbd\bd::connect();
 		
 		\core\SESSION::iniciar();
@@ -34,9 +38,7 @@ class Aplicacion extends \core\Clase_Base {
 		// Los permisos los usamos si trabajamos con la ACL (Access Control List) para definir los permisos de los usuarios
 		// \core\Permisos::iniciar();
 		
-		// Interpretar url amigable, pasa parmametros /dato1/dato2/dato3/ 
-		// a parámetros $_GET[p1]=dato1 $_GET[p2]=dato2  $_GET[p3]=dato3 ....
-		\core\Rutas::interpretar_url_amigable();
+		
 		
 		// Estudio del idioma, después de que la url amigable se pase a parámetros GET
 		\core\Idioma::init();

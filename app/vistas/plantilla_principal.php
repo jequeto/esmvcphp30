@@ -22,7 +22,9 @@
 		<style type="text/css" >
 			/* Definiciones hoja de estilos interna */
 		</style>
-
+		<?php if (isset($_GET["administrator"])): ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/administrator.css" />
+		<?php endif; ?>
 		<script type="text/javascript" src=""></script>
 		
 		<script type="text/javascript" >
@@ -41,7 +43,11 @@
 		<div id="encabezado">
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/ipv_ies_palomeras.png" alt="logo" title="Logo" onclick="window.location.assign('http://www.iespalomeras.net/');"/>
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/departamento_informatica.png" alt="logo" title="Logo departamento"  onclick="window.location.assign('http://www.iespalomeras.net/index.php?option=com_wrapper&view=wrapper&Itemid=86');" />
-			<h1 id="titulo">Aplicación con patrón MVC</h1>
+			<h1 id="titulo">
+			<?php if (isset($_GET["administrator"])): ?>
+				Administrator:
+			<?php endif; ?>
+			Aplicación con patrón MVC</h1>
 		</div>
 		
 		<div id="div_derecha_logo">

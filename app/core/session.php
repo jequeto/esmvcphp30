@@ -4,7 +4,12 @@ namespace core;
 class SESSION {
 	
 	public static function iniciar() {
-		
+		if (isset($_GET["administrator"])) {
+			session_name("ADMINISTRATOR_PHPSESSID" );
+		}
+		else {
+			session_name("PHPSESSID" );
+		}
 		session_start();
 		
 	}

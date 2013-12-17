@@ -52,9 +52,17 @@ class Rutas {
 			
 			
 			if (isset($parametros[0])) {
+				if ($parametros[0] == "administrator") {
+					$_GET["administrator"] = strtolower($parametros[0]);
+					$_REQUEST["administrator"] = strtolower($parametros[0]);
+					array_shift($parametros); // Quitamos del array de encuentros el administrator
+				}
+			}
+			if (isset($parametros[0])) {
 				$patron_idiomas = "/^(".\core\Configuracion::$idiomas_reconocidos.")$/i";
 				if (preg_match($patron_idiomas, $parametros[0])) {
 					$_GET["lang"] = strtolower($parametros[0]);
+					$_REQUEST["lang"] = strtolower($parametros[0]);
 					array_shift($parametros); // Quitamos del array de encuentros el idioma
 				}
 			}
@@ -82,10 +90,11 @@ class Rutas {
 				$_REQUEST['submenu'] = $_GET['p2'];
 		}
 		if ( ! isset($_REQUEST['id']) and isset($_GET['p3'])) {
-				$_POST['id'] = $_GET['p3'];
+				$_GET['id'] = $_GET['p3'];
 				$_REQUEST['id'] = $_GET['p3'];
 		}
 		if ( ! isset($_REQUEST['key']) and isset($_GET['p4'])) {
+				$_GET['key'] = $_GET['p3'];
 				$_POST['key'] = $_GET['p3'];
 				$_REQUEST['key'] = $_GET['p3'];
 		}
@@ -95,4 +104,3 @@ class Rutas {
 	
 	
 } // Fin de la clase
-

@@ -79,6 +79,9 @@ class URL {
 	}
 		
 	
+	
+	
+	
 	static function http_generar($query_string = array(), $withLang = true) {
 		
 		return self::generar($query_string, $withLang);
@@ -93,6 +96,26 @@ class URL {
 		return str_replace("http:", "https:", $url);
 		
 	}
+	
+	
+	static function http_root($query_string = array()) {
+		
+		return self::generar($query_string, false, false);
+		
+	}
+	
+	
+	
+	static function https_root($query_string = array()) {
+		
+		$url = self::generar($query_string, false, false);
+		return str_replace("http:", "https:", $url);
+		
+	}
+	
+	
+	
+	
 	
 	
 	static function generar_con_idioma($query_string = array()) {
@@ -139,9 +162,12 @@ class URL {
 	 * @param array $query_string array("dato1", "dato2",...)
 	 * @return string URI con formato /dato1/dato2/[.../]
 	 */
-	private static function amigable(array $query_string = array(), $withLang = true) {
+	private static function amigable(array $query_string = array(), $withLang = true, $administrator = true) {
 
 		$url = "";
+		if ($administrator && isset($_GET["administrator"])) {
+			$url .= "administrator/";
+		}
 		if ($withLang && \core\Configuracion::$idioma_seleccionado && \core\Configuracion::$idioma_seleccionado != \core\Configuracion::$idioma_por_defecto) {
 			$url .= \core\Configuracion::$idioma_seleccionado."/";
 		}
@@ -153,5 +179,8 @@ class URL {
 		return $url;
 
 	}
+	
+	
+	
 			
 }
