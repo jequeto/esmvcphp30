@@ -44,13 +44,8 @@ class Aplicacion extends \core\Clase_Base {
 		// Distribuidor
 		\core\Distribuidor::estudiar_query_string();
 
-		//\core\sgbd\bd::disconnect();
-		
-		//$content="<A>Contenido</A>";
-		//\core\HTTP_Respuesta::enviar($content);
-		
-		print "<pre>"; print_r($GLOBALS);print "</pre>";
-		
+		// Cerrar conexión a la base de datos
+		\core\sgbd\bd::disconnect();	
 		
 	}
 	

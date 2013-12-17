@@ -18,8 +18,14 @@ class Usuario extends \core\Clase_Base {
 		
 		// Recuperamos datos desde $_SESSION a las propiedades de la clase
 		if (isset($_SESSION['usuario']['login'])) {
+			if ($_SESSION["usuario"]["REMOTE_ADDR"] != $_SERVER["REMOTE_ADDR"]) {
+				$datos["mensaje"] = "Error fatal: La IP de sesión se ha cambiado dentro de la misma sesión de trabajo.";
+				\core\Distribuidor::cargar_controlador("error", "mensaje", $datos);
+				exit(0);
+			}
 			self::$login = $_SESSION['usuario']['login'];
 			self::$id = $_SESSION['usuario']['id'];
+			
 		}
 		else {
 			self::nuevo('anonimo');
@@ -58,10 +64,11 @@ class Usuario extends \core\Clase_Base {
 		self::$login = $login;
 		self::$id = $id;
 		\core\SESSION::regenerar_id(); // Seguridad
-		$_SESSION['usuario']['contador_paginas_visitadas'] = 1;
-		$_SESSION['usuario']['login'] = $login;
-		$_SESSION['usuario']['id'] = $id;
-		$_SESSION['usuario']['sesion_inicio'] = $_SERVER['REQUEST_TIME'];
+		$_SESSION["usuario"]["contador_paginas_visitadas"] = 1;
+		$_SESSION["usuario"]["login"] = $login;
+		$_SESSION["usuario"]["id"] = $id;
+		$_SESSION["usuario"]["sesion_inicio"] = $_SERVER["REQUEST_TIME"];
+		$_SESSION["usuario"]["REMOTE_ADDR"] = $_SERVER["REMOTE_ADDR"];
 		
 		self::recuperar_permisos_bd(self::$login);
 		self::sesion_control_tiempos();
