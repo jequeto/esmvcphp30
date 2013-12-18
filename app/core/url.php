@@ -147,6 +147,9 @@ class URL {
 				$url .= "&";
 			}
 		}
+		if ($administrator && isset($_GET["administrator"])) {
+			$url .= "&administrator=";
+		}
 		if ($withLang && \core\Configuracion::$idioma_seleccionado && \core\Configuracion::$idioma_seleccionado != \core\Configuracion::$idioma_por_defecto) {
 			$url .= "&lang=".\core\Configuracion::$idioma_seleccionado;
 		}
