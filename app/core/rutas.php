@@ -93,7 +93,7 @@ class Rutas {
 				$_GET['id'] = $_GET['p3'];
 				$_REQUEST['id'] = $_GET['p3'];
 		}
-		if ( ! isset($_REQUEST['key']) and isset($_GET['p4'])) {
+		if ( ! isset($_REQUEST['key']) and isset($_GET['p3'])) {
 				$_GET['key'] = $_GET['p3'];
 				$_POST['key'] = $_GET['p3'];
 				$_REQUEST['key'] = $_GET['p3'];

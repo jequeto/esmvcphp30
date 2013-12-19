@@ -10,7 +10,7 @@ class SESSION {
 		else {
 			session_name("PHPSESSID" );
 		}
-		session_start();
+		session_start(); // Se crea el arry $_SESSION o se recupera si fue creado en una ejecución anterior del script.
 		
 	}
 	

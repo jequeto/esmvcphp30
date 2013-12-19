@@ -64,9 +64,12 @@ class HTML_Tag extends \core\Clase_Base {
 				if (is_string($form_name) && strlen($form_name)) {
 					$resultado = ($_SESSION["formularios"]["form_id"][$form_id] == $form_name);
 					if (is_string($method) && strlen($method)) {
-						$resultado = ($resultado && ($_SESSION["formularios"]["method"][$form_id] == $method) && ($_SERVER["REQUEST_METHOD"] == strtoupper($method)));
+						$resultado = ($resultado && ($_SESSION["formularios"]["method"][$form_id] == $method) && (strtoupper($_SERVER["REQUEST_METHOD"]) == strtoupper($method)));
 					}
-				}				
+				}
+				// Anulo la entrada del form_id recibido en el array $_SESSION["formularios"]
+				unset($_SESSION["formularios"]["form_id"][$form_id]);
+				unset($_SESSION["formularios"]["method"][$form_id]);
 			}
 		}
 		
