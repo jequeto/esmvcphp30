@@ -4,7 +4,7 @@
 <IfModule mod_rewrite.c>
 
 	# disable directory listing
-	Options -Indexes +FollowSymLinks
+	Options -Indexes +FollowSymLinks -MultiViews
 
 	RewriteEngine on
 	RewriteOptions Inherit
@@ -14,7 +14,12 @@
 	# No se reescribe si la URI acaba en .extensión. Por ejemplo: .ccs, .php. .pdf, .jpg, ...
 	# Esto se hace para que las peticiónes de recursos desde el cliente web no ser reescriban,
 	# pues todas las reescrituras acaban en el fichero index.php
-	RewriteCond %{REQUEST_URI} !(\.\w+)
-	RewriteRule .* index.php [QSA,L,NS]
+
+	# RewriteCond %{REQUEST_URI} !(\.\w+)
+	# RewriteRule .* index.php [QSA,L,NS]
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ index.php [QSA,L,NS]
+    
 
 </IfModule>

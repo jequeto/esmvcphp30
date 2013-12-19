@@ -7,7 +7,7 @@ class URL {
 	/**
 	 * Retorna una URI con el esquema http
 	 * <br />La url no contiene el nombre del fichero index.php
-	 * <br />Ejemplo de URL generada: http://www.servidor.com/?query_string
+	 * <br />Ejemplo de URL generada: http://www.servidor.com/?query_string  http://www.servidor.com/aplicacion/?query_string
 	 
 	 * @param string $query_string
 	 * @return string
@@ -28,16 +28,15 @@ class URL {
 	/**
 	 * Retorna una URL que requiere protocolo https partiendo de la que recibió la petición para ejecutar el index.php.
 	 * <br />La url no contiene el nombre del fichero index.php
-	 * <br />Ejemplo de URL generada: https://www.servidor.com/?query_string
+	 * <br />Ejemplo de URL generada: https://www.servidor.com/?query_string  https://www.servidor.com/aplicacion/?query_string
 	 * @param string $query_string
 	 * @return string
 	 */
 	public static function https($query_string = '') {
 		
 		$patron = "/^\?.*/";
-		if ( !preg_match($patron, $query_string))
+		if ( ! preg_match($patron, $query_string))
 			$query_string .= "?$query_string";
-		
 		
 		$carpeta = str_replace('index.php', '',$_SERVER['SCRIPT_NAME']);
 		return "https://{$_SERVER['HTTP_HOST']}$carpeta$query_string";
@@ -98,6 +97,12 @@ class URL {
 	}
 	
 	
+	/**
+	 * Genera una url absoluta que no incluye administrator ni idioma, con esquema http.
+	 * 
+	 * @param string $query_string
+	 * @return string
+	 */
 	static function http_root($query_string = array()) {
 		
 		return self::generar($query_string, false, false);
@@ -105,7 +110,12 @@ class URL {
 	}
 	
 	
-	
+	/**
+	 * Genera una url absoluta que no incluye administrator ni idioma, con esquema https.
+	 * 
+	 * @param string $query_string
+	 * @return string
+	 */
 	static function https_root($query_string = array()) {
 		
 		$url = self::generar($query_string, false, false);
@@ -115,16 +125,25 @@ class URL {
 	
 	
 	
-	
-	
-	
+
+	/**
+	 * Genera una url absoluta con administrator e idioma, con esquema http.
+	 * 
+	 * @param string $query_string
+	 * @return string
+	 */
 	static function generar_con_idioma($query_string = array()) {
 		
 		return self::generar($query_string, true);
 		
 	}
 
-	
+	/**
+	 * Genera una url absoluta sin administrator y sin idioma, con esquema http.
+	 * 
+	 * @param string $query_string
+	 * @return string
+	 */
 	static function generar_sin_idioma($query_string = array()) {
 		
 		return self::generar($query_string, false);
@@ -141,18 +160,22 @@ class URL {
 	private static function query_string(array $query_string = null, $withLang = true) {
 
 		$url = "?";
+		
+		if ($administrator && isset($_GET["administrator"])) {
+			$url .= "&administrator=";
+		}
+		
+		if ($withLang && \core\Configuracion::$idioma_seleccionado && \core\Configuracion::$idioma_seleccionado != \core\Configuracion::$idioma_por_defecto) {
+			$url .= "&lang=".\core\Configuracion::$idioma_seleccionado;
+		}
+		
 		foreach ($query_string as $key => $value) {
 			$url .= "p".($key+1)."=$value";
 			if ($key < count($query_string)-1 )  {
 				$url .= "&";
 			}
 		}
-		if ($administrator && isset($_GET["administrator"])) {
-			$url .= "&administrator=";
-		}
-		if ($withLang && \core\Configuracion::$idioma_seleccionado && \core\Configuracion::$idioma_seleccionado != \core\Configuracion::$idioma_por_defecto) {
-			$url .= "&lang=".\core\Configuracion::$idioma_seleccionado;
-		}
+		
 
 		return $url;
 
