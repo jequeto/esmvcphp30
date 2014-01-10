@@ -25,6 +25,8 @@
 		<?php if (isset($_GET["administrator"])): ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/administrator.css" />
 		<?php endif; ?>
+		
+		<script type='text/javascript' src="<?php echo URL_ROOT."recursos".DS."jquery".DS."jquery-1.10.2.min.js"; ?>" ></script>
 		<script type="text/javascript" src=""></script>
 		
 		<script type="text/javascript" >
@@ -113,6 +115,14 @@
 					</script>
 				";
 				unset($_SESSION["alerta"]);
+			}
+			elseif (isset($datos["alerta"])) {
+				echo "
+					<script type='text/javascript'>
+						alert('{$datos["alerta"]}');
+					</script>
+				";
+				unset($datos["alerta"]);
 			}
 		?>
 		

@@ -156,16 +156,25 @@ class mysqli implements \core\sgbd\SQL_interface {
 		
 		if (self::$depuracion) {echo __METHOD__." \$sql = $sql <br />";}
 		
-		self::$query = $sql; // Guardamos la consulta ejecutada.
+		self::$query = $sql; // Guardamos la consulta a ejecutar.
 		
 		self::$result = mysqli_query(self::$connection,$sql,MYSQLI_USE_RESULT);
-		if ( self::$result === false)
-			throw new \Exception(__METHOD__." Consulta= $sql <br />Error = ".  mysqli_error(self::$connection));
-		elseif (is_resource (self::$result)) {
+		
+		if ( self::$result === false) {
+			if (self::$depuracion) {
+				throw new \Exception(__METHOD__." Consulta= $sql <br />Error = ".  mysqli_error(self::$connection));
+			}
+			else {
+				throw new \Exception("Error fatal");
+			}
+		}
+		elseif (is_object(self::$result)) {
 			return self::get_rows();
 		}
-		else 
+		else { 
+			
 			return self::$result;
+		}
 		
 	}
 	
@@ -177,10 +186,10 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	public static function get_rows($sql = null) {
 		
-		if ($sql)
-			self::execute($sql);
+		if (is_string($sql) and strlen($sql))
+			return self::execute($sql);
 		
-		$filas = array();
+		$filas = array(); // Creo un array vacío para guardar las filas (tuplas=arrays) del resultado.
 		
 		while ($fila = mysqli_fetch_assoc(self::$result)) {
 			array_push($filas, $fila);
@@ -255,17 +264,26 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 		
-	public static function update_row(array &$fila , $table) {
+	public static function update_row(array &$fila , $table, $where=null) {
 		
-		if ( ! isset($fila['id']))
-			throw new \Exception(__METHOD__." Error: debe aportarse la id.");
+		if ( ! isset($fila['id']) && ! strlen($where))
+			throw new \Exception(__METHOD__." Error: debe aportarse la id or \$where.");
 		
 		$columnas_set = self::columnas_set($fila);
+		
+		
+		if (isset($where) && strlen($where))
+			$where = " where $where";
+		elseif (isset($fila['id']))
+			$where = " where id = {$fila['id']}";
+		else {
+			$where = "";
+		}
 		
 		$sql = "
 			update	".self::get_prefix_tabla($table)."
 			set $columnas_set
-			where id = {$fila['id']}
+			$where
 		;
 		";
 		
@@ -273,9 +291,9 @@ class mysqli implements \core\sgbd\SQL_interface {
 	}
 	
 	
-	public static function update(array &$fila , $table) {
+	public static function update(array &$fila , $table, $where=null) {
 		
-		self::update_row($fila, $table);
+		return self::update_row($fila, $table, $where);
 		
 	}
 
@@ -287,7 +305,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function delete_row(array &$fila, $table = null) {
+	public static function delete_row(array &$fila, $table = null, $where=null) {
 		
 		if ( ! isset($fila['id']))
 			throw new \Exception(__METHOD__." Error: debe aportarse la id.");
@@ -296,6 +314,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 			delete
 			from ".self::get_prefix_tabla($table)."
 			where id = {$fila['id']}
+			limit 1
 			;
 		";
 		
@@ -307,7 +326,11 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 
 	
-	public static function delete( $clausulas = array(), $table = null) {
+	public static function delete( $clausulas = array(), $table = null, $where = null) {
+		
+		if ( ! isset($clausulas['id']) && ! strlen($where))
+			throw new \Exception(__METHOD__." Error: debe aportarse la id or \$where.");
+		
 		
 		if (is_string($clausulas) and is_array($table)) {
 			// Vienen cambiados y los intercambiamos
@@ -316,7 +339,17 @@ class mysqli implements \core\sgbd\SQL_interface {
 			$columnas = $columnas_aux;
 		}
 		
-		$where = ( isset($clausulas['where']) ? " where ".$clausulas['where'] : "");
+		
+		if (isset($where) && strlen($where))
+			$where = " where $where";
+		elseif (isset($clausulas['where']) && strlen($clausulas['where']))
+			$where = " where {$clausulas['where']}";
+		elseif (isset($clausulas['id']))
+			$where = " where id = {$clausulas['id']}";
+		else {
+			$where = "";
+		}
+		
 		$order_by = ( isset($clausulas['order_by']) ? " order by ".$clausulas['order_by'] : "");
 		
 		$sql = "

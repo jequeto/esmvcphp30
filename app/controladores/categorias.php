@@ -52,17 +52,23 @@ class categorias extends \core\Controlador {
 		else
 		{
 			// Se ha grabado la modificación. Devolvemos el control al la situacion anterior a la petición del form_modificar
-			$datos = array("alerta" => "Se han grabado correctamente los detalles");
+			//$datos = array("alerta" => "Se han grabado correctamente los detalles");
 			// Definir el controlador que responderá después de la inserción
-			\core\Distribuidor::cargar_controlador('categorias', 'index', $datos);
+			//\core\Distribuidor::cargar_controlador('categorias', 'index', $datos);
+			$_SESSION["alerta"] = "Se han grabado correctamente los detalles";
+			//header("Location: ".\core\URL::generar("categorias/index"));
+			\core\HTTP_Respuesta::set_header_line("location", \core\URL::generar("categorias/index"));
+			\core\HTTP_Respuesta::enviar();
 		}
 	}
 
 	
 	
-	public function form_modificar(array $datos=array()) {
+	public function form_modificar(array $datos = array()) {
+		
 		$datos["form_name"] = __FUNCTION__;
-		if ( ! count($datos)) { // Si no es un reenvío desde una validación fallida
+		
+		if ( ! isset($datos["errores"])) { // Si no es un reenvío desde una validación fallida
 			$validaciones=array(
 				"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/categorias/id"
 			);
@@ -109,7 +115,9 @@ class categorias extends \core\Controlador {
 		else {
 			
 			if ( ! $validacion = \modelos\Datos_SQL::update($datos["values"], 'categorias')) // Devuelve true o false
+					
 				$datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
+				
 		}
 		if ( ! $validacion) //Devolvemos el formulario para que lo intente corregir de nuevo
 			\core\Distribuidor::cargar_controlador('categorias', 'form_modificar', $datos);
