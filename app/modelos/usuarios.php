@@ -6,14 +6,13 @@ class usuarios extends \core\sgbd\bd {
 
 	/* Rescritura de propiedades de validación */
 	private static $validaciones_insert = array(
-		                                                                                                                               'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
+		'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
 		'email' => 'errores_requerido && errores_email && errores_unicidad_insertar:email/usuarios/email',
 		'password' => 'errores_requerido && errores_password',
 		"fecha_alta" => "errores_fecha_hora",
 		"fecha_confirmacion_alta" => "errores_fecha_hora",
 		"clave_confirmacion" => "errores_texto",
 	);
-	
 	
 	
 	private static $validaciones_update = array(

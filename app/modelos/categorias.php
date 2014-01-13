@@ -40,7 +40,7 @@ class categorias extends \core\sgbd\bd {
 		if ( ! isset($fila['values']['descripcion']) ) {
 			$fila['values']['descripcion'] = null;
 		}
-		elseif ( ! is_strin($fila['values']['descripcion'])) {
+		elseif ( ! is_string($fila['values']['descripcion'])) {
 			$validacion = false;
 			$fila['errores']['descripcon'] = "Esta columna debe ser un string.";
 		}

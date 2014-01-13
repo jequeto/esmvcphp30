@@ -157,25 +157,27 @@ class URL {
 	 * @param array $query_string array("dato1", "dato2"[,...])
 	 * @return string URL con formato ?p1=dato1&p2=dato2[&...]
 	 */
-	private static function query_string(array $query_string = null, $withLang = true) {
+	private static function query_string(array $query_string = null, $withLang = true, $administrator = true) {
 
 		$url = "?";
 		
 		if ($administrator && isset($_GET["administrator"])) {
-			$url .= "&administrator=";
+			$url .= "administrator=";
 		}
 		
 		if ($withLang && \core\Configuracion::$idioma_seleccionado && \core\Configuracion::$idioma_seleccionado != \core\Configuracion::$idioma_por_defecto) {
-			$url .= "&lang=".\core\Configuracion::$idioma_seleccionado;
+			$url .= (strlen($url) == 1 ? "" : "&")."lang=".\core\Configuracion::$idioma_seleccionado;
 		}
 		
 		foreach ($query_string as $key => $value) {
-			$url .= "p".($key+1)."=$value";
-			if ($key < count($query_string)-1 )  {
-				$url .= "&";
-			}
+			$url .= (strlen($url) == 1 ? "" : "&")."p".($key+1)."=$value";
+			
 		}
 		
+		// Si la logitud de la url es 1 es que solo tiene el caracter ?, y por tanto lo borramos
+		if (strlen($url) ==1) {
+			$url = "";
+		}
 
 		return $url;
 

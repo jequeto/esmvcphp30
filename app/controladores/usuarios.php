@@ -211,7 +211,7 @@ class usuarios extends \core\Controlador {
 	}
 	
 	
-	public function form_insertar(array $datos = array()) {
+	public function form_insertar_interno(array $datos = array()) {
 		
 		$datos['view_content'] = \core\Vista::generar("form_insertar", $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
@@ -220,11 +220,11 @@ class usuarios extends \core\Controlador {
 	}
 	
 	
-	public function form_insertar_validar(array $datos = array()) {
+	public function form_insertar_interno_validar(array $datos = array()) {
 		
-		if (self::form_insertar_validar_interno($datos)) {
+		if (self::form_insertar_validar($datos)) {
 			
-			$_SERVER["alerta"] = "Se ha insertado correctamente el usuario.";
+			$_SESSION["alerta"] = "Se ha insertado correctamente el usuario.";
 			\core\HTTP_Respuesta::set_header_line("location", \core\URL::generar("usuarios/index"));
 			\core\HTTP_Respuesta::enviar();
 			
@@ -248,7 +248,7 @@ class usuarios extends \core\Controlador {
 	
 	public function form_insertar_externo_validar(array $datos = array()) {
 		
-		if (self::form_insertar_validar_interno($datos)) {
+		if (self::form_insertar_validar($datos)) {
 			
 			$url = \core\URL::generar("usuarios/confirmar_alta/{$datos['values']['id']}/{$datos['values']['clave_confirmacion']}");
 			
@@ -273,7 +273,7 @@ class usuarios extends \core\Controlador {
 	
 	
 	
-	private function form_insertar_validar_interno(array &$datos = array()) {
+	private function form_insertar_validar(array &$datos = array()) {
 		
 		$validaciones = array(
 			'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
@@ -297,8 +297,8 @@ class usuarios extends \core\Controlador {
 		
 		if ($validacion)
 		{
-			unset($datos["errores"]["email2"]);
-			unset($datos["errores"]["password2"]);
+			unset($datos["values"]["email2"]);
+			unset($datos["values"]["password2"]);
 			
 			$datos['values']['password'] = md5($datos['values']['password']);
 			$datos['values']['clave_confirmacion'] = \core\Random_String::generar(30);

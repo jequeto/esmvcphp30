@@ -11,7 +11,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	 * Variable usada para facilitar la ocultación del resultado de setencias de depuración.
 	 * @var boolean 
 	 */
-	private static $depuracion = false;
+	private static $depuracion = true;
 	
 	/**
 	 * Resource o Link que guarda la conexión con el SGBD
@@ -418,7 +418,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 		
 		$sql = " select last_insert_id() as id;";
 		
-		$filas = self::recuperar_filas($sql);
+		$filas = self::get_rows($sql);
 		
 		return $filas[0]['id'];
 		

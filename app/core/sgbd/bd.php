@@ -42,9 +42,7 @@ class bd extends \core\sgbd\mysqli {
 		
 		return self::get_rows($consulta);
 		
-	}
-	
-	
-	
+		
+	}	
 	
 }

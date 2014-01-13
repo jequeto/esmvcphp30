@@ -35,7 +35,7 @@
 			echo "
 				<tr>
 					<td colspan='2'></td>
-						<td><a class='boton' href='".\core\URL::generar("usuarios/form_insertar")."' >insertar</a></td>
+						<td><a class='boton' href='".\core\URL::generar("usuarios/form_insertar_interno")."' >insertar</a></td>
 				</tr>
 			";
 			?>
