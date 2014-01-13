@@ -1,9 +1,14 @@
-
-
+/*
+ * @file: dables_and_user.sql
+ * @author: jequeto@gmail.com
+ * @since: 2012 enero
+*/
 drop database if exists daw2;
-create database daw2 
-default character set = utf8 ;
+create database daw2;
 
+set names = utf8;
+
+use daw2;
 
 create user daw2_user identified by 'daw2_user';
 # Concedemos al usuario daw2_user todos los permisos sobre esa base de datos
@@ -25,13 +30,6 @@ create table if not exists daw2_categorias
 engine = myisam default charset=utf8
 ;
 
-insert into daw2_categorias
-  ( nombre, descripcion ) values
-  ('lacteos', null)
-, ('frutas', null)
-, ('legumbres', null)
-, ('refrescos', null)
-;
 
 drop table if exists daw2_articulos;
 create table if not exists daw2_articulos

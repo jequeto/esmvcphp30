@@ -23,8 +23,14 @@ class Controlador extends \core\Clase_Base {
 	 */
 	public function js_script_tag($path_y_fichero, array &$datos = null) {
 		
+		if ( ! preg_match('/recursos\/js\//i', $path_y_fichero))
+			$path_y_fichero = "recursos/js/$path_y_fichero";
 		if ( ! preg_match('/\.js$/i', $path_y_fichero))
-			$nombre_fichero .= '.js';
+			$path_y_fichero .= '.js';
+		$path_js_fichero = PATH_ROOT.$path_y_fichero;
+		if ( !is_file($path_js_fichero)) {
+			throw new \Exception(__METHOD__." => El fichero $path_js_fichero no existe en el disco.");
+		}
 		$url_js_fichero = \core\URL::http('')."$path_y_fichero";
 		$js_script_tag = "<script type='text/javascript' src='$url_js_fichero'></script>\n";
 		if (is_array($datos)) 
@@ -40,7 +46,12 @@ class Controlador extends \core\Clase_Base {
 		
 		if ( ! preg_match('/\.js$/i', $nombre_fichero))
 			$nombre_fichero .= '.js';
-		$url_js_fichero = \core\URL::http('')."recursos/js/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre_fichero";
+		$path_js_fichero = PATH_ROOT."recursos/js/".\core\Distribuidor::get_controlador_instanciado()."/$nombre_fichero";
+		if ( !is_file($path_js_fichero)) {
+			throw new \Exception(__METHOD__." => El fichero $nombre_fichero no existe como $path_js_fichero en el disco.");
+		}
+		
+		$url_js_fichero = \core\URL::http('')."recursos/js/".\core\Distribuidor::get_controlador_instanciado()."/$nombre_fichero";
 		$js_script_tag = "<script type='text/javascript' src='$url_js_fichero'></script>\n";
 		if (is_array($datos)) 
 			$datos['js'][$js_script_tag] = true;
@@ -49,29 +60,22 @@ class Controlador extends \core\Clase_Base {
 		
 	}
 	
-	public function js_script_lib_tag($nombre_fichero, array &$datos = null) {
+	
+	
+	
+	public function css_link_tag($path_y_fichero, array &$datos = null) {
 		
-		if ( ! preg_match('/\.js$/i', $nombre_fichero))
-			$nombre_fichero .= '.js';
-		$url_js_fichero = \core\URL::http('')."recursos/js/$nombre_fichero";
-		$js_script_tag = "<script type='text/javascript' src='$url_js_fichero'></script>\n";
-		if (is_array($datos)) 
-			$datos['js'][$js_script_tag] = true;
-		else
-		return $js_script_tag;
+		if ( ! preg_match('/recursos\/css\//i', $path_y_fichero))
+			$path_y_fichero = "recursos/css/$path_y_fichero";
+		if ( ! preg_match('/\.css$/i', $path_y_fichero))
+			$path_y_fichero .= '.css';
+		$path_fichero = PATH_ROOT.$path_y_fichero;
 		
-	}
-	
-	
-	
-	
-	
-	
-	public function css_link_tag($path_y_nombre_fichero, array &$datos = null) {
+		if ( ! is_file($path_fichero)) {
+			throw new \Exception(__METHOD__." => El fichero $path_fichero no existe en el disco.");
+		}
 		
-		if ( ! preg_match('/\.css$/i', $path_y_nombre_fichero))
-			$nombre_fichero .= '.css';
-		$url_css_fichero = \core\URL::http('')."$path_y_nombre_fichero";
+		$url_css_fichero = \core\URL::http('')."$nombre_fichero";
 		$css_link_tag = "<link rel='stylesheet' type='text/css' href='$url_css_fichero' />\n";
 		if (is_array($datos)) 
 			$datos['css'][$css_link_tag] = true;
@@ -81,15 +85,16 @@ class Controlador extends \core\Clase_Base {
 	}
 	
 	
-	
-	
-	
-	
-	
 	public function css_link_vistas_tag($nombre_fichero, array &$datos = null) {
 		
 		if ( ! preg_match('/\.css$/i', $nombre_fichero))
 			$nombre_fichero .= '.css';
+		
+		$path_fichero = PATH_ROOT."recursos/css/".\core\Distribuidor::get_controlador_instanciado()."/$nombre_fichero";
+		if ( !is_file($path_fichero)) {
+			throw new \Exception(__METHOD__." => El fichero $nombre_fichero no existe como $path_fichero en el disco.");
+		}
+		
 		$url_css_fichero = \core\URL::http('')."recursos/js/".\core\Aplicacion::$controlador->datos['controlador_clase']."/$nombre_fichero";
 		$css_link_tag = "<link rel='stylesheet' type='text/css' href='$url_css_fichero' />\n";
 		if (is_array($datos)) 

@@ -105,3 +105,21 @@ div#pie {
 	background-color: lightblue;
 	padding: 5px;
 }
+
+.boton {
+	margin: 5px 5px;
+	padding: 2px;
+	line-height: 170%;
+	background-color: lightgray;
+	border: 1px solid black;
+	text-decoration: none;
+}
+
+table {
+	border: 3px solid black;
+	border-collapse: collapse;
+}
+
+table td, table th {
+	padding: 5px;
+}

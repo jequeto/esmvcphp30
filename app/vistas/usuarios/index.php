@@ -1,7 +1,7 @@
 <div>
 	<!-- formulario  post_reques_form utilizado para enviar peticiones por post al servidor y evitar que el usuario modifique/juegue con los parámetros modificando la URI mostrada  -->
 	<form id="post_request_form"
-		  action="<?php echo \core\HTML_Tag::form_registrar("form_request_form", "post"); ?>"  
+		action=""  
 		method="post"
 		style="display: none;"
 	>
@@ -9,11 +9,15 @@
 	
 	</form>
 	<h1>Listado de usuarios</h1>
-	<table border='1'>
+	<table class='resultados' border='3' >
 		<thead>
 			<tr>
 				<th>login</th>
 				<th>email</th>
+				<th>fecha alta</th>
+				<th>fecha confirmación alta</th>
+				<th>clave confirmación</th>
+				
 				<th>acciones</th>
 			</tr>
 		</thead>
@@ -25,20 +29,24 @@
 					<tr>
 						<td>{$fila['login']}</td>
 						<td>{$fila['email']}</td>
+						<td>{$fila['fecha_alta']}</td>	
+						<td>{$fila['fecha_confirmacion_alta']}</td>	
+						<td>{$fila['clave_confirmacion']}</td>	
 						<td>
-							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_modificar")."\", \"/{$fila['id']}\");' >modificar</a>
-							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_borrar")."\", \"/{$fila['id']}\");' >borrar</a>
+							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_modificar")."\", {$fila['id']});' >modificar</a>
+							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_borrar")."\", {$fila['id']});' >borrar</a>
 						</td>
 					</tr>
 					";
 			}
 			echo "
 				<tr>
-					<td colspan='2'></td>
+					<td colspan='5'></td>
 						<td><a class='boton' href='".\core\URL::generar("usuarios/form_insertar_interno")."' >insertar</a></td>
 				</tr>
 			";
 			?>
 		</tbody>
 	</table>
+	<?php print("<a class='boton' href='{$datos["url_volver"]}' >volver</a>"); ?>
 </div>

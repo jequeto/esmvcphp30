@@ -1,29 +1,34 @@
 <?php
 namespace modelos;
 
-class usuarios extends \core\sgbd\bd {
+class usuarios extends \modelos\Modelo_SQL {
 
 
 	/* Rescritura de propiedades de validación */
-	private static $validaciones_insert = array(
+	public static $validaciones_insert = array(
 		'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
 		'email' => 'errores_requerido && errores_email && errores_unicidad_insertar:email/usuarios/email',
+		'email2' => 'errores_requerido && errores_email',
 		'password' => 'errores_requerido && errores_password',
+		'password2' => 'errores_requerido && errores_password',
 		"fecha_alta" => "errores_fecha_hora",
 		"fecha_confirmacion_alta" => "errores_fecha_hora",
 		"clave_confirmacion" => "errores_texto",
 	);
 	
 	
-	private static $validaciones_update = array(
-		'login' => 'errores_requerido && errores_login && errores_unicidad_modificar:login/usuarios/login',
-		'email' => 'errores_requerido && errores_email && errores_unicidad_modificar:email/usuarios/email',
+	public static $validaciones_update = array(
+		"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/usuarios/id",
+		'login' => 'errores_requerido && errores_login && errores_unicidad_modificar:id,login/usuarios/id,login',
+		'email' => 'errores_requerido && errores_email && errores_unicidad_modificar:id,email/usuarios/id,email',
+		"fecha_alta" => "errores_requerido && errores_fecha_hora",
+		"fecha_confirmacion_alta" => "errores_fecha_hora",
 	);
 	
 	
 	
-	private static $validaciones_delete = array(
-		"id" => "errores_requerido && errores_numero_entero_posetivo && errores_referencia:id/usuarios/id"
+	public static $validaciones_delete = array(
+		"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/usuarios/id"
 	);
 	
 
@@ -122,5 +127,20 @@ class usuarios extends \core\sgbd\bd {
 		return $permisos;
 		
 	}	
+	
+	
+	
+	public static function modificar(array &$datos = array()) {
+		
+		if ($validacion = ! \core\Validaciones::errores_validacion_request(self::$validaciones_update, $datos)) {
+			$datos["values"]["fecha_alta"] = \core\Conversiones::fecha_hora_es_a_mysql($datos["values"]["fecha_alta"]);
+			$datos["values"]["fecha_confirmacion_alta"] = \core\Conversiones::fecha_hora_es_a_mysql($datos["values"]["fecha_confirmacion_alta"]);
+			var_dump($datos);
+			$valiacion = self::update_row($datos["values"], "usuarios");
+		}
+		return $validacion;
+		
+		
+	}
 	
 }

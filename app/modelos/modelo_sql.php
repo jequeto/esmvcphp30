@@ -4,40 +4,21 @@ namespace modelos;
 class Modelo_SQL extends \core\sgbd\bd {
 	
 	
-	private static $validaciones_insert = array(
-		/* Se definen en el modelo de una tabla o vista */
+	// Las siguientes variables deben definirse en la clase que se implemente a partir de Modelo_SQL
+	public static $validaciones_insert = array(
+		"prueba" => "prueba"
+		// Se definen en el modelo de una tabla o vista
 	);
 	
-	private static $validaciones_update = array(
-		/* Se definen en el modelo de una tabla o vista */
+	public static $validaciones_update = array(
+		// Se definen en el modelo de una tabla o vista 
 	);
 	
-	private static $validaciones_delete = array(
-		/* Se definen en el modelo de una tabla o vista */
+	public static $validaciones_delete = array(
+		// Se definen en el modelo de una tabla o vista
 	);
 	
 	
-	public static function get_validaciones_insert() {
-		
-		return self::$validaciones_insert;
-		
-	}
-	
-	
-	public static function get_validaciones_delete() {
-		
-		return self::$validaciones_delete;
-		
-	}
-	
-	
-	public static function get_validaciones_update() {
-		
-		return array_merge(self::$validaciones_delete, self::$validaciones_insert, self::$validaciones_update);
-		
-	}
-
-
 	
 	/**
 	 * Define la tabla que se usará por defecto en los métodos de manipulación y recuperación

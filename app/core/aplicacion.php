@@ -30,6 +30,7 @@ class Aplicacion extends \core\Clase_Base {
 		\core\sgbd\bd::connect();
 		
 		\core\SESSION::iniciar();
+		\core\URL::registrar();
 		
 			
 		// Reconocer el usuario que ha iniciado la sesión de trabajo o que continúa dentro de una sesión de trabajo.

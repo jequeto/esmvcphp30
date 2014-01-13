@@ -53,17 +53,17 @@ class Distribuidor {
 			if (method_exists(\core\Aplicacion::$controlador, $metodo)) {
 				\core\Aplicacion::$controlador->datos['controlador_metodo'] = strtolower($metodo);
 				self::$metodo_invocado = strtolower($metodo);
-				\core\Aplicacion::$controlador->$metodo($datos);
+				return \core\Aplicacion::$controlador->$metodo($datos);
 				
 			}
 			else {
 				$datos['mensaje'] = "El método <b>$metodo</b> no está definido en la clase <b>$controlador_clase</b> (.php).";
-				self::cargar_controlador("errores", "error_404", $datos);
+				return self::cargar_controlador("errores", "error_404", $datos);
 			}
 		}
 		else {
 			$datos['mensaje'] = "La clase <b>$controlador_clase</b> no existe.";
-			self::cargar_controlador("errores", "error_404", $datos);
+			return self::cargar_controlador("errores", "error_404", $datos);
 		}
 	}
 	

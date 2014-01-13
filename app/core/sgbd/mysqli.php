@@ -382,9 +382,9 @@ class mysqli implements \core\sgbd\SQL_interface {
 		
 		if (is_string($clausulas) and is_array($table)) {
 			// Vienen cambiados y los intercambiamos
-			$columnas_aux = $table;
-			$table = $columnas;
-			$columnas = $columnas_aux;
+			$aux = $table;
+			$table = $clausulas;
+			$clausulas = $aux;
 		}
 		
 		$columnas = ((isset($clausulas['columnas']) and strlen($clausulas['columnas'])) ? $clausulas['columnas'] : '*');

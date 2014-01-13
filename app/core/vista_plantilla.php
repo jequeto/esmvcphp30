@@ -18,6 +18,10 @@ class Vista_Plantilla extends \core\Clase_Base {
 		
 		$datos["controlador_clase"] = \core\Distribuidor::get_controlador_instanciado();
 		$datos["controlador_metodo"] = \core\Distribuidor::get_metodo_invocado();
+		if (! isset($datos["url_volver"]))
+				$datos["url_volver"] = $_SESSION["url"]["btn_volver"];
+		if (! isset($datos["url_cancelar"]))
+				$datos["url_cancelar"] = $_SESSION["url"]["btn_volver"];
 		
 		if ($buffer) { 
 			ob_start ();

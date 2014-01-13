@@ -14,7 +14,7 @@ class Random_String {
 	 * @param boolean $sc = false Si en la cadena aparecerán caracteres especiales '|@#~$%()=^*+[]{}-_'
 	 * @return string Cadena de caracteres aleatoria
 	 */
-	public static function generar($length = 10, $uc = TRUE, $n = TRUE, $sc = FALSE) {
+	public static function generar($length = 10, $uc =  true, $n = true, $sc = true) {
 		$source = 'abcdefghijklmnopqrstuvwxyz';
 		if($uc == 1) $source .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		if($n == 1) $source .= '1234567890';
@@ -23,7 +23,7 @@ class Random_String {
 			$rstr = "";
 			$source = str_split($source, 1);
 			for ($i = 1; $i <= $length; $i++) {
-				mt_srand((double)microtime() * 1000000);
+				//mt_srand((double)microtime() * 1000000);
 				$num = mt_rand(1, count($source));
 				$rstr .= $source[$num-1];
 			}

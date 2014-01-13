@@ -10,10 +10,10 @@ class usuarios extends \core\Controlador {
 		
 		$clausulas['order_by'] = 'login';
 		
-		$datos['filas'] = \modelos\usuarios::select($clausulas, 'usuarios' );
+		$datos['filas'] = \modelos\Modelo_SQL::table("usuarios")->select($clausulas);
 		
-		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
-		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
+		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
+		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos);
 		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
@@ -96,9 +96,9 @@ class usuarios extends \core\Controlador {
 							$filas = \modelos\Modelo_SQL::tabla("usuarios")->select($clausulas);
 
 							\core\Usuario::nuevo($datos['values']['login'], $filas[0]['id']);
-							$_SESSION["mensaje"] = "Bienvenido la aplicación: {$datos['values']['login']}." ;
-							\core\HTTP_Respuesta::set_header_line("location", \core\URL::http_generar("mensajes/mensaje"));
-							\core\HTTP_Respuesta::enviar();
+							$datos["mensaje"] = "Bienvenido la aplicación: <b>{$datos['values']['login']}</b>." ;
+							$this->cargar_controlador('mensajes', 'mensaje', $datos);
+							
 					}
 				}
 				else {
@@ -113,15 +113,21 @@ class usuarios extends \core\Controlador {
 	
 	
 	
-	
+	/**
+	 * Esta función se invocará después de regenerar una session, por lo que los datos
+	 * guardados en $_SESSION se habrán perdido antes de ejecutar esta función.
+	 * 
+	 * @param array $datos
+	 * @return boolean
+	 */
 	public function desconectar(array $datos = array()) {
 		
 		\core\Usuario::cerrar_sesion();
 		if ( ! isset($datos['desconexion_razon']))
 			$datos['desconexion_razon'] = null;
+	
 		if ($datos['desconexion_razon'] === null) {
 			$datos['mensaje'] = 'Adios';
-			$datos['url_continuar'] = \core\URL::generar("inicio");
 		}
 		elseif ($datos['desconexion_razon'] == 'inactividad') {
 			$datos['mensaje'] = 'Has superado el tiempo de inactividad que es de <b>'.\core\Configuracion::$sesion_minutos_inactividad.'</b> minutos.';
@@ -131,36 +137,32 @@ class usuarios extends \core\Controlador {
 			$datos['mensaje'] = 'Has agotado el tiempo de tu sesión que es de <b>'.\core\Configuracion::$sesion_minutos_inactividad.'</b> minutos.<br />Vuelve a conectarte para seguir trabajando.';
 			 $datos['url_continuar'] = \core\URL::generar("inicio");
 		}
-		
-		$this->cargar_controlador('mensajes', 'mensaje', $datos);
+				
+		return $this->cargar_controlador("mensajes", "desconexion", $datos);
 		
 	}
 	
 	
-	public function form_login_email(array $datos = array())
-	{
-		$datos['js'][self::js_script_tag(__FUNCTION__)] = true;
-		$datos['js'][self::js_script_lib_tag('jquery/jquery-1.6.4.min.js')] = true;
-		$datos['css'][self::css_link_tag(__FUNCTION__)] = true;
-		//print_r($datos);
-
-		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
-		\core\Respuesta::enviar($datos);
+	public function form_login_email(array $datos = array()) {
+		
+		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
+		$http_body_content = \core\Vista_Plantilla::generar("plantilla_principal",$datos);
+		\core\HTTP_Respuesta::enviar($http_body_content);
+		
 	}
 	
 	
 	
-	public function validar_form_login_email(array $datos = array())
-	{
+	public function form_login_email_validar(array $datos = array()) {
 		$validaciones = array(
 			'login' => 'errores_texto',
 			'email' => 'errores_email',
-			'contrasena' => 'errores_requerido'
+			'password' => 'errores_requerido'
 		);
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
-		if ($validacion)
-		{		
+		
+		if ($validacion) {		
 			if ( ! strlen($datos['values']['login']) && ! strlen($datos['values']['login'])) {
 				$datos['errores']['validacion'] = 'Introduce el login o el dni';
 				$validacion = false;
@@ -170,45 +172,131 @@ class usuarios extends \core\Controlador {
 				$validacion = false;
 			}
 		}
-		if ($validacion)
-		{		
+		
+		if ($validacion) {		
 			$respuesta =  \modelos\usuarios::validar_usuario_login_email($datos['values']);
 			if  ($respuesta == 'existe') {
 					$datos['error_validacion'] = 'Error en usuario o contraseña';
-					$this->form_login($datos);
+					\core\Distribuidor::cargar_controlador("usuarios","form_login_email",$datos);
 			}
 			elseif ($respuesta == 'existe_autenticado') {
 					$datos['login'] = $datos['values']['login'];
-					$this->cargar_controlador('inicio', 'falta_confirmar', $datos);
+					$datos["mensaje"] = "Falta confirmación" ;
+					$this->cargar_controlador('mensajes', 'mensaje', $datos);
 			}
 			elseif ($respuesta == 'existe_autenticado_confirmado') {
 					$datos['login'] = $datos['values']['login'];
 					\core\Usuario::nuevo($datos['values']['login']);
-					$this->cargar_controlador('inicio', 'logueado', $datos);
+					$datos["mensaje"] = "Bienvenido la aplicación: <b>{$datos['values']['login']}</b>." ;
+					$this->cargar_controlador('mensajes', 'mensaje', $datos);
 			}
-			else
-					echo __METHOD__." REspuesta de valicacion: '$respuesta'";
+			else {
+				$validacion = false;
+			}
+		}
+		if (! $validacion) {
+			$datos['errores']['validacion'] = 'Error de usuario o contraseña';
+			\core\Distribuidor::cargar_controlador("usuarios", "form_login_email",$datos);
+		}
+	}
+	
+	
+	
+	
+	public function form_modificar(array $datos = array()) {
+	
+		if ( ! isset($datos["errores"])) {
+			// Recuperar fila de la base de datos
+			// Primero buscamos el valor del id que se habrá recibido
+			$validaciones = array(
+				"id" => "errores_requerido && errores_referencia:id/usuarios/id"
+			);
+			if ( ! $validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos)) {
+				return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "Usuario no identificado o no existente."));
+			}
+			// Debe recibirse por post
+			if (\core\HTTP_Requerimiento::method() != "POST") {
+				return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "Utiliza los elementos del menú y botones de la aplicación."));
+			}
+			$clausulas = array("where" => " id = {$datos["values"]["id"]} ");
+			$filas = \modelos\Modelo_SQL::table("usuarios")->select($clausulas );
+			$datos["values"] = $filas[0];
+			$datos["values"]["fecha_alta"] = \core\Conversiones::fecha_hora_mysql_a_es($datos["values"]["fecha_alta"]);
+			$datos["values"]["fecha_confirmacion_alta"] = \core\Conversiones::fecha_hora_mysql_a_es($datos["values"]["fecha_confirmacion_alta"]);
+		}
+		
+		// Enviar formulario		
+		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
+		\core\HTTP_Respuesta::enviar($http_body);
+		
+	}
+	
+	
+	
+	public function form_modificar_validar(array $datos = array()) {
+		
+		if (! $validacion = \modelos\modelo_SQL::table("usuarios")->modificar($datos)) {
+			\core\Distribuidor::cargar_controlador("usuarios", "form_modificar", $datos);
 		}
 		else {
-			//print_r($datos);
-			$datos['errores']['validacion'] = 'Corrige los errores.';
-			$this->form_login_email($datos);
+			$_SESSION["alerta"] = "Se ha modificado correctamente el usuario";
+			\core\HTTP_Respuesta::set_header_line("Location", \core\URL::generar("usuarios"));
+			\core\HTTP_Respuesta::enviar();
 		}
+		
 	}
-	
-	
-	
-	
-	public function validar_form_modificar(array $datos = array()) {
-	
+
+
+	public function form_borrar(array $datos = array())	{
+		
+		$validaciones = array(
+				"id" => "errores_requerido && errores_referencia:id/usuarios/id"
+		);
+		if ( ! $validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos)) {
+			return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "Usuario no identificado o no existente."));
+		}
+		// Debe recibirse por post
+		if (\core\HTTP_Requerimiento::method() != "POST") {
+			return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "Utiliza los elementos del menú y botones de la aplicación."));
+		}
+		$clausulas = array("where" => " id = {$datos["values"]["id"]} ");
+		$filas = \modelos\usuarios::select($clausulas, 'usuarios' );
+		$datos["values"] = $filas[0];
+		
+		
+		// Enviar formulario		
+		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos, true);
+		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
+		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
 	
 	
-	public function validar_form_borrar(array $datos = array())	{
+	
+	public function form_borrar_validar(array $datos = array())	{
 		
+		// Debe recibirse por post
+		if (\core\HTTP_Requerimiento::method() != "POST") {
+			return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "Utiliza los elementos del menú y botones de la aplicación."));
+		}
+		$validaciones = array(
+				"id" => "errores_requerido && errores_referencia:id/usuarios/id"
+		);
+		if ( ! $validacion = !\core\Validaciones::errores_validacion_request($validaciones, $datos)) {
+			return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "Usuario no identificado o no existente."));
+		}
+		if ( ! $validacion = \modelos\Modelo_SQL::table("usuarios")->delete_row($datos["values"])) {
+			return $this->cargar_controlador("mensajes", "mensaje", array("mensaje" => "NO se ha podido borrar el usuario."));
+		}
+		else {
+			$_SESSION["alerta"] = "Se ha borrado correctamente el usuario";
+			\core\HTTP_Respuesta::set_header_line("Location", \core\URL::generar("usuarios"));
+			\core\HTTP_Respuesta::enviar();
+		}
 		
 	}
+	
 	
 	
 	public function form_insertar_interno(array $datos = array()) {
@@ -224,13 +312,15 @@ class usuarios extends \core\Controlador {
 		
 		if (self::form_insertar_validar($datos)) {
 			
-			$_SESSION["alerta"] = "Se ha insertado correctamente el usuario.";
-			\core\HTTP_Respuesta::set_header_line("location", \core\URL::generar("usuarios/index"));
+			$_SESSION["alerta"] = "Se ha insertado correctamente el usuario";
+			\core\HTTP_Respuesta::set_header_line("Location", \core\URL::generar("usuarios"));
 			\core\HTTP_Respuesta::enviar();
 			
 		}
 		else {
-			\core\Distribuidor::cargar_controlador("usuarios", "form_insertar",$datos);
+			
+			\core\Distribuidor::cargar_controlador("usuarios", "form_insertar_interno",$datos);
+			
 		}
 		
 	}
@@ -238,6 +328,7 @@ class usuarios extends \core\Controlador {
 	
 	
 	public function form_insertar_externo(array $datos = array()) {
+		
 		
 		$datos['view_content'] = \core\Vista::generar("form_insertar", $datos, true);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos, true);
@@ -269,19 +360,11 @@ class usuarios extends \core\Controlador {
 		}
 		
 	}
-	
-	
-	
+		
 	
 	private function form_insertar_validar(array &$datos = array()) {
 		
-		$validaciones = array(
-			'login' => 'errores_requerido && errores_login && errores_unicidad_insertar:login/usuarios/login',
-			'email' => 'errores_requerido && errores_email ',
-			'email2' => 'errores_requerido && errores_email ',
-			'password' => 'errores_requerido && errores_password',
-			'password2' => 'errores_requerido && errores_password',
-		);
+		$validaciones = \modelos\usuarios::$validaciones_insert;
 		
 		$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
 		
@@ -318,12 +401,13 @@ class usuarios extends \core\Controlador {
 	public function confirmar_alta(array $datos = array()) {
 		
 		$validaciones = array(
-			'pid' => 'errores_requerido && errores_referencia:id/usuarios/id'
+			'id' => 'errores_requerido && errores_referencia:id/usuarios/id'
 			,'key' => 'errores_requerido '
 		);
 		
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Petición incorrecta.';
+			
 			\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 			return;
 		}
@@ -341,16 +425,16 @@ class usuarios extends \core\Controlador {
 			else {
 				$clausulas['where'] = " id = {$datos['values']['id']} and clave_confirmacion = '{$datos['values']['key']}' and fecha_confirmacion_alta is null " ;
 				$filas = \modelos\usuarios::select('usuarios', $clausulas);
+
 				if (count($filas) == 1) {
 					// El usuario es correcto y está sin confirmar
 					unset($datos['values']['key']);
 					$datos['values']['fecha_confirmacion_alta'] = gmdate("Y-m-d h:i:s");
 					$resultado = \modelos\usuarios::update($datos['values'], 'usuarios');
-					$datos['mensaje'] = "proceso de confirmación completado fecha: {$datos['values']['fecha_confirmacion_alta']}. Ya puedes loquearte";
-					
+					$datos['mensaje'] = "Proceso de confirmación completado fecha: {$datos['values']['fecha_confirmacion_alta']}. Ya puedes loguearte";
 					$datos['url_continuar'] = \core\URL::http("?menu=usuarios&submenu=form_login");
 					\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
-					return;		
+						
 				}		
 			}	
 		}	

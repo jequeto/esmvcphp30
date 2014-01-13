@@ -15,7 +15,7 @@ class URL {
 	public static function http($query_string = '') {
 		
 		$patron = "/^\?.*/";
-		if ( !preg_match($patron, $query_string))
+		if ( strlen($query_string) && ! preg_match($patron, $query_string))
 			$query_string .= "?$query_string";
 		
 		$url = "http://".$_SERVER['SERVER_NAME'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
@@ -35,7 +35,7 @@ class URL {
 	public static function https($query_string = '') {
 		
 		$patron = "/^\?.*/";
-		if ( ! preg_match($patron, $query_string))
+		if ( strlen($query_string) && ! preg_match($patron, $query_string))
 			$query_string .= "?$query_string";
 		
 		$carpeta = str_replace('index.php', '',$_SERVER['SCRIPT_NAME']);
@@ -208,7 +208,32 @@ class URL {
 
 	}
 	
+	/**
+	 * Registra en el array $_SESSION la URL actual y la anterior y la candidata para el botón volver o cancelar
+	 */
+	public static function registrar() {
+		
+		$_SESSION["url"]["actual"] =  (isset($_SERVER['REQUEST_SCHEME'])?$_SERVER['REQUEST_SCHEME']:($_SERVER['SERVER_PORT']==80?"http":"https"))."://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+		$_SESSION["url"]["anterior"] =  (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : URL_ROOT);
+		
+		if ( !isset($_SESSION["url"]["btn_volver"])) {
+			$_SESSION["url"]["btn_volver"] = URL_ROOT;
+		}
+		if ( ! preg_match("/form/", $_SESSION["url"]["anterior"])) {
+			$_SESSION["url"]["btn_volver"] =  $_SESSION["url"]["anterior"] ;
+		}
+		
+	}
 	
+	
+	/**
+	 * Devuelve una URL que sea recargable, es decir, que no sea formulario ni validación de formularo
+	 */
+	public static function btn_volver() {
+		
+		return $_SESSION["url"]["btn_volver"];
+		
+	}
 	
 			
 }

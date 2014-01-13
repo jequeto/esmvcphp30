@@ -26,7 +26,8 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT; ?>recursos/css/administrator.css" />
 		<?php endif; ?>
 		
-		<script type='text/javascript' src="<?php echo URL_ROOT."recursos".DS."jquery".DS."jquery-1.10.2.min.js"; ?>" ></script>
+		<script type='text/javascript' src="<?php echo URL_ROOT."recursos".DS."js".DS."jquery".DS."jquery-1.10.2.min.js"; ?>" ></script>
+		<script type='text/javascript' src="<?php echo URL_ROOT."recursos".DS."js".DS."general.js"; ?>" ></script>
 		<script type="text/javascript" src=""></script>
 		
 		<script type="text/javascript" >
@@ -40,7 +41,7 @@
 
 	<body>
 	
-		<!-- Contenido que se visualizar� en el navegador, organizado con la ayuda de etiquetas html -->
+		<!-- Contenido que se visualizará en el navegador, organizado con la ayuda de etiquetas html -->
 		<div id="inicio"></div>
 		<div id="encabezado">
 			<img src="<?php echo URL_ROOT; ?>recursos/imagenes/ipv_ies_palomeras.png" alt="logo" title="Logo" onclick="window.location.assign('http://www.iespalomeras.net/');"/>
@@ -61,7 +62,10 @@
 			}
 			else {
 				if ((\core\Usuario::$login == "anonimo") && ! (\core\Distribuidor::get_controlador_instanciado() == "usuarios" && \core\Distribuidor::get_metodo_invocado() == "form_login")) {
-				echo " <a href='".\core\URL::generar("usuarios/form_login")."'>Conectar</a>";
+					echo " <a href='".\core\URL::generar("usuarios/form_login")."'>Conectar</a>";
+				}
+				if ((\core\Usuario::$login == "anonimo") && ! (\core\Distribuidor::get_controlador_instanciado() == "usuarios" && \core\Distribuidor::get_metodo_invocado() == "form_insertar_externo")) {
+					echo " <a href='".\core\URL::generar("usuarios/form_insertar_externo")."'>Regístrate</a>";
 				}
 			}
 			echo "<br />Fecha local: <span id='fecha'></span>";
@@ -101,23 +105,17 @@
 			Fecha última actualización: 15 de diciembre de 2013.
 		</div>
 		
-		<div id='globals'>
-			<?php
-				print "<pre>"; print_r($GLOBALS);print "</pre>";
-			?>
-		</div>
-		
 		<?php
-			if (isset($_SESSION["alerta"])) {
-				echo "
+			if ( isset($_SESSION["alerta"]) ) {
+				print "
 					<script type='text/javascript'>
 						alert('{$_SESSION["alerta"]}');
 					</script>
 				";
 				unset($_SESSION["alerta"]);
 			}
-			elseif (isset($datos["alerta"])) {
-				echo "
+			else if (isset($datos["alerta"])) {
+				print "
 					<script type='text/javascript'>
 						alert('{$datos["alerta"]}');
 					</script>
@@ -125,6 +123,13 @@
 				unset($datos["alerta"]);
 			}
 		?>
+		<div id='globals'>
+			<?php
+				print "<pre>"; print_r($GLOBALS);print "</pre>";
+			?>
+		</div>
+		
+		
 		
 	</body>
 

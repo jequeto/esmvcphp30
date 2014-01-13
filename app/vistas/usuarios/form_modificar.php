@@ -1,6 +1,6 @@
 <div >
-	<h2>Alta de un nuevo usuario</h2>
-	<?php echo __FILE__; var_dump($datos); ?>
+	<h2>Modificar datos del usuario usuario</h2>
+	
 	<form method='post' action="<?php echo \core\URL::generar("usuarios/".\core\Distribuidor::get_metodo_invocado()."_validar"); ?>" >
 		
 		<input id='id'  name='id' type='hidden' value='<?php echo \core\Array_Datos::values('id', $datos); ?>' />
@@ -13,16 +13,13 @@
 		<span class='requerido'>Requerido</span><?php echo \core\HTML_Tag::span_error('email', $datos); ?>
 		<br />
 
-		Repite email: <input id='email' name='email2' type='text' size='100' maxlength='100' autocomplete='off' value='<?php echo \core\Array_Datos::values('email2', $datos); ?>'/>
-		<span class='requerido'>Requerido</span><?php echo \core\HTML_Tag::span_error('email2', $datos); ?>
-		<br />
 
-		Contraseña: <input id='password' name='password' type='password' size='30'  maxlength='30' autocomplete='off' value='<?php echo \core\Array_Datos::values('password', $datos); ?>'/>
-		<span class='requerido'>Requerido</span><?php echo \core\HTML_Tag::span_error('password', $datos); ?>
+		Fecha alta: <input id='fecha_alta' name='fecha_alta' type='text' size='30'  maxlength='30' autocomplete='off' value='<?php echo \core\Array_Datos::values('fecha_alta', $datos); ?>'/>
+		<span class='requerido'>Requerido</span><?php echo \core\HTML_Tag::span_error('fecha_alta', $datos); ?>
 		<br />
-
-		Repite Contraseña: <input id='password2' name='password2' type='password' size='30'  maxlength='30' autocomplete='off' value='<?php echo \core\Array_Datos::values('password2', $datos); ?>'/>
-		<span class='requerido'>Requerido</span><?php echo \core\HTML_Tag::span_error('password2', $datos); ?>
+		
+		Fecha confirmación alta: <input id='fecha_confirmacion_alta' name='fecha_confirmacion_alta' type='text' size='30'  maxlength='30' autocomplete='off' value='<?php echo \core\Array_Datos::values('fecha_confirmacion_alta', $datos); ?>'/>
+		<?php echo \core\HTML_Tag::span_error('fecha_confirmacion_alta', $datos); ?>
 		<br />
 
 		<br />
