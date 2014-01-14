@@ -21,9 +21,10 @@ class Configuracion {
 	public static $idioma_seleccionado;
 	public static $idiomas_reconocidos = "es|en|fr";
 	
+	public static $https_login = false;
 	
-	public static $email_info = "info@servicor.com";
-	public static $email_noreply = "noreply@servicor.com";
+	public static $email_info = "info@esmvcphp.es";
+	public static $email_noreply = "noreply@esmvcphp.es";
 	
 	/**
 	 *
@@ -40,7 +41,7 @@ class Configuracion {
 	);
 	
 	
-
+	
 	public static $db = array(
 		'server'   => 'localhost',
 		'user'     => 'daw2_user',
@@ -49,15 +50,16 @@ class Configuracion {
 		'prefix_'  => 'daw2_'
 	);
 	
-	/*
-	public static $db = array(
-		'server'   => 'sql210.byethost8.com',
-		'user'     => 'b8_12128753',
-		'password' => '**************',
-		'dbname'   => 'b8_12128753_esmvcphp',
-		'prefix_'  => 'foro_'
-	);
-	*/
+
+	// hostinger
+//	public static $db = array(
+//		'server'   => 'mysql.hostinger.es',
+//		'user'     => 'u452950836_daw2',
+//		'password' => 'u452950836_daw2',
+//		'db_name'   => 'u452950836_daw2',
+//		'prefix_'  => 'daw2_'
+//	);
+	
 	/**
 	 * Define array llamado recursos_y_suariosla con la definición de todos los permisos de acceso a los recursos de la aplicación.
 	 * * Recursos:

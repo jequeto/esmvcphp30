@@ -11,18 +11,30 @@ class usuarios extends \modelos\Modelo_SQL {
 		'email2' => 'errores_requerido && errores_email',
 		'password' => 'errores_requerido && errores_password',
 		'password2' => 'errores_requerido && errores_password',
+		// fecha_alta: si no se aporta se crea en mysql.
 		"fecha_alta" => "errores_fecha_hora",
-		"fecha_confirmacion_alta" => "errores_fecha_hora",
+		// fecha_confirmacion_alta: Sí debe ser aportada en la inserción interna
+		"fecha_confirmacion_alta" => "errores_fecha_hora", 
 		"clave_confirmacion" => "errores_texto",
 	);
-	
 	
 	public static $validaciones_update = array(
 		"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/usuarios/id",
 		'login' => 'errores_requerido && errores_login && errores_unicidad_modificar:id,login/usuarios/id,login',
 		'email' => 'errores_requerido && errores_email && errores_unicidad_modificar:id,email/usuarios/id,email',
-		"fecha_alta" => "errores_requerido && errores_fecha_hora",
-		"fecha_confirmacion_alta" => "errores_fecha_hora",
+		// fecha_alta: si no se aporta se crea en mysql.
+		"fecha_alta" => "errores_fecha_hora",
+		// fecha_confirmacion_alta: Sí debe ser aportada en la inserción interna
+		"fecha_confirmacion_alta" => "errores_fecha_hora", 
+		"clave_confirmacion" => "errores_texto",
+	);
+	
+	
+	public static $validaciones_password_update = array(
+		"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/usuarios/id",
+		'login' => 'errores_requerido && errores_login && errores_unicidad_modificar:id,login/usuarios/id,login',
+		'password' => 'errores_requerido && errores_password',
+		'password2' => 'errores_requerido && errores_password',
 	);
 	
 	
@@ -130,17 +142,5 @@ class usuarios extends \modelos\Modelo_SQL {
 	
 	
 	
-	public static function modificar(array &$datos = array()) {
-		
-		if ($validacion = ! \core\Validaciones::errores_validacion_request(self::$validaciones_update, $datos)) {
-			$datos["values"]["fecha_alta"] = \core\Conversiones::fecha_hora_es_a_mysql($datos["values"]["fecha_alta"]);
-			$datos["values"]["fecha_confirmacion_alta"] = \core\Conversiones::fecha_hora_es_a_mysql($datos["values"]["fecha_confirmacion_alta"]);
-			var_dump($datos);
-			$valiacion = self::update_row($datos["values"], "usuarios");
-		}
-		return $validacion;
-		
-		
-	}
 	
 }

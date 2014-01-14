@@ -172,8 +172,10 @@ class mysqli implements \core\sgbd\SQL_interface {
 			return self::get_rows();
 		}
 		else { 
-			
-			return self::$result;
+			if (preg_match("/insert /i", $sql))
+				return mysqli_insert_id(self::$connection);
+			else
+				return self::$result;
 		}
 		
 	}
@@ -232,7 +234,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function insert_row( array &$fila , $table) {
+	public static function insert_row( array &$fila , $table=null) {
 		
 		if (isset($fila['id']))
 			throw new \Exception(__METHOD__." Error: no pude insertarse la columna id.");
@@ -253,7 +255,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function insert(array &$fila, $table) {
+	public static function insert(array &$fila, $table=null) {
 	
 		return self::insert_row($fila, $table);
 		
@@ -264,7 +266,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 		
-	public static function update_row(array &$fila , $table, $where=null) {
+	public static function update_row(array &$fila , $table=null, $where=null) {
 		
 		if ( ! isset($fila['id']) && ! strlen($where))
 			throw new \Exception(__METHOD__." Error: debe aportarse la id or \$where.");
@@ -277,7 +279,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 		elseif (isset($fila['id']))
 			$where = " where id = {$fila['id']}";
 		else {
-			$where = "";
+			throw new \Exception(__METHOD__." Error: debe aportarse la id or \$where.");
 		}
 		
 		$sql = "
@@ -291,7 +293,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	}
 	
 	
-	public static function update(array &$fila , $table, $where=null) {
+	public static function update(array &$fila , $table=null, $where=null) {
 		
 		return self::update_row($fila, $table, $where);
 		
@@ -416,11 +418,11 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	public static function last_insert_id() {
 		
-		$sql = " select last_insert_id() as id;";
+//		$sql = " select last_insert_id() as id;";
+//		$filas = self::get_rows($sql);
+//		return $filas[0]['id'];
 		
-		$filas = self::get_rows($sql);
-		
-		return $filas[0]['id'];
+		return mysqli_insert_id(self::$connection);
 		
 	}
 	
