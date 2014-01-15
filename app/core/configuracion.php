@@ -15,8 +15,7 @@ class Configuracion {
 	
 	public static $url_amigable = false;
 	
-	
-	
+
 	public static $idioma_por_defecto = "es";
 	public static $idioma_seleccionado;
 	public static $idiomas_reconocidos = "es|en|fr";

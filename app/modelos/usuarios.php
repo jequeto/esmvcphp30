@@ -119,8 +119,8 @@ class usuarios extends \modelos\Modelo_SQL {
 		$consulta = "
 			select controlador , metodo
 			from ".self::get_prefix_tabla('usuarios_permisos')."
-			where login = '$login'
-			union
+			where login = '$login' 
+			union 
 			select controlador , metodo
 			from ".self::get_prefix_tabla('roles_permisos')."
 			where rol in  (select rol from ".self::get_prefix_tabla('usuarios_roles')." where login='$login')

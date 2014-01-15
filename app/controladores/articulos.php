@@ -12,7 +12,7 @@ class articulos extends \core\Controlador {
 	public function index(array $datos=array()) {
 		
 		$clausulas['order_by'] = 'nombre';
-		$datos["filas"] = \modelos\Datos_SQL::select( $clausulas, 'articulos' ); // Recupera todas las filas ordenadas
+		$datos["filas"] = \modelos\Datos_SQL::table("articulos")->select( $clausulas ); // Recupera todas las filas ordenadas
 		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos);
 		\core\HTTP_Respuesta::enviar($http_body);
@@ -23,7 +23,7 @@ class articulos extends \core\Controlador {
 	public function form_insertar(array $datos=array()) {
 		
 		$clausulas['order_by'] = " nombre ";
-		$datos['categorias'] = \modelos\Datos_SQL::select( $clausulas, 'categorias');
+		$datos['categorias'] = \modelos\Datos_SQL::table("categorias")->select($clausulas);
 		
 		$datos['view_content'] = \core\Vista::generar(__FUNCTION__, $datos);
 		$http_body = \core\Vista_Plantilla::generar('plantilla_principal', $datos);
@@ -43,8 +43,8 @@ class articulos extends \core\Controlador {
             $datos["errores"]["errores_validacion"]="Corrige los errores.";
 		else {
 			$datos['values']['precio'] = \core\Conversiones::decimal_coma_a_punto($datos['values']['precio']);
-			$datos['values']['unidades_sctock'] = \core\Conversiones::decimal_coma_a_punto($datos['values']['unidades_stock']);
-			if ( ! $validacion = \modelos\Datos_SQL::insert($datos["values"], 'articulos')) // Devuelve true o false
+			$datos['values']['unidades_stock'] = \core\Conversiones::decimal_coma_a_punto($datos['values']['unidades_stock']);
+			if ( ! $validacion = \modelos\Datos_SQL::table("articulos")->insert($datos["values"])) // Devuelve true o false
 				$datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
 		}
 		if ( ! $validacion) //Devolvemos el formulario para que lo intente corregir de nuevo
@@ -73,7 +73,7 @@ class articulos extends \core\Controlador {
 			}
 			else {
 				$clausulas['where'] = " id = {$datos['values']['id']} ";
-				if ( ! $filas = \modelos\Datos_SQL::select($clausulas, 'articulos')) {
+				if ( ! $filas = \modelos\Datos_SQL::table("articulos")->select($clausulas)) {
 					$datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
 					$this->cargar_controlador('mensajes', '', $datos);
 					return;
@@ -84,7 +84,7 @@ class articulos extends \core\Controlador {
 					$datos['values']['unidades_stock'] = \core\Conversiones::decimal_punto_a_coma_y_miles($datos['values']['unidades_stock']);
 					
 					$clausulas = array('order_by' => " nombre ");
-					$datos['categorias'] = \modelos\Datos_SQL::select( $clausulas, 'categorias');
+					$datos['categorias'] = \modelos\Datos_SQL::table("categorias")->select( $clausulas);
 				}
 			}
 		}
@@ -110,7 +110,7 @@ class articulos extends \core\Controlador {
 		else {
 			$datos['values']['precio'] = \core\Conversiones::decimal_coma_a_punto($datos['values']['precio']);
 			$datos['values']['unidades_stock'] = \core\Conversiones::decimal_coma_a_punto($datos['values']['unidades_stock']);
-			if ( ! $validacion = \modelos\Datos_SQL::update($datos["values"], 'articulos')) // Devuelve true o false
+			if ( ! $validacion = \modelos\Datos_SQL::table("articulos")->update($datos["values"])) // Devuelve true o false
 				$datos["errores"]["errores_validacion"]="No se han podido grabar los datos en la bd.";
 		}
 		if ( ! $validacion) //Devolvemos el formulario para que lo intente corregir de nuevo
@@ -138,7 +138,7 @@ class articulos extends \core\Controlador {
 		}
 		else {
 			$clausulas['where'] = " id = {$datos['values']['id']} ";
-			if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, 'articulos')) {
+			if ( ! $filas = \modelos\Datos_SQL::table("articulos")->select( $clausulas)) {
 				$datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
 				$this->cargar_controlador('mensajes', '', $datos);
 				return;
@@ -219,8 +219,8 @@ class articulos extends \core\Controlador {
 		$dompdf->render();
 		$dompdf->stream("sample.pdf", array("Attachment" => 0));
 		
-		// \core\Respuesta::cambiar_tipo_mime('application/pdf');
-		// \core\Respuesta::enviar($datos, 'plantilla_pdf');
+		// \core\HTTP_Respuesta::set_mime_type('application/pdf');
+		// \core\HTTP_Respuesta::enviar($datos, 'plantilla_pdf');
 		
 	}
 	
@@ -242,8 +242,9 @@ class articulos extends \core\Controlador {
 				
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		
-		\core\Respuesta::cambiar_tipo_mime('text/json');
-		\core\Respuesta::enviar($datos, 'plantilla_json');
+		\core\HTTP_Respuesta::set_mime_type('text/json');
+		$http_body = \core\Vista_Plantilla::generar('plantilla_json', $datos);
+		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
 	
@@ -264,8 +265,9 @@ class articulos extends \core\Controlador {
 				
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		
-		\core\Respuesta::cambiar_tipo_mime('text/json');
-		\core\Respuesta::enviar($datos, 'plantilla_json');
+		\core\HTTP_Respuesta::set_mime_type('text/json');
+		$http_body = \core\Vista_Plantilla::generar('plantilla_json', $datos);
+		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
 	
@@ -288,8 +290,8 @@ class articulos extends \core\Controlador {
 				
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		
-		\core\Respuesta::cambiar_tipo_mime('text/xml');
-		\core\Respuesta::enviar($datos, 'plantilla_xml');
+		\core\HTTP_Respuesta::set_mime_type('text/xml');
+		\core\HTTP_Respuesta::enviar('plantilla_xml', $datos);
 		
 	}
 	
@@ -313,8 +315,9 @@ class articulos extends \core\Controlador {
 				
 		$datos['contenido_principal'] = \core\Vista::generar(__FUNCTION__, $datos);
 		
-		\core\Respuesta::cambiar_tipo_mime('application/excel');
-		\core\Respuesta::enviar($datos, 'plantilla_xls');
+		\core\HTTP_Respuesta::set_mime_type('application/excel');
+		$http_body = \core\Vista_Plantilla::generar('plantilla_xls', $datos);
+		\core\HTTP_Respuesta::enviar($http_body);
 		
 	}
 	

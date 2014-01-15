@@ -18,7 +18,7 @@ class Distribuidor {
 	public static function estudiar_query_string() {		
 		
 		$controlador = isset($_GET['menu']) ? \core\HTTP_Requerimiento::get('menu') : \core\HTTP_Requerimiento::get('p1');
-		$metodo = isset($_GET['submenu']) ?\core\HTTP_Requerimiento::get('submenu'): \core\HTTP_Requerimiento::get('p2');		
+		$metodo = isset($_GET['submenu']) ? \core\HTTP_Requerimiento::get('submenu'): \core\HTTP_Requerimiento::get('p2');		
 		
 		if ( $controlador  == null || (boolean)\core\Validaciones::errores_identificador($controlador) )
 			$controlador = strtolower(\core\Configuracion::$controlador_por_defecto);

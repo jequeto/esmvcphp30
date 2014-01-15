@@ -46,13 +46,14 @@
 		</div>
 		<div id='idiomas' style='position: fixed; top: 10px; right: 10px; width: 200px;'>
 			<span  onclick='set_lang("es", "<?php echo \core\URL::generar_sin_idioma("inicio/internacional"); ?>");' ><img src='<?php echo \core\URL::generar_sin_idioma(); ?>recursos/imagenes/generales/flag_es.png' height='25px' /><?php echo \core\Idioma::text("Español", "plantilla_internacional"); ?></span>
-			<a  onclick='set_lang("en", "<?php echo \core\URL::generar_sin_idioma("inicio/internacional"); ?>");'><img src='<?php echo \core\URL::generar_sin_idioma(); ?><img src='<?php echo \core\URL::generar_sin_idioma(); ?>recursos/imagenes/generales/flag_gb.png' height='25px' /><?php echo \core\Idioma::text("Inglés", "plantilla_internacional"); ?></a>
+			<a  onclick='set_lang("en", "<?php echo \core\URL::generar_sin_idioma("inicio/internacional"); ?>");'><img src='<?php echo \core\URL::generar_sin_idioma(); ?>recursos/imagenes/generales/flag_gb.png' height='25px' /><?php echo \core\Idioma::text("Inglés", "plantilla_internacional"); ?></a>
 		</div>
 		
 		<div id="div_menu" >
 			<fieldset>
 				<legend><?php echo \core\Idioma::text("leyenda_menu", "plantilla_internacional"); ?>:</legend>
 					<ul id="menu" class="menu">
+						<li class="item"><a href="<?php echo \core\URL::generar("inicio"); ?>" title="Inicio"><?php echo \core\Idioma::text("Inicio", "plantilla_internacional"); ?></a></li>
 						<li class="item"><a href="<?php echo \core\URL::generar("revista"); ?>" title="Revista"><?php echo \core\Idioma::text("Revista", "plantilla_internacional"); ?></a></li>
 						<li class="item"><a href="<?php echo \core\URL::generar("libros"); ?>" title="Libros leídos"><?php echo \core\Idioma::text("Libros", "plantilla_internacional"); ?></a></li>
 					</ul>

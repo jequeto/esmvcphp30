@@ -8,14 +8,15 @@ class URL {
 	 * Retorna una URI con el esquema http
 	 * <br />La url no contiene el nombre del fichero index.php
 	 * <br />Ejemplo de URL generada: http://www.servidor.com/?query_string  http://www.servidor.com/aplicacion/?query_string
+	 * 
+	 * No incluye parámetros de administrator ni language
 	 
 	 * @param string $query_string
 	 * @return string
 	 */
 	public static function http($query_string = '') {
 		
-		$patron = "/^\?.*/";
-		if ( strlen($query_string) && ! preg_match($patron, $query_string))
+		if ( strlen($query_string) && preg_match("/=/", $query_string) && ! preg_match("/^\?.*/", $query_string))
 			$query_string .= "?$query_string";
 		
 		$url = "http://".$_SERVER['SERVER_NAME'].str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
@@ -29,17 +30,15 @@ class URL {
 	 * Retorna una URL que requiere protocolo https partiendo de la que recibió la petición para ejecutar el index.php.
 	 * <br />La url no contiene el nombre del fichero index.php
 	 * <br />Ejemplo de URL generada: https://www.servidor.com/?query_string  https://www.servidor.com/aplicacion/?query_string
+	 * 
+	 * No incluye parámetros de administrator ni language
+	 * 
 	 * @param string $query_string
 	 * @return string
 	 */
 	public static function https($query_string = '') {
 		
-		$patron = "/^\?.*/";
-		if ( strlen($query_string) && ! preg_match($patron, $query_string))
-			$query_string .= "?$query_string";
-		
-		$carpeta = str_replace('index.php', '',$_SERVER['SCRIPT_NAME']);
-		return "https://{$_SERVER['HTTP_HOST']}$carpeta$query_string";
+		return(str_replace("http", "https", self::http($query_string)));
 		
 	}
 	
@@ -73,7 +72,7 @@ class URL {
 			
 			}
 			
-			return URL_ROOT.((\core\Configuracion::$url_amigable) ? self::amigable($query_string, $withLang) : self::query_string($query_string, $withLang));
+			return URL_ROOT.((\core\Configuracion::$url_amigable) ? self::amigable($query_string, $withLang,$withLang) : self::query_string($query_string, $withLang, $withLang));
 
 	}
 		
@@ -81,17 +80,17 @@ class URL {
 	
 	
 	
-	static function http_generar($query_string = array(), $withLang = true) {
+	static function http_generar($query_string = array(), $withLang = true, $withLang = true) {
 		
-		return self::generar($query_string, $withLang);
+		return self::generar($query_string, $withLang, $withLang);
 		
 	}
 	
 	
 	
-	static function https_generar($query_string = array(), $withLang = true) {
+	static function https_generar($query_string = array(), $withLang = true, $withLang = true) {
 		
-		$url = self::generar($query_string, $withLang);
+		$url = self::generar($query_string, $withLang, $withLang);
 		return str_replace("http:", "https:", $url);
 		
 	}
@@ -134,19 +133,19 @@ class URL {
 	 */
 	static function generar_con_idioma($query_string = array()) {
 		
-		return self::generar($query_string, true);
+		return self::generar($query_string, true, true);
 		
 	}
 
 	/**
-	 * Genera una url absoluta sin administrator y sin idioma, con esquema http.
+	 * Genera una url absoluta con administrator y sin idioma, con esquema http.
 	 * 
 	 * @param string $query_string
 	 * @return string
 	 */
 	static function generar_sin_idioma($query_string = array()) {
 		
-		return self::generar($query_string, false);
+		return self::generar($query_string, false, true);
 		
 	}
 	
@@ -208,8 +207,12 @@ class URL {
 
 	}
 	
+	
+	
+	
 	/**
-	 * Registra en el array $_SESSION la URL actual y la anterior y la candidata para el botón volver o cancelar
+	 * Registra en el array $_SESSION la URL actual y la anterior y la candidata 
+	 * para el botón volver o cancelar
 	 */
 	public static function registrar() {
 		
@@ -228,12 +231,23 @@ class URL {
 	
 	/**
 	 * Devuelve una URL que sea recargable, es decir, que no sea formulario ni validación de formularo
+	 * 
+	 * @return string URL
 	 */
 	public static function btn_volver() {
+		
+		return self::url_btn_volver();
+		
+	}
+	
+	/**
+	 * Devuelve una URL que sea recargable, es decir, que no sea formulario ni validación de formularo
+	 * 
+	 * @return string URL
+	 */
+	public static function url_btn_volver() {
 		
 		return $_SESSION["url"]["btn_volver"];
 		
 	}
-	
-			
 }

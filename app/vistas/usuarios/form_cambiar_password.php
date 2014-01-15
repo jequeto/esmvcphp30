@@ -1,6 +1,6 @@
 <div >
 	<h2>Modificar Password</h2>
-	<?php echo __FILE__; var_dump($datos); ?>
+	<?php //echo __FILE__; var_dump($datos); ?>
 	<form method='post' action="<?php echo \core\URL::generar("usuarios/".\core\Distribuidor::get_metodo_invocado()."_validar"); ?>" >
 		
 		<input id='id'  name='id' type='hidden' value='<?php echo \core\Array_Datos::values('id', $datos); ?>' />
