@@ -68,7 +68,9 @@ class articulos extends \core\Controlador {
 			);
 			if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 				$datos['mensaje'] = 'Datos erróneos para identificar el artículo a modificar';
-				$this->cargar_controlador('mensajes', '', $datos);
+				$datos['url_continuar'] = \core\URL::generar("articulos");
+				
+				$this->cargar_controlador('mensajes', 'mensaje', $datos);
 				return;
 			}
 			else {

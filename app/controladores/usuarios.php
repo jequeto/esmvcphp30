@@ -204,6 +204,11 @@ class usuarios extends \core\Controlador {
 	public function form_modificar(array $datos = array()) {
 	
 		if ( ! isset($datos["errores"])) {
+			//Comprobar que la petición se ha recibido por post.
+			if ( \core\HTTP_Requerimiento::method() != "POST" ) {
+				$datos['mensaje'] = "Petición invalida";
+				return \core\Distribuidor::cargar_controlador("mensajes", "mensaje",$datos);
+			}
 			// Recuperar fila de la base de datos
 			// Primero buscamos el valor del id que se habrá recibido
 			$validaciones = array(
@@ -238,7 +243,7 @@ class usuarios extends \core\Controlador {
 			$datos["values"]["fecha_alta"] = \core\Conversiones::fecha_hora_es_a_mysql($datos["values"]["fecha_alta"]);
 			$datos["values"]["fecha_confirmacion_alta"] = \core\Conversiones::fecha_hora_es_a_mysql($datos["values"]["fecha_confirmacion_alta"]);
 //			
-			$valiacion = \modelos\modelo_SQL::table("usuarios")->update($datos["values"]);
+			$validacion = \modelos\modelo_SQL::table("usuarios")->update($datos["values"]);
 		}
 		
 		
@@ -247,6 +252,8 @@ class usuarios extends \core\Controlador {
 		}
 		else {
 			$_SESSION["alerta"] = "Se ha modificado correctamente el usuario";
+			//Cambiamos la url del navegador del cliente para que pida el controlador de usuarios y método index(por defecto), para evitar el comportamiento de la tecla F5 o recarga de página.
+			
 			\core\HTTP_Respuesta::set_header_line("Location", \core\URL::generar("usuarios"));
 			\core\HTTP_Respuesta::enviar();
 		}
@@ -255,6 +262,12 @@ class usuarios extends \core\Controlador {
 
 
 	public function form_borrar(array $datos = array())	{
+		
+		if ( \core\HTTP_Requerimiento::method() != "POST" ) {
+			$datos['mensaje'] = "Petición invalida. Usa el menú y los botones de la aplicación";
+			return \core\Distribuidor::cargar_controlador("mensajes", "mensaje",$datos);
+				
+		}
 		
 		$validaciones = array(
 				"id" => "errores_requerido && errores_referencia:id/usuarios/id"

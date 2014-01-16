@@ -32,9 +32,9 @@ class usuarios extends \modelos\Modelo_SQL {
 	
 	public static $validaciones_password_update = array(
 		"id" => "errores_requerido && errores_numero_entero_positivo && errores_referencia:id/usuarios/id",
-		'login' => 'errores_requerido && errores_login && errores_unicidad_modificar:id,login/usuarios/id,login',
+		'login' => 'errores_requerido && errores_login',
 		'password' => 'errores_requerido && errores_password',
-		'password2' => 'errores_requerido && errores_password',
+		'password2' => 'errores_requerido',
 	);
 	
 	
