@@ -39,7 +39,7 @@
 		
 	</head>
 
-	<body>
+	<body onload='onload();'>
 	
 		<!-- Contenido que se visualizará en el navegador, organizado con la ayuda de etiquetas html -->
 		<div id="inicio"></div>
@@ -105,27 +105,53 @@
 			Fecha última actualización: 15 de diciembre de 2013.
 		</div>
 		
-		<?php
-			if ( isset($_SESSION["alerta"]) ) {
-				print "
-					<script type='text/javascript'>
-						alert('{$_SESSION["alerta"]}');
-					</script>
-				";
-				unset($_SESSION["alerta"]);
+		<script type="text/javascript" />
+			var alerta;
+			function onload() {
+				visualizar_alerta();
 			}
-			else if (isset($datos["alerta"])) {
-				print "
-					<script type='text/javascript'>
-						alert('{$datos["alerta"]}');
-					</script>
-				";
-				unset($datos["alerta"]);
+
+			function visualizar_alerta() {
+				if (alerta != undefined) {
+					$("body").css("opacity","0.3").css("filter", "alpha(opacity=30)");
+					alert(alerta);
+					alerta = undefined;
+					$("body").css("opacity","1.0").css("filter", "alpha(opacity=100)");
+				}
 			}
-		?>
+
+		</script>
+
+	
+<?php
+if (isset($_SESSION["alerta"])) {
+	echo <<<heredoc
+<script type="text/javascript" />
+	// alert("{$_SESSION["alerta"]}");
+	var alerta = '{$_SESSION["alerta"]}';
+</script>
+heredoc;
+	unset($_SESSION["alerta"]);
+}
+elseif (isset($datos["alerta"])) {
+	echo <<<heredoc
+<script type="text/javascript" />
+	// alert("{$datos["alerta"]}");
+	var alerta = '{$datos["alerta"]}';
+</script>
+heredoc;
+}
+?>	
+	
 		<div id='globals'>
 			<?php
-				print "<pre>"; print_r($GLOBALS);print "</pre>";
+				 print "<pre>"; 
+				  //print_r($GLOBALS);
+				 print_r($_GET);
+				 print_r($_POST);
+				 print_r($_REQUEST);
+				 print_r($_SERVER);
+				 print "</pre>";
 			?>
 		</div>
 		

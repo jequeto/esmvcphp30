@@ -40,7 +40,7 @@ class Configuracion {
 	);
 	
 	
-	
+	// localhost
 	public static $db = array(
 		'server'   => 'localhost',
 		'user'     => 'daw2_user',

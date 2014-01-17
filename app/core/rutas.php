@@ -69,11 +69,12 @@ class Rutas {
 			
 			$patron[0] = "/^[\w\-]+$/i"; // controlador
 			$patron[1] = "/^[\w\-]+$/i"; // método
-			$patron[2] = "/^\w+.*/i"; // id y otros
+			$patron[2] = "/^[\w\-]+$/i"; // id
+			$patron[3] = "/.*/"; // id y otros
 			foreach ($parametros as $key => $value) {
 				// Si el parámetro se ha recibido no se añade
 				// Si lo añado, quito la / del inicio.
-				$patron_parametro = $key < 2 ? $patron[$key] : $patron[2];
+				$patron_parametro = $key < 3 ? $patron[$key] : $patron[3];
 				if (preg_match($patron_parametro, $value))
 					if ( ! isset($_GET["p".($key+1)]) ) $_GET["p".($key+1)] = $value;
 			}

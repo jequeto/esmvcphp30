@@ -74,14 +74,14 @@ class categorias extends \core\Controlador {
 			);
 			if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 				$datos['mensaje'] = 'Datos erróneos para identificar el artículo a modificar';
-				\core\Distribuidor::cargar_controlador('mensajes', '', $datos);
+				\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 				return;
 			}
 			else {
 				$clausulas['where'] = " id = {$datos['values']['id']} ";
 				if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, 'categorias')) {
 					$datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
-					\core\Distribuidor::cargar_controlador('mensajes', '', $datos);
+					\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 					return;
 				}
 				else {
@@ -140,14 +140,14 @@ class categorias extends \core\Controlador {
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';
 			$datos['url_continuar'] = \core\URL::http('?menu=categorias');
-			\core\Distribuidor::cargar_controlador('mensajes', '', $datos);
+			\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 			return;
 		}
 		else {
 			$clausulas['where'] = " id = {$datos['values']['id']} ";
 			if ( ! $filas = \modelos\Datos_SQL::select( $clausulas, 'categorias')) {
 				$datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
-				\core\Distribuidor::cargar_controlador('mensajes', '', $datos);
+				\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 				return;
 			}
 			else {
@@ -173,7 +173,7 @@ class categorias extends \core\Controlador {
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';
 			$datos['url_continuar'] = \core\URL::http('?menu=categorias');
-			\core\Distribuidor::cargar_controlador('mensajes', '', $datos);
+			\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 			return;
 		}
 		else
@@ -181,7 +181,7 @@ class categorias extends \core\Controlador {
 			if ( ! $validacion = \modelos\Datos_SQL::delete($datos["values"], 'categorias')) {// Devuelve true o false
 				$datos['mensaje'] = 'Error al borrar en la bd';
 				$datos['url_continuar'] = \core\URL::http('?menu=categorias');
-				\core\Distribuidor::cargar_controlador('mensajes', '', $datos);
+				\core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 				return;
 			}
 			else

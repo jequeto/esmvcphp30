@@ -429,10 +429,13 @@ class usuarios extends \core\Controlador {
 		
 		if (self::form_insertar_validar($datos)) {
 			
+			
+			
 			$datos["mensaje"] = "Se ha grabado correctamente el usuario. ";
 			
 			// Envío del email
-			$url = \core\URL::generar("usuarios/confirmar_alta/{$datos['values']['id']}/{$datos['values']['clave_confirmacion']}");
+			$url = \core\URL::generar("usuarios/confirmar_alta/{$datos['values']['id']}/".urlencode($datos['values']['clave_confirmacion']));
+			
 			
 			$to = $datos["values"]["email"];
 			$subject = "Confirmación de alta de usuario en ".TITULO;
@@ -446,6 +449,7 @@ class usuarios extends \core\Controlador {
 	<p>Login: <b>{$datos['values']['login']}</b> Password: <b>$password</b></p>
 	<p>Para confirmar tu registro en la aplicación ".TITULO." pulsa en el siguiente hipervínculo o sino cópialo en la ventana de direcciones de tu navegador. <a href='$url' target='_blank' >$url</a>
 	</p>
+	<p>Si no funciona el hipervínculo, cópialo y pégalo en la barra de direcciones de tu navegador.</p>
 </body>
 </html>";
 			$additional_headers = "From: ".  \core\Configuracion::$email_noreply . "\r\n";
@@ -454,7 +458,7 @@ class usuarios extends \core\Controlador {
 			$additional_headers .= 'X-Mailer: PHP/' . phpversion();
 			
 			if ( $envio_email = mail($to, $subject, $message, $additional_headers))  {
-				$datos["mensaje"] .= "Se ha enviado un correo electrónico a la cuenta de email que has aportado. Haz la confirmación pinchando en vínculo que se te ha enviado. ";
+				$datos["mensaje"] .= "Se ha enviado un correo electrónico a la cuenta de email que has aportado. Haz la confirmación pinchando en vínculo que se te ha enviado, pinchando en el enlace que se envía <a href='$url' target='_blank'>$url</a>. ";
 			}
 			else {
 				// Si falla el envío del email
@@ -520,15 +524,13 @@ class usuarios extends \core\Controlador {
 		$_POST["fecha_confirmacion_alta"] = date("d/m/Y H:i:s");
 		$_REQUEST["fecha_confirmacion_alta"] = date("d/m/Y H:i:s");
 		
-		
-		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
+		if ( ! $validacion  = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Petición incorrecta.';
-			var_dump($datos); exit;
 			return \core\Distribuidor::cargar_controlador('mensajes', 'mensaje', $datos);
 			
 		}
 		else {
-			
+			$datos["values"]["key"] = urldecode($datos["values"]["key"]);
 			$clausulas['where'] = " id = {$datos['values']['id']} and clave_confirmacion = '{$datos['values']['key']}' and fecha_confirmacion_alta is not null " ;
 			$filas = \modelos\Modelo_SQL::table("usuarios")->select($clausulas);
 			
@@ -541,7 +543,7 @@ class usuarios extends \core\Controlador {
 			else {
 				$clausulas['where'] = " id = {$datos['values']['id']} and clave_confirmacion = '{$datos['values']['key']}' and fecha_confirmacion_alta is null " ;
 				$filas = \modelos\Modelo_SQL::table("usuarios")->select($clausulas);
-
+				
 				if (count($filas) == 1) {
 					// El usuario es correcto y está sin confirmar
 					unset($datos['values']['key']);

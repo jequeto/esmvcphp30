@@ -9,7 +9,7 @@
 -- create user daw2_user identified by 'daw2_user';
 -- # Concedemos al usuario daw2_user todos los permisos sobre esa base de datos
 -- grant all privileges on daw2.* to daw2_user;
-
+-- 
 -- use daw2;
 
 set names utf8;
@@ -168,7 +168,8 @@ create table daw2_foros
 , nombre varchar(100) not null unique
 , fecha_alta timestamp not null default current_timestamp()
 , creador_usuario_id integer unsigned not null references foros_usuarios(id)
-) engine = myisam;
+)
+engine = myisam;
 
 /*
 El tema de un foro es equivalente a una pregunta.
@@ -182,7 +183,8 @@ create table daw2_foros_temas
 , creador_usuario_id integer unsigned not null references foros_usuarios(id)
 
 , unique(daw2_id, titulo)
-) engine = myisam;
+)
+engine = myisam;
 
 
 /*
@@ -197,4 +199,5 @@ create table daw2_foros_temas_mensajes
 , tema_id integer unsigned not null references foros_foros_temas(id) on delete cascade
 , creador_usuario_id integer unsigned not null references foros_usuarios(id)
 
-) engine = myisam;
+)
+engine = myisam;

@@ -77,7 +77,7 @@ class articulos extends \core\Controlador {
 				$clausulas['where'] = " id = {$datos['values']['id']} ";
 				if ( ! $filas = \modelos\Datos_SQL::table("articulos")->select($clausulas)) {
 					$datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
-					$this->cargar_controlador('mensajes', '', $datos);
+					$this->cargar_controlador('mensajes', 'mensaje', $datos);
 					return;
 				}
 				else {
@@ -135,14 +135,14 @@ class articulos extends \core\Controlador {
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';
 			$datos['url_continuar'] = \core\URL::http('?menu=articulos');
-			$this->cargar_controlador('mensajes', '', $datos);
+			$this->cargar_controlador('mensajes', 'mensaje', $datos);
 			return;
 		}
 		else {
 			$clausulas['where'] = " id = {$datos['values']['id']} ";
 			if ( ! $filas = \modelos\Datos_SQL::table("articulos")->select( $clausulas)) {
 				$datos['mensaje'] = 'Error al recuperar la fila de la base de datos';
-				$this->cargar_controlador('mensajes', '', $datos);
+				$this->cargar_controlador('mensajes', 'mensaje', $datos);
 				return;
 			}
 			else {
@@ -175,7 +175,7 @@ class articulos extends \core\Controlador {
 		if ( ! $validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos)) {
 			$datos['mensaje'] = 'Datos erróneos para identificar el artículo a borrar';
 			$datos['url_continuar'] = \core\URL::http('?menu=articulos');
-			$this->cargar_controlador('mensajes', '', $datos);
+			$this->cargar_controlador('mensajes', 'mensaje', $datos);
 			return;
 		}
 		else
@@ -183,7 +183,7 @@ class articulos extends \core\Controlador {
 			if ( ! $validacion = \modelos\Datos_SQL::delete($datos["values"], 'articulos')) {// Devuelve true o false
 				$datos['mensaje'] = 'Error al borrar en la bd';
 				$datos['url_continuar'] = \core\URL::http('?menu=articulos');
-				$this->cargar_controlador('mensajes', '', $datos);
+				$this->cargar_controlador('mensajes', 'mensaje', $datos);
 				return;
 			}
 			else
