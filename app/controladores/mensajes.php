@@ -6,7 +6,7 @@ class mensajes extends \core\Controlador {
 	
 	public function index(array $datos = array()) {
 		
-		return \core\Distribuidor::cargar_controlador("mensajes", "mensaje");
+		return \core\Distribuidor::cargar_controlador("mensajes", "mensaje", $datos);
 		
 	}
 	

@@ -15,12 +15,17 @@ class Configuracion {
 	
 	public static $url_amigable = true;
 	
+	
+	
+	public static $display_errors = "on"; // Valores posibles "on" "off""
 
 	public static $idioma_por_defecto = "es";
 	public static $idioma_seleccionado;
 	public static $idiomas_reconocidos = "es|en|fr";
 	
 	public static $https_login = false;
+	public static $form_login_catcha = false;
+	public static $form_insertar_externo_catcha = false;
 	
 	public static $email_info = "info@esmvcphp.es";
 	public static $email_noreply = "noreply@esmvcphp.es";

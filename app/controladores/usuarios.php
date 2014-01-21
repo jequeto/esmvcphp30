@@ -62,7 +62,7 @@ class usuarios extends \core\Controlador {
 				);
 
 				$validacion = ! \core\Validaciones::errores_validacion_request($validaciones, $datos);
-				if ($validacion) {
+				if ($validacion && \core\Configuracion::$form_login_catcha) {
 					require_once(PATH_APP.'lib/php/recaptcha-php-1.11/recaptchalib.php');
 					$privatekey = "6Lem1-sSAAAAAPfnSmYe5wyruyuj1B7001AJ3CBh";
 					$resp = recaptcha_check_answer ($privatekey,
@@ -427,10 +427,26 @@ class usuarios extends \core\Controlador {
 		// Datos que no han venido en el formulario
 		$_REQUEST['clave_confirmacion'] = \core\Random_String::generar(30);
 		
-		if (self::form_insertar_validar($datos)) {
-			
-			
-			
+		$validacion_catcha = true; // Iniciamos la variable.
+		
+		if ( \core\Configuracion::$form_insertar_externo_catcha) {
+					require_once(PATH_APP.'lib/php/recaptcha-php-1.11/recaptchalib.php');
+					$privatekey = "6Lem1-sSAAAAAPfnSmYe5wyruyuj1B7001AJ3CBh";
+					$resp = recaptcha_check_answer ($privatekey,
+												  $_SERVER["REMOTE_ADDR"],
+												  $_POST["recaptcha_challenge_field"],
+												  $_POST["recaptcha_response_field"]);
+
+					if (!$resp->is_valid) {
+							$validacion_catcha = false;
+							$datos['errores']['validacion'] = 'Error de intruducción del captcha.';
+//							\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);
+					}
+
+		}
+		
+		if (self::form_insertar_validar($datos) && $validacion_catcha) {
+						
 			$datos["mensaje"] = "Se ha grabado correctamente el usuario. ";
 			
 			// Envío del email
@@ -469,6 +485,10 @@ class usuarios extends \core\Controlador {
 			
 		}
 		else {
+			if ( ! $validacion_catcha) {
+				usset($datos["errores"]);
+				$datos["errores"]["validacion"] = "Errores en el código catcha.";
+			}
 			\core\Distribuidor::cargar_controlador("usuarios", "form_insertar_externo",$datos);
 		}
 		

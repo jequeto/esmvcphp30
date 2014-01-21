@@ -1,6 +1,8 @@
 
 <?php
-//print "<pre>"; print_r($GLOBALS); print "</pre>";
+//xdebug_start_code_coverage();
+
+
 // Definiciones constantes
 define("DS", DIRECTORY_SEPARATOR);
 

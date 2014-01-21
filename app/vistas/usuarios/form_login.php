@@ -11,9 +11,11 @@
 		<?php echo \core\HTML_Tag::span_error('validacion', $datos);?><br />
 
 		<?php
+		if (\core\Configuracion::$form_login_catcha) {
 			require_once(PATH_APP.'lib/php/recaptcha-php-1.11/recaptchalib.php');
 			$publickey = "6Lem1-sSAAAAAGBkb_xsqktWUMRvoYBT4z0DZL3U"; // you got this from the signup page
 			echo recaptcha_get_html($publickey);
+		}
 		?>
 
 		<input type='submit' value='enviar' />

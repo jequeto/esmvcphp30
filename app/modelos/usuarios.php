@@ -113,7 +113,13 @@ class usuarios extends \modelos\Modelo_SQL {
 	}
 	
 	
-	
+	/**
+	 * Recupera los permisos de un usuario de las tablas de la base de datos, y
+	 * los devuelve en forma de array.
+	 * 
+	 * @param string $login
+	 * @return array Array con los permisos de la forma permisos[controlador][metodo]=true para cada permiso recuperado
+	 */
 	public static function permisos_usuario($login) {
 		
 		$consulta = "

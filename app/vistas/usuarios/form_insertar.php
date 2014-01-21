@@ -24,6 +24,13 @@
 		Repite Contraseña: <input id='password2' name='password2' type='password' size='30'  maxlength='30' autocomplete='off' value='<?php echo \core\Array_Datos::values('password2', $datos); ?>'/>
 		<span class='requerido'>Requerido</span><?php echo \core\HTML_Tag::span_error('password2', $datos); ?>
 		<br />
+		<?php
+		if (\core\Distribuidor::get_metodo_invocado() == "form_insertar_externo" && \core\Configuracion::$form_insertar_externo_catcha) {
+			require_once(PATH_APP.'lib/php/recaptcha-php-1.11/recaptchalib.php');
+			$publickey = "6Lem1-sSAAAAAGBkb_xsqktWUMRvoYBT4z0DZL3U"; // you got this from the signup page
+			echo recaptcha_get_html($publickey);
+		}
+		?>
 
 		<br />
 		<?php echo \core\HTML_Tag::span_error('validacion', $datos);?><br />

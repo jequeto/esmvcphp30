@@ -3,8 +3,11 @@
 	<input id='id' name='id' type='hidden' value='<?php echo \core\Array_Datos::values('id', $datos); ?>' />
 	Categoría: <select id='categoria_nombre' name='categoria_nombre' />
 		<?php 
+			if (\core\Distribuidor::get_metodo_invocado() == "form_insertar") {
+				echo "<option >Elige una categría</option>\n";
+			}
 			foreach ($datos['categorias'] as $categoria) {
-				$selected = ($datos['values']['categoria_nombre'] == $categoria['nombre']) ? " selected='selected' " : "";
+				$selected = (\core\Array_Datos::values('categoria_nombre', $datos) == $categoria['nombre']) ? " selected='selected' " : "";
 				echo "<option $selected>{$categoria['nombre']}</option>\n";
 			}
 		?>

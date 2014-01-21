@@ -23,6 +23,10 @@ class Aplicacion extends \core\Clase_Base {
 	
 	public function __construct() {
 		
+		if (strtolower(\core\Configuracion::$display_errors) == "on"
+				or strtolower(\core\Configuracion::$display_errors) == "off") {
+			ini_set("display_errors", strtolower(\core\Configuracion::$display_errors));
+		}
 		// Interpretar url amigable, pasa parmametros /dato1/dato2/dato3/ 
 		// a parámetros $_GET[p1]=dato1 $_GET[p2]=dato2  $_GET[p3]=dato3 ....
 		\core\Rutas::interpretar_url_amigable();
