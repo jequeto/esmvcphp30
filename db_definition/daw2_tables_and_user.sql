@@ -1,5 +1,5 @@
 /*
- * @file: dables_and_user.sql
+ * @file: tables_and_user.sql
  * @author: jequeto@gmail.com
  * @since: 2012 enero
 */
@@ -64,11 +64,11 @@ ENGINE=myisam DEFAULT CHARSET=utf8
 drop table if exists daw2_recursos;
 create table daw2_recursos
 ( id integer unsigned auto_increment not null
-, controlador varchar(50) not null comment 'Clase controlador'
-, metodo varchar(50) not null comment 'Método de la clase controlador, si está a nulo es porque en la fila se define una sección'
-, destino  varchar(50) null comment "Utilización de este recurso en el negocio"
+, controlador varchar(50) not null comment "Si vale * equivale a todos los controladores"
+, metodo varchar(50) null comment "Si vale * equivale a todos los métodos de un controlador. Si nulo equivale a una sección sin submenú." 
+, destino  varchar(50) null comment "Utilización de este recurso en la aplicación"
 , texto_menu varchar(100) null comment "Texto que aparecerá en el menú desplegable y en los botones"
-, descripcion varchar(255) null comment "Explicación de la acción"
+, descripcion varchar(255) null comment "Explicación de la acción, aparecerá en el title"
 , primary key (id)
 , unique (controlador, metodo)
 
@@ -99,12 +99,12 @@ drop table if exists daw2_roles_permisos;
 create table daw2_roles_permisos
 ( id integer unsigned auto_increment not null
 , rol varchar(50) not null
-, controlador varchar(50) not null comment "seccion y subseccion se validarán en v_negocios_permisos"
-, metodo varchar(100) null comment "si está a nulo es porque en la fila se define una sección"
+, controlador varchar(50) not null comment "Si vale * equivale a todos los controladores"
+, metodo varchar(50) null comment "Si vale * equivale a todos los métodos de un controlador"
 , primary key (id)
 , unique(rol, controlador, metodo) -- Evita que a un rol se le asinge más de una vez un mismo permiso
 , foreign key (rol) references daw2_roles(rol) on delete cascade on update cascade
-/*, foreign key (controlador, metodo) references daw2_recursos(controlador, metodo) on delete cascade on update cascade*/
+-- , foreign key (controlador, metodo) references daw2_recursos(controlador, metodo) on delete cascade on update cascade
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=myisam;
@@ -125,8 +125,8 @@ CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=myisam;
 
 
-/*
-# Algunos hosting no dan el permiso de trigger por lo que habrá que implementarlo en programación php.
+
+-- Algunos hosting no dan el permiso de trigger por lo que habrá que implementarlo en programación php.
 drop trigger if exists daw2_t_usuarios_ai;
 delimiter //
 create trigger daw2_t_usuarios_ai after insert on daw2_usuarios
@@ -141,20 +141,19 @@ end;
 //
 delimiter ;
 
-*/
 
 
 drop table if exists daw2_usuarios_permisos;
 create table daw2_usuarios_permisos
 ( id integer unsigned auto_increment not null
 , login varchar(20) not null
-, controlador varchar(50) not null comment "seccion y subseccion se validarán en v_negocios_permisos"
-, metodo varchar(100) null comment "si está a nulo es porque en la fila se define una sección"
+, controlador varchar(50) not null comment "Si vale * equivale a todos los controladores"
+, metodo varchar(50) null comment "Si vale * equivale a todos los métodos de un controlador"
 
 , primary key (id)
 , unique(login, controlador, metodo) -- Evita que a un usuario se le asignen más de una vez un permiso
 , foreign key (login) references daw2_usuarios(login) on delete cascade on update cascade
-/*, foreign key (controlador, metodo) references daw2_recursos(controlador, metodo) on delete cascade on update cascade*/
+-- , foreign key (controlador, metodo) references daw2_recursos(controlador, metodo) on delete cascade on update cascade
 
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci

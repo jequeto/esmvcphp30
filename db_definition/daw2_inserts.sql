@@ -28,46 +28,52 @@ insert into daw2_usuarios
 , ('anais', 'anais@email.com', md5('anais00'), default, now(), null)
 ;
 
-
-
-insert into daw2_recursos
-  (controlador,		metodo) values
-  ('*'				,'*')
-, ('articulos'		,'*')
-, ('inicio'			,'index')
-, ('usuarios'		,'*')
-, ('usuarios'		,'desconectar')
-, ('usuarios'		,'form_login')
-, ('usuarios'		,'validar_form_login')
-
-
-;
+-- insert into daw2_recursos
+--   (controlador,		metodo) values
+--   ('*'				,'*')
+-- , ('categorias'		,'*')
+-- , ('articulos'		,'*')
+-- , ('inicio'			,'*')
+-- , ('usuarios'		,'*')
+-- , ('usuarios'		,'desconectar')
+-- , ('usuarios'		,'form_login')
+-- , ('usuarios'		,'form_login_validar')
+-- , ('usuarios'		,'confirmar_alta')
+-- ;
 
 insert into daw2_roles_permisos
   (rol					,controlador		,metodo) values
   ('administradores'	,'*'				,'*')
-, ('usuarios'			,'inicio'			,'index')
+, ('usuarios'			,'inicio'			,'*')
 , ('usuarios'			,'mensajes'			,'*')
-, ('usuarios_logueados','usuarios'			,'desconectar')
-, ('usuarios_logueados','inicio'			,'logueado')
+, ('usuarios_logueados' ,'usuarios'			,'desconectar')
+, ('usuarios_logueados' ,'usuarios'			,'form_cambiar_password')
+, ('usuarios_logueados' ,'usuarios'			,'form_cambiar_password_validar')
+, ('usuarios_logueados' ,'usuarios'			,'form_modificar')
+, ('usuarios_logueados' ,'usuarios'			,'form_modificar_validar')
+
 ;
 
 insert into daw2_usuarios_roles
   (login		,rol) values
   ('admin'		,'administradores')
-, ('anonimo'	,'usuarios')
-, ('juan'		,'usuarios')
-, ('juan'		,'usuarios_logueados')
-, ('anais'		,'usuarios')
-, ('anais'		,'usuarios_logueados')
+-- , ('anonimo'	,'usuarios')
+-- , ('juan'		,'usuarios')
+-- , ('juan'		,'usuarios_logueados')
+-- , ('anais'		,'usuarios')
+-- , ('anais'		,'usuarios_logueados')
 ;
 
 
 insert into daw2_usuarios_permisos
   (login			,controlador			,metodo) values
   ('anonimo'		,'usuarios'				,'form_login')
-, ('anonimo'		,'usuarios'				,'validar_form_login')
-, ('anais'			,'articulos'			,'index')
+, ('anonimo'		,'usuarios'				,'form_login_validar')
+, ('anonimo'		,'usuarios'				,'form_login_email')
+, ('anonimo'		,'usuarios'				,'form_login_email_validar')
+, ('anonimo'		,'usuarios'				,'confirmar_alta')
+, ('anonimo'		,'usuarios'				,'form_insertar_externo')
+, ('anonimo'		,'usuarios'				,'form_insertar_externo_validar')
 ;
 
 

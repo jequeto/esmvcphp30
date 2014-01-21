@@ -117,11 +117,11 @@ class usuarios extends \modelos\Modelo_SQL {
 	public static function permisos_usuario($login) {
 		
 		$consulta = "
-			select controlador , metodo
+			select distinct controlador , metodo
 			from ".self::get_prefix_tabla('usuarios_permisos')."
 			where login = '$login' 
-			union 
-			select controlador , metodo
+			union distinct
+			select distinct controlador , metodo
 			from ".self::get_prefix_tabla('roles_permisos')."
 			where rol in  (select rol from ".self::get_prefix_tabla('usuarios_roles')." where login='$login')
 			order by 1, 2

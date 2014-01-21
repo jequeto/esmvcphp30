@@ -43,14 +43,19 @@ class Distribuidor {
 	 */
 	public static function cargar_controlador($controlador, $metodo, array $datos = array()) {
 		
+		$metodo = ($metodo ? $metodo : "index"); // Asignamos el método por defecto
+		
 		$fichero_controlador = strtolower(PATH_APP."controladores/$controlador.php");
 		$controlador_clase = strtolower("\\controladores\\$controlador");
 		
 		if (file_exists($fichero_controlador)) {			
 			\core\Aplicacion::$controlador = new $controlador_clase();
+			// Memorizamos el nombre del controlador para reutilizarlo en formularios
 			\core\Aplicacion::$controlador->datos['controlador_clase'] = strtolower($controlador);
 			self::$controlador_instanciado = strtolower($controlador);
+			
 			if (method_exists(\core\Aplicacion::$controlador, $metodo)) {
+				// Memorizamos el nombre del método para reutilizarlo en formularios
 				\core\Aplicacion::$controlador->datos['controlador_metodo'] = strtolower($metodo);
 				self::$metodo_invocado = strtolower($metodo);
 				return \core\Aplicacion::$controlador->$metodo($datos);
