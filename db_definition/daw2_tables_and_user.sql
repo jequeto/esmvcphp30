@@ -1,3 +1,4 @@
+
 /*
  * @file: tables_and_user.sql
  * @author: jequeto@gmail.com
@@ -60,9 +61,9 @@ ENGINE=myisam DEFAULT CHARSET=utf8
 ;
 
 
-
-drop table if exists daw2_recursos;
-create table daw2_recursos
+-- Recursos almacena la colección de funcionalidades que es posible desarrollar en la aplicación.
+drop table if exists daw2_metodos;
+create table daw2_metodos
 ( id integer unsigned auto_increment not null
 , controlador varchar(50) not null comment "Si vale * equivale a todos los controladores"
 , metodo varchar(50) null comment "Si vale * equivale a todos los métodos de un controlador. Si nulo equivale a una sección sin submenú." 
@@ -104,7 +105,7 @@ create table daw2_roles_permisos
 , primary key (id)
 , unique(rol, controlador, metodo) -- Evita que a un rol se le asinge más de una vez un mismo permiso
 , foreign key (rol) references daw2_roles(rol) on delete cascade on update cascade
--- , foreign key (controlador, metodo) references daw2_recursos(controlador, metodo) on delete cascade on update cascade
+-- , foreign key (controlador, metodo) references daw2_metodos(controlador, metodo) on delete cascade on update cascade
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=myisam;
@@ -153,8 +154,27 @@ create table daw2_usuarios_permisos
 , primary key (id)
 , unique(login, controlador, metodo) -- Evita que a un usuario se le asignen más de una vez un permiso
 , foreign key (login) references daw2_usuarios(login) on delete cascade on update cascade
--- , foreign key (controlador, metodo) references daw2_recursos(controlador, metodo) on delete cascade on update cascade
+-- , foreign key (controlador, metodo) references daw2_metodos(controlador, metodo) on delete cascade on update cascade
 
+)
+CHARACTER SET utf8 COLLATE utf8_general_ci
+engine=myisam;
+
+
+drop table if exists daw2_menu;
+create table daw2_menu
+( id integer unsigned not null
+, es_submenu_de_id integer unsigned null
+, nivel integer unsigned not null comment '1 menu principal, 2 submenú, ...'
+, orden integer unsigned null comment 'Orden en que aparecerán'
+, texto varchar(50) not null comment 'Texto a mostrar en el item del menú'
+, accion_controlador varchar(50) not null
+, accion_metodo varchar(50) null comment 'null si es una entrada de nivel 1 con submenu de nivel 2'
+, title varchar(255) null
+, primary key (id)
+, foreign key (es_submenu_de_id) references daw2_menu(id)
+, unique (es_submenu_de_id, texto) -- Para evitar repeticiones de texto
+, unique (accion_controlador, accion_metodo) -- Si una acción/funcionalidad solo debe aparecer una vez en el menú
 )
 CHARACTER SET utf8 COLLATE utf8_general_ci
 engine=myisam;

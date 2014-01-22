@@ -28,7 +28,7 @@ insert into daw2_usuarios
 , ('anais', 'anais@email.com', md5('anais00'), default, now(), null)
 ;
 
--- insert into daw2_recursos
+-- insert into daw2_metodos
 --   (controlador,		metodo) values
 --   ('*'				,'*')
 -- , ('categorias'		,'*')
@@ -93,3 +93,19 @@ insert into daw2_articulos
 , ('legumbres', 'arroz', 0.90, 500)
 , ('refrescos', 'limonada', 1, 333)
 ;
+
+
+truncate table daw2_menu;
+insert into daw2_menu
+  (id, es_submenu_de_id	, nivel	, orden	, texto, accion_controlador, accion_metodo, title) values
+  (1 , null				, 1		, null	, 'Inicio', 'inicio', 'index', null)
+, (2 , null				, 1		, null	, 'Internacional', 'inicio', 'internacional', null)
+, (3 , null				, 1		, null	, 'Libros', 'libros', 'index', null)
+, (4 , null				, 1		, null	, 'Revista', 'revista', 'index', null)
+, (5 , null				, 1		, null	, 'Usuarios', 'usuarios', 'index', null)
+, (6 , null				, 1		, null	, 'Categorías', 'categorias', 'index', null)
+, (7 , null				, 1		, null	, 'Artículos', 'articulos', null, null)
+, (8 , 7				, 2		, null	, 'listado', 'articulos', 'index', null)
+, (9 , 7				, 2		, null	, 'recuento por categoría', 'articulos', 'recuento_por_categoria', null)
+;
+

@@ -1,3 +1,4 @@
+
 /*
  * @file: views.sql
  * @author: jequeto@gmail.com
@@ -43,3 +44,24 @@ select distinct
 from daw2_v_usuarios_permisos_roles
 order by login, controlador, metodo
 ;
+
+
+
+
+create or replace view daw2_v_menu_submenu
+(orden_nivel_1, orden_nivel_2, texto_menu, texto_submenu, accion_controlador, accion_metodo, title)
+as
+-- Items de nivel 1
+select
+	nivel as orden_nivel_1, null, texto as texto_menu, null, accion_controlador, accion_metodo, title
+from daw2_menu
+where nivel = 1
+union
+-- Items de nivel 2 o submenus
+select
+	m.nivel as orden_nivel_1, sm.orden as orden_nivel_2, m.texto as texto_menu, sm.texto as texto_submenu, sm.accion_controlador, sm.accion_metodo, sm.title
+from daw2_menu as sm inner join daw2_menu as m on sm.es_submenu_de_id=m.id
+where sm.nivel = 2
+order by orden_nivel_1, orden_nivel_2, texto_menu, texto_submenu
+;
+
