@@ -15,8 +15,8 @@ set sql_mode = 'traditional';
 insert into daw2_roles
   (rol					, descripcion) values
   ('administradores'	,'Administradores de la aplicación')
-, ('usuarios'			,'Todos los usuarios incluido anonimo')
-, ('usuarios_logueados'	,'Todos los usuarios excluido anonimo')
+, ('usuarios'			,'Todos los usuarios incluido anónimo')
+, ('usuarios_logueados'	,'Todos los usuarios excluido anónimo')
 ;
 
 

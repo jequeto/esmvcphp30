@@ -43,7 +43,7 @@ class usuarios extends \core\Controlador {
 	
 	
 	public function form_login_validar(array $datos = array()) {
-		
+//		print(__METHOD__.__LINE__); exit();
 		if (\core\Usuario::$login != "anonimo") {
 			$datos["mensaje"] = "Ya te encuentras conectado. Utiliza el menú para navegar.";
 			\core\Distribuidor::cargar_controlador("mensajes", "mensaje", $datos);
@@ -70,7 +70,7 @@ class usuarios extends \core\Controlador {
 												  $_POST["recaptcha_challenge_field"],
 												  $_POST["recaptcha_response_field"]);
 
-					if (!$resp->is_valid) {
+					if ( ! $resp->is_valid) {
 							$validacion = false;
 							$datos['errores']['validacion'] = 'Error de intruducción del captcha.';
 //							\core\Distribuidor::cargar_controlador("usuarios", "form_login", $datos);

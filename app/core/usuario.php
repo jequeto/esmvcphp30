@@ -7,7 +7,7 @@ class Usuario extends \core\Clase_Base {
 	
 	public static $id;
 	public static $login = 'anonimo';
-	public static $permisos = array();
+	private static $permisos = array();
 	public static $sesion_segundos_duracion = 0;
 	public static $sesion_segundos_inactividad = 0;
 	
@@ -38,6 +38,7 @@ class Usuario extends \core\Clase_Base {
 			self::recuperar_permisos_bd(self::$login);
 		}
 		
+//		var_dump(self::$permisos);
 		
 		if (isset($_SESSION['usuario']['contador_paginas_visitadas']))
 			$_SESSION['usuario']['contador_paginas_visitadas']++;
