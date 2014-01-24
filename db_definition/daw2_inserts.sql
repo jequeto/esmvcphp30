@@ -49,14 +49,14 @@ insert into daw2_roles_permisos
 , ('usuarios_logueados' ,'usuarios'			,'desconectar')
 , ('usuarios_logueados' ,'usuarios'			,'form_cambiar_password')
 , ('usuarios_logueados' ,'usuarios'			,'form_cambiar_password_validar')
-, ('usuarios_logueados' ,'usuarios'			,'form_modificar')
-, ('usuarios_logueados' ,'usuarios'			,'form_modificar_validar')
+, ('usuarios_logueados' ,'categorias'			,'index')
 
 ;
 
 insert into daw2_usuarios_roles
   (login		,rol) values
   ('admin'		,'administradores')
+, ('juan'		,'administradores')
 -- , ('anonimo'	,'usuarios')
 -- , ('juan'		,'usuarios')
 -- , ('juan'		,'usuarios_logueados')

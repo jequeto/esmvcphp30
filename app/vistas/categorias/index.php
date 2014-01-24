@@ -25,16 +25,20 @@
 						<td>{$fila['nombre']}</td>
 						<td>{$fila['descripcion']}</td>
 						<td>
-							<a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_modificar&id={$fila['id']}' >modificar</a>
-							<a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_borrar&id={$fila['id']}' >borrar</a>
-						</td>
+					".\core\HTML_Tag::a_boton("boton", array("categorias", "form_modificar", $fila['id']), "modificar")
+//							<a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_modificar&id={$fila['id']}' >modificar</a>
+					.\core\HTML_Tag::a_boton("boton", array("categorias", "form_borrar", $fila['id']), "borrar").
+//							<a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_borrar&id={$fila['id']}' >borrar</a>
+						"</td>
 					</tr>
 					";
 			}
 			echo "
 				<tr>
 					<td colspan='2'></td>
-						<td><a class='boton' href='?menu={$datos['controlador_clase']}&submenu=form_insertar' >insertar</a></td>
+						<td>"
+			.\core\HTML_Tag::a_boton("boton", array("categorias", "form_insertar"), "insertar").
+					"</td>
 				</tr>
 			";
 			?>

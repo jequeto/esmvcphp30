@@ -15,7 +15,8 @@ class Configuracion {
 	
 	public static $url_amigable = true;
 	
-	
+	// Control acceso a recursos
+	public static $control_acceso_recursos = true;
 	
 	public static $display_errors = "on"; // Valores posibles "on" "off""
 

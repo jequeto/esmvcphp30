@@ -100,7 +100,11 @@ class Usuario extends \core\Clase_Base {
 	}
 	
 	
-	public static function tiene_permiso($controlador, $metodo = 'index') {
+	public static function tiene_permiso($controlador = "inicio", $metodo = 'index') {
+		
+		if ( ! \core\Configuracion::$control_acceso_recursos) {
+			return true;
+		}
 		
 		$autorizado = false;
 				
@@ -115,6 +119,7 @@ class Usuario extends \core\Clase_Base {
 			$autorizado = true;	
 		
 		return $autorizado;
+		
 	}
 	
 	

@@ -28,6 +28,6 @@ $autoloader = new \core\Autoloader();
 
 //require_once PATH_APP."core/aplicacion.php";
 // Cargamos la aplicación
-$aplicacion = new \core\Aplicacion();
-
+//$aplicacion = new \core\Aplicacion();
+\core\Aplicacion::iniciar();
 // Fin de index.php

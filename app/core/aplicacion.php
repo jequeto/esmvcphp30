@@ -21,11 +21,14 @@ class Aplicacion extends \core\Clase_Base {
 	public static $controlador;
 
 	
-	public function __construct() {
+//	public function __construct() {
+	public static function iniciar() {
+
 		
-		if (strtolower(\core\Configuracion::$display_errors) == "on"
-				or strtolower(\core\Configuracion::$display_errors) == "off") {
-			ini_set("display_errors", strtolower(\core\Configuracion::$display_errors));
+		$display_errors = strtolower(\core\Configuracion::$display_errors);
+		if ($display_errors == "on"
+				or $display_errors == "off") {
+			ini_set("display_errors", $display_errors);
 		}
 		// Interpretar url amigable, pasa parmametros /dato1/dato2/dato3/ 
 		// a parámetros $_GET[p1]=dato1 $_GET[p2]=dato2  $_GET[p3]=dato3 ....
