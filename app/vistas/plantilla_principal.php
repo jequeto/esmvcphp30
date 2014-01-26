@@ -116,6 +116,9 @@
 			Fecha última actualización: 15 de diciembre de 2013.
 		</div>
 		
+		<?php echo \core\HTML_Tag::post_request_form(); ?>
+		
+		
 		<script type="text/javascript" />
 			var alerta;
 			function onload() {
@@ -162,6 +165,7 @@ heredoc;
 				 print("\$_POST ");print_r($_POST);
 				 print("\$_COOKIE ");print_r($_COOKIE);
 				 print("\$_REQUEST ");print_r($_REQUEST);
+				 print("\$_SESSION ");print_r($_SESSION);
 				 print("\$_SERVER ");print_r($_SERVER);
 				 print "</pre>";
 				 print("xdebug_get_code_coverage() ");

@@ -216,15 +216,21 @@ class URL {
 	 */
 	public static function registrar() {
 		
-		$_SESSION["url"]["actual"] =  (isset($_SERVER['REQUEST_SCHEME'])?$_SERVER['REQUEST_SCHEME']:($_SERVER['SERVER_PORT']==80?"http":"https"))."://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+		$_SESSION["url"]["actual"] =  (isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME']:($_SERVER['SERVER_PORT'] == 80 ? "http" : "https")) . "://" . $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 		$_SESSION["url"]["anterior"] =  (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : URL_ROOT);
 		
-		if ( !isset($_SESSION["url"]["btn_volver"])) {
+		if ( ! isset($_SESSION["url"]["btn_volver"])) {
 			$_SESSION["url"]["btn_volver"] = URL_ROOT;
 		}
+		// Solo se memoriza la url anterior si no es de un formulario.
 		if ( ! preg_match("/form/", $_SESSION["url"]["anterior"])) {
 			$_SESSION["url"]["btn_volver"] =  $_SESSION["url"]["anterior"] ;
 		}
+		
+		if ($_SESSION["url"]["actual"] == $_SESSION["url"]["anterior"]) {
+			$_SESSION["url"]["btn_volver"] =  URL_ROOT;
+		}
+		
 		
 	}
 	

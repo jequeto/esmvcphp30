@@ -107,6 +107,10 @@ class Usuario extends \core\Clase_Base {
 		}
 		
 		$autorizado = false;
+		
+		// La siguiente línea hace que el usuario que tenga asignado el método form_insertar
+		// también pueda acceder al método form_insertar_validar
+		$metodo = preg_replace("/_validar|validar_/", "", $metodo);
 				
 		// El usuario tiene acceo a todos los recursos
 		if (isset(self::$permisos['*']['*']))

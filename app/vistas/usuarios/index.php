@@ -1,13 +1,6 @@
 <div>
 	<!-- formulario  post_reques_form utilizado para enviar peticiones por post al servidor y evitar que el usuario modifique/juegue con los parámetros modificando la URI mostrada  -->
-	<form id="post_request_form"
-		action=""  
-		method="post"
-		style="display: none;"
-	>
-		<input name="id" id="id" type="hidden" />
 	
-	</form>
 	<h1>Listado de usuarios</h1>
 	<table class='resultados' border='3' >
 		<thead>
@@ -32,11 +25,13 @@
 						<td>{$fila['fecha_alta']}</td>	
 						<td>{$fila['fecha_confirmacion_alta']}</td>	
 						<td>{$fila['clave_confirmacion']}</td>	
-						<td>
-							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_modificar")."\", {$fila['id']});' >modificar</a>
-							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_borrar")."\", {$fila['id']});' >borrar</a>
-							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_cambiar_password")."\", {$fila['id']});' >modificar password</a>
-						</td>
+						<td>"
+//							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_modificar")."\", {$fila['id']});' >modificar</a>
+							.\core\HTML_Tag::a_boton_onclick("boton", array("usuarios", "form_modificar", $fila['id']), "modificar")
+//							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_borrar")."\", {$fila['id']});' >borrar</a>
+							.\core\HTML_Tag::a_boton_onclick("boton", array("usuarios", "form_borrar", $fila['id']), "borrar").
+//							<a class='boton' onclick='submit_post_request_form(\"".\core\URL::generar("usuarios/form_cambiar_password")."\", {$fila['id']});' >modificar password</a>
+						"</td>
 					</tr>
 					";
 			}
