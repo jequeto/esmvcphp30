@@ -234,7 +234,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function insert_row( array &$fila , $table=null) {
+	public static function insert_row( array $fila , $table=null) {
 		
 		if (isset($fila['id']))
 			throw new \Exception(__METHOD__." Error: no pude insertarse la columna id.");
@@ -255,7 +255,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function insert(array &$fila, $table=null) {
+	public static function insert(array $fila, $table=null) {
 	
 		return self::insert_row($fila, $table);
 		
@@ -266,7 +266,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 		
-	public static function update_row(array &$fila , $table=null, $where=null) {
+	public static function update_row(array $fila , $table=null, $where=null) {
 		
 		if ( ! isset($fila['id']) && ! strlen($where))
 			throw new \Exception(__METHOD__." Error: debe aportarse la id or \$where.");
@@ -293,7 +293,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	}
 	
 	
-	public static function update(array &$fila , $table=null, $where=null) {
+	public static function update(array $fila , $table=null, $where=null) {
 		
 		return self::update_row($fila, $table, $where);
 		
@@ -307,7 +307,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 	
-	public static function delete_row(array &$fila, $table = null, $where=null) {
+	public static function delete_row(array $fila, $table = null, $where=null) {
 		
 		if ( ! isset($fila['id']))
 			throw new \Exception(__METHOD__." Error: debe aportarse la id.");
@@ -327,11 +327,20 @@ class mysqli implements \core\sgbd\SQL_interface {
 	
 	
 
-	
+	/**
+	 * Borra filas.
+	 * Tiene prioridad la existencia de valor en el parámetro $where, depués la entrada $clausulas[where], y por último $clausulas[id].
+	 * 
+	 * @param array $clausulas default array() Ejemplos: array("id"=>3), array("where" => " rol = 'usuarios' ")
+	 * @param atring $table default null
+	 * @param string $where default null Ejemplo: " rol = 'usuarios' "
+	 * @return type
+	 * @throws \Exception
+	 */
 	public static function delete( $clausulas = array(), $table = null, $where = null) {
 		
-		if ( ! isset($clausulas['id']) && ! strlen($where))
-			throw new \Exception(__METHOD__." Error: debe aportarse la id or \$where.");
+		if ( ! isset($clausulas['id']) && ! isset($clausulas['where']) && ! strlen($where))
+			throw new \Exception(__METHOD__." Error: debe aportarse las entradas [id] o [where] en \$clausulas o el parámetro \$where.");
 		
 		
 		if (is_string($clausulas) and is_array($table)) {
@@ -434,7 +443,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 			start transaction;
 		";
 		
-		return execute($sql);
+		return self::execute($sql);
 		
 	}
 	
@@ -446,7 +455,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 			commit;
 		";
 		
-		return execute($sql);
+		return self::execute($sql);
 		
 	}
 	
@@ -458,7 +467,7 @@ class mysqli implements \core\sgbd\SQL_interface {
 			rollback;
 		";
 		
-		return execute($sql);
+		return self::execute($sql);
 		
 	}
 	

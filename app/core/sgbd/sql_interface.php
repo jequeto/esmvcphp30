@@ -141,7 +141,7 @@ namespace core\sgbd;
 	 * @param string $tabla Tabla en la que insertar
 	 * @return boolean True si éxito, false si error de sintáxis.
 	 */
-	 public static function insert_row(array &$fila , $tabla) ;
+	 public static function insert_row(array $fila , $tabla) ;
 	
 	
 	
@@ -152,7 +152,7 @@ namespace core\sgbd;
 	 * @param string $tabla Tabla en la que insertar
 	 * @return boolean True si éxito, false si error de sintáxis.
 	 */
-	public static function insert(array &$fila, $tabla) ;
+	public static function insert(array $fila, $tabla) ;
 	
 	
 	/**
@@ -161,7 +161,7 @@ namespace core\sgbd;
 	 * @param array $fila Array asociativo con las columnas de la fila a modifiar.
 	 * @return boolean True si éxito, false si error de sintáxis.
 	 */		
-	 public static function update_row(array &$fila , $tabla) ;
+	 public static function update_row(array $fila , $tabla) ;
 	
 	
 	/**
@@ -171,7 +171,7 @@ namespace core\sgbd;
 	 * @param string $tabla Nombre de la tabla
 	 * @return boolean True si éxito en ejecución, False si error de sintáxis.
 	 */
-	public static function delete_row(array &$fila, $tabla = null) ;
+	public static function delete_row(array $fila, $tabla = null) ;
 	
 	
 	/**

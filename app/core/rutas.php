@@ -76,7 +76,10 @@ class Rutas {
 				// Si lo añado, quito la / del inicio.
 				$patron_parametro = $key < 3 ? $patron[$key] : $patron[3];
 				if (preg_match($patron_parametro, $value))
-					if ( ! isset($_GET["p".($key+1)]) ) $_GET["p".($key+1)] = $value;
+					if ( ! isset($_GET["p".($key+1)]) ) {
+						$_GET["p".($key+1)] = $value;
+						$_REQUEST["p".($key+1)] = $value;
+					}
 			}
 			
 		}
